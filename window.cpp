@@ -5,6 +5,8 @@
  * Contructor. Adds the main items of the Gui
  */
 MainWindow::MainWindow(QWidget *parent) {
+
+    //Layout Boxes
     vbox1 = new QVBoxLayout();
     vbox2 = new QVBoxLayout();
     vbox3 = new QVBoxLayout();
@@ -14,10 +16,12 @@ MainWindow::MainWindow(QWidget *parent) {
     hbox2 = new QHBoxLayout();
     generalhBox = new QHBoxLayout();
 
+    //Labels
     pLibrary = new QLabel("Library", this);
     pCurrentlyPlaying = new QLabel("Currently playing: ", this);
     pMemory = new QLabel("Memory %", this);
 
+    //Buttons
     pPaginateButton = new QPushButton("Paginate", this);
     setBtnColor(pPaginateButton);
     pInfoButton = new QPushButton("info", this);
@@ -25,16 +29,15 @@ MainWindow::MainWindow(QWidget *parent) {
     pPlayButton = new QPushButton("Play/Pause", this);
     setBtnColor(pPlayButton);
 
+    //Song Slider (shows the song progress)
     pSongSlider = new QSlider(Qt::Horizontal, this);
 
+    //Memory Bar (shows the memory usage by the program)
     pMemoryBar = new QProgressBar();
     pMemoryBar->setFixedWidth(80);
 
+    //Lists: these items are important to manage the csv files
     pListAlbum = new ArtistList(this);
-    //pListAlbum->addItem("FirstItem");
-
-
-    //pListAlbum->addItem("Hello");
 
     pListSongs = new QListWidget(this);
     pListSongs->addItem("Song 1");
@@ -42,7 +45,6 @@ MainWindow::MainWindow(QWidget *parent) {
     pListSongs->addItem("Song 3");
 
     //Layout control
-
     vbox1->addWidget(pLibrary);
     vbox1->addWidget(pListAlbum->getArtistList());
     vbox1->addStretch();
@@ -76,6 +78,10 @@ MainWindow::MainWindow(QWidget *parent) {
     setLayout(generalhBox);
 }
 
+/*!
+ * Method for setting the buttons design
+ * @param button
+ */
 void MainWindow::setBtnColor(QPushButton *button) {
     QPalette pal =  button->palette();
     pal.setColor(QPalette::Button, QColor(Qt::gray));

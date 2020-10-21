@@ -18,7 +18,9 @@
 
 using namespace std;
 
-
+/*!
+ * GUI control class
+ */
 class MainWindow : public QWidget {
 private:
     QLabel* pLibrary;
@@ -34,7 +36,7 @@ private:
     QProgressBar* pMemoryBar;
 
     ArtistList* pListAlbum;
-    QListWidget* pListSongs; //This could be a table intead
+    QListWidget* pListSongs;
 
     QVBoxLayout* vbox1;
     QVBoxLayout* vbox2;
@@ -57,5 +59,4 @@ private:
 
 public:
     MainWindow(QWidget* parent = 0);
-    //~MainWindow();
 };
