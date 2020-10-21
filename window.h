@@ -11,8 +11,12 @@
 #include <QHBoxLayout>
 #include <QListWidget>
 #include <QProgressBar>
+#include <sstream>
 
+#include "fstream"
 #include "list.h"
+
+using namespace std;
 
 
 class MainWindow : public QWidget {
@@ -29,7 +33,7 @@ private:
 
     QProgressBar* pMemoryBar;
 
-    List* pListAlbum;
+    ArtistList* pListAlbum;
     QListWidget* pListSongs; //This could be a table intead
 
     QVBoxLayout* vbox1;
@@ -49,6 +53,7 @@ private:
 
     //methods
     void setBtnColor(QPushButton* button);
+    std::pair<std::string, std::vector<char*>> readCSV (std::string filename);
 
 public:
     MainWindow(QWidget* parent = 0);

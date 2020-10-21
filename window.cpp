@@ -1,8 +1,5 @@
-//
-// Created by juan on 13/10/20.
-//
-
 #include "window.h"
+#include "list.h"
 #import <QWidget>
 /*
  * Contructor. Adds the main items of the Gui
@@ -33,8 +30,11 @@ MainWindow::MainWindow(QWidget *parent) {
     pMemoryBar = new QProgressBar();
     pMemoryBar->setFixedWidth(80);
 
-    pListAlbum = new List(this);
-    pListAlbum->addItem("Hello");
+    pListAlbum = new ArtistList(this);
+    //pListAlbum->addItem("FirstItem");
+
+
+    //pListAlbum->addItem("Hello");
 
     pListSongs = new QListWidget(this);
     pListSongs->addItem("Song 1");
@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent) {
     //Layout control
 
     vbox1->addWidget(pLibrary);
-    vbox1->addWidget(pListAlbum->getAlbumList());
+    vbox1->addWidget(pListAlbum->getArtistList());
     vbox1->addStretch();
 
     vbox3->addWidget(pPlayButton);

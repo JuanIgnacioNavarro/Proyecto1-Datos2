@@ -7,13 +7,28 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QListWidget>
+#include "iostream"
+#include <fstream>
+#include <string>
+#include <vector>
 
-class List: public QWidget{
+using namespace std;
+
+//Artists List Class
+class ArtistList: public QWidget{
+
 private:
-    QListWidget* albumList;
+    QListWidget* artistsList;
+    int actualPage;
+    int artist_idIndex;
+    int artist_nameIndex;
+    vector<pair<string, string>> pageVector;
+
 public:
-    List(QWidget* parent = 0);
-    void addItem(char* album);
-    QListWidget* getAlbumList();
-    void setBtnColor(QPushButton* button);
+    ArtistList(QWidget* parent = 0);
+    void loadItems();
+    void printVector();
+    void addItems();
+    void artistItemClicked(QListWidgetItem* item);
+    QListWidget* getArtistList();
 };
