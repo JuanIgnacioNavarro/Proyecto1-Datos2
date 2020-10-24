@@ -33,6 +33,7 @@ private:
     QPushButton* pPaginateButton;
     QPushButton* pPlayButton;
     QPushButton* pInfoButton;
+    QPushButton* pCheckTracksButton;
 
     QSlider* pSongSlider;
 
@@ -58,7 +59,9 @@ private:
 
     //methods
     void setBtnColor(QPushButton* button);
-    std::pair<std::string, std::vector<char*>> readCSV (std::string filename);
+    pair<string, vector<char*>> readCSV (string filename);
+
+    void pCheckTracksButtonClicked();
 
 public:
 

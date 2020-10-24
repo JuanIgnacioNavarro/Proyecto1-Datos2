@@ -36,22 +36,9 @@ private:
 
 public:
 
-    //TrackList(QWidget* parent = 0, string artist_name = "");
     TrackList(string artist_name);
-    //void loadItems(string artist_name);
-    //void addItems();
-    //void trackItemClicked(QListWidgetItem* item);
     QListWidget* getTrackList();
 
 };
 
-
-#endif //PROYECTO1_DATOS2_TRACKLIST_H
-
-
-
-
-
-
-
-
+#endif //PROYECTO1_DATOS2

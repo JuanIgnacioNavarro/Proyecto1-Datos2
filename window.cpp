@@ -30,6 +30,9 @@ MainWindow::MainWindow(QWidget *parent) {
     setBtnColor(pInfoButton);
     pPlayButton = new QPushButton("Play/Pause", this);
     setBtnColor(pPlayButton);
+    pCheckTracksButton = new QPushButton("Check Tracks", this);
+    setBtnColor(pCheckTracksButton);
+    connect(pCheckTracksButton, &QPushButton::clicked, this, &MainWindow::pCheckTracksButtonClicked);
 
     //Song Slider (shows the song progress)
     pSongSlider = new QSlider(Qt::Horizontal, this);
@@ -40,13 +43,14 @@ MainWindow::MainWindow(QWidget *parent) {
 
     //Lists: these items are important to manage the csv files
     pListAlbum = new ArtistList(this);
-    pListSongs = new TrackList("AWOL");
+    pListSongs = new TrackList("NULL");
 
     //Layout control
     vbox1 -> addWidget(pLibrary);
-    vbox1 -> addWidget(pListAlbum->getArtistList());
+    vbox1 -> addWidget(pListAlbum -> getArtistList());
     vbox1 -> addStretch();
 
+    vbox3 -> addWidget(pCheckTracksButton);
     vbox3 -> addWidget(pPlayButton);
     vbox3 -> addWidget(pInfoButton);
 
@@ -64,20 +68,20 @@ MainWindow::MainWindow(QWidget *parent) {
     hbox2 -> setContentsMargins(horMargin, verMargin, horMargin, verMargin);
 
     vbox2 -> addWidget(pListSongs -> getTrackList());
-    vbox2 -> addWidget(pListSongs);
     vbox2 -> addSpacing(vSpacing);
     vbox2 -> addLayout(hbox2);
     vbox2 -> addSpacing(vSpacing);
     vbox2 -> addLayout(hbox1);
 
-    generalhBox->addLayout(vbox1);
-    generalhBox->addSpacing(hSpacing*6);
-    generalhBox->addLayout(vbox2);
+    generalhBox -> addLayout(vbox1);
+    generalhBox -> addSpacing(hSpacing*6);
+    generalhBox -> addLayout(vbox2);
 
     setLayout(generalhBox);
+
 }
 
-/*!
+/*
  * Method for setting the buttons design
  * @param button
  */
@@ -88,5 +92,18 @@ void MainWindow::setBtnColor(QPushButton *button) {
     button -> setAutoFillBackground(true);
     button -> setPalette(pal);
     button -> update();
+
+}
+
+/*
+ * Action metohod of the pCheckTracksButton.
+ */
+void MainWindow::pCheckTracksButtonClicked() {
+
+    string text = pListAlbum -> getArtist();
+
+    pListSongs = new TrackList(text);
+
+    vbox2 -> addWidget(pListSongs -> getTrackList());
 
 }

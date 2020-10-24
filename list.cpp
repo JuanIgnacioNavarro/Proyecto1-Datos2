@@ -3,7 +3,7 @@
 //
 
 #include "list.h"
-#include "TrackList.cpp"
+#include "TrackList.cpp" // ????????????????????????????????????
 #include "window.h"
 
 /*!
@@ -144,7 +144,7 @@ void ArtistList::addItems() {
 
     }
 
-    connect(artistsList, &QListWidget::itemDoubleClicked, this, &ArtistList::artistItemClicked);
+    connect(artistsList, &QListWidget::itemClicked, this, &ArtistList::artistItemClicked); // Changed to only one click
 
 }
 
@@ -154,15 +154,14 @@ void ArtistList::addItems() {
  */
 void ArtistList::artistItemClicked(QListWidgetItem* item) {
 
-    string artist_name = item -> text().toStdString();
+    artist_name = item -> text().toStdString();
     cout << "Im clicking an item: " << artist_name << endl;
 
-    //Rest of the method:
-    //____ serach for the songs that have this artist (maybe a cut in the csv will be necessary)
-    //____ display those songs in the songs list
+}
 
-    trackList = new TrackList(artist_name);
-    trackList -> getTrackList();
+string ArtistList::getArtist() {
+
+    return artist_name;
 
 }
 

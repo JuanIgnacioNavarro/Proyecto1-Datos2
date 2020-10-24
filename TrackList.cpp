@@ -74,7 +74,7 @@ void TrackList::addItems() {
 
     }
 
-    connect(tracksList, &QListWidget::itemDoubleClicked, this, &TrackList::trackItemClicked);
+    connect(tracksList, &QListWidget::itemClicked, this, &TrackList::trackItemClicked); // Changed to only one click
 
 }
 
@@ -87,9 +87,7 @@ void TrackList::trackItemClicked(QListWidgetItem* item) {
     string text = item -> text().toStdString();
     cout << "Im clicking an item: " << text << endl;
 
-    //Rest of the method:
-    //____ serach for the songs that have this artist (maybe a cut in the csv will be necessary)
-    //____ display those songs in the songs list
+    //Code to look for the song and play it.
 
 }
 
