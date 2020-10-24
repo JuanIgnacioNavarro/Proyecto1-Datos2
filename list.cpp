@@ -17,7 +17,7 @@ ArtistList::ArtistList(QWidget *parent) {
     artistsList -> setFixedWidth(300);
     artistsList -> setFixedHeight(200);
 
-    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/cmake-build-debug/raw_artists_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
 
     if (!myFile.is_open()) {
 
@@ -75,7 +75,7 @@ QListWidget* ArtistList::getArtistList() {
  */
 void ArtistList::loadItems() {
 
-    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/cmake-build-debug/raw_artists_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
 
     if (!myFile.is_open()) {
 

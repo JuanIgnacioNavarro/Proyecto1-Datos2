@@ -25,7 +25,7 @@ TrackList::TrackList(string artist_name) {
  */
 void TrackList::loadItems(string artist_name) {
 
-    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/cmake-build-debug/raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
 
     if (!myFile.is_open()) {
 
@@ -96,9 +96,3 @@ QListWidget* TrackList::getTrackList() {
     return tracksList;
 
 }
-
-
-
-
-
-
