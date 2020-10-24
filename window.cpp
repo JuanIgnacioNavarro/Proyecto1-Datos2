@@ -30,9 +30,6 @@ MainWindow::MainWindow(QWidget *parent) {
     setBtnColor(pInfoButton);
     pPlayButton = new QPushButton("Play/Pause", this);
     setBtnColor(pPlayButton);
-    pCheckTracksButton = new QPushButton("Check Tracks", this);
-    setBtnColor(pCheckTracksButton);
-    connect(pCheckTracksButton, &QPushButton::clicked, this, &MainWindow::pCheckTracksButtonClicked);
 
     //Song Slider (shows the song progress)
     pSongSlider = new QSlider(Qt::Horizontal, this);
@@ -42,15 +39,14 @@ MainWindow::MainWindow(QWidget *parent) {
     pMemoryBar -> setFixedWidth(80);
 
     //Lists: these items are important to manage the csv files
-    pListAlbum = new ArtistList(this);
-    pListSongs = new TrackList("NULL");
+    pListSongs = new TrackList();
+    pListAlbum = new ArtistList(this, pListSongs);
 
     //Layout control
     vbox1 -> addWidget(pLibrary);
     vbox1 -> addWidget(pListAlbum -> getArtistList());
     vbox1 -> addStretch();
 
-    vbox3 -> addWidget(pCheckTracksButton);
     vbox3 -> addWidget(pPlayButton);
     vbox3 -> addWidget(pInfoButton);
 
@@ -92,18 +88,5 @@ void MainWindow::setBtnColor(QPushButton *button) {
     button -> setAutoFillBackground(true);
     button -> setPalette(pal);
     button -> update();
-
-}
-
-/*
- * Action metohod of the pCheckTracksButton.
- */
-void MainWindow::pCheckTracksButtonClicked() {
-
-    string text = pListAlbum -> getArtist();
-
-    pListSongs = new TrackList(text);
-
-    vbox2 -> addWidget(pListSongs -> getTrackList());
 
 }

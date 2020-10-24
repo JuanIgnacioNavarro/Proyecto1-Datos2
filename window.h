@@ -33,7 +33,6 @@ private:
     QPushButton* pPaginateButton;
     QPushButton* pPlayButton;
     QPushButton* pInfoButton;
-    QPushButton* pCheckTracksButton;
 
     QSlider* pSongSlider;
 

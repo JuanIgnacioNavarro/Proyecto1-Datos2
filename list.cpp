@@ -10,14 +10,15 @@
  * Constructor Method
  * @param parent
  */
-ArtistList::ArtistList(QWidget *parent) {
+ArtistList::ArtistList(QWidget *parent, TrackList *songsList) {
 
     //List instance and size
     this -> artistsList = new QListWidget();
+    this-> songsList = songsList;
     artistsList -> setFixedWidth(300);
     artistsList -> setFixedHeight(200);
 
-    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    ifstream myFile("/home/juan/Documents/Proyecto 1/Repo/Proyecto1-Datos2/CSV Files/raw_artists2.csv"); //IMPORTANT: use your own raw_artist2.csv path
 
     if (!myFile.is_open()) {
 
@@ -75,7 +76,7 @@ QListWidget* ArtistList::getArtistList() {
  */
 void ArtistList::loadItems() {
 
-    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    ifstream myFile("/home/juan/Documents/Proyecto 1/Repo/Proyecto1-Datos2/CSV Files/raw_artists2.csv"); //IMPORTANT: use your own raw_artist2.csv path
 
     if (!myFile.is_open()) {
 
@@ -144,7 +145,7 @@ void ArtistList::addItems() {
 
     }
 
-    connect(artistsList, &QListWidget::itemClicked, this, &ArtistList::artistItemClicked); // Changed to only one click
+    connect(artistsList, &QListWidget::itemDoubleClicked, this, &ArtistList::artistItemDoubleClicked); // Changed to only one click
 
 }
 
@@ -152,17 +153,10 @@ void ArtistList::addItems() {
  * It is necessary to load the list of songs when an Item is doubly clicked
  * @param item
  */
-void ArtistList::artistItemClicked(QListWidgetItem* item) {
-
-    artist_name = item -> text().toStdString();
-    cout << "Im clicking an item: " << artist_name << endl;
-
-}
-
-string ArtistList::getArtist() {
-
-    return artist_name;
-
+void ArtistList::artistItemDoubleClicked(QListWidgetItem* item) {
+    string itemArtistName = item->text().toStdString();
+    songsList->loadItems(itemArtistName);
+    songsList->addItems();
 }
 
 /*!

@@ -8,16 +8,12 @@
  * Constructor Method
  * @param parent
  */
-TrackList::TrackList(string artist_name) {
+TrackList::TrackList() {
 
     //List instance and size
-    tracksList = new QListWidget();
-    tracksList -> setFixedWidth(300);
-    tracksList -> setFixedHeight(200);
-
-    loadItems(artist_name);
-    addItems();
-
+    ptracksList = new QListWidget();
+    ptracksList -> setFixedWidth(300);
+    ptracksList -> setFixedHeight(200);
 }
 
 /*!
@@ -25,7 +21,7 @@ TrackList::TrackList(string artist_name) {
  */
 void TrackList::loadItems(string artist_name) {
 
-    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    ifstream myFile("/home/juan/Documents/Proyecto 1/Repo/Proyecto1-Datos2/CSV Files/raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
 
     if (!myFile.is_open()) {
 
@@ -70,11 +66,11 @@ void TrackList::addItems() {
         newItem -> setText(itemText);
         newItem -> setFont(QFont( "arial", 12));
         newItem -> setTextAlignment(Qt::AlignLeft);
-        tracksList -> addItem(newItem);
+        ptracksList -> addItem(newItem);
 
     }
 
-    connect(tracksList, &QListWidget::itemClicked, this, &TrackList::trackItemClicked); // Changed to only one click
+    connect(ptracksList, &QListWidget::itemClicked, this, &TrackList::trackItemClicked); // Changed to only one click
 
 }
 
@@ -93,6 +89,6 @@ void TrackList::trackItemClicked(QListWidgetItem* item) {
 
 QListWidget* TrackList::getTrackList() {
 
-    return tracksList;
+    return ptracksList;
 
 }

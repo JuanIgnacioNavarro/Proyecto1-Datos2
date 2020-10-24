@@ -7,10 +7,12 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QListWidget>
-#include "iostream"
 #include <fstream>
 #include <string>
 #include <vector>
+
+#include "iostream"
+#include "TrackList.h"
 
 using namespace std;
 
@@ -23,31 +25,24 @@ class ArtistList: public QWidget {
 private:
 
     QListWidget* artistsList;
+    TrackList* songsList;
 
     //int used for keeping important numbers
     int actualPage;
     int artist_idIndex;
     int artist_nameIndex;
 
-
-
-
-    string artist_name;
-
-
-
-
     //vector used to load information from csv
     vector<pair<string, string>> pageVector;
 
 public:
 
-    ArtistList(QWidget* parent = 0);
+    ArtistList(QWidget* parent, TrackList* songsList);
     void loadItems();
     void printVector();
     void addItems();
     void checkPosition(int row);
-    void artistItemClicked(QListWidgetItem* item);
+    void artistItemDoubleClicked(QListWidgetItem* item);
     QListWidget* getArtistList();
     string getArtist();
 
