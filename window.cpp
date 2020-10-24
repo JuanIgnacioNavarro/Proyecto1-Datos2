@@ -1,6 +1,8 @@
 #include "window.h"
 #include "list.h"
+#include "TrackList.h"
 #import <QWidget>
+
 /*
  * Contructor. Adds the main items of the Gui
  */
@@ -34,42 +36,39 @@ MainWindow::MainWindow(QWidget *parent) {
 
     //Memory Bar (shows the memory usage by the program)
     pMemoryBar = new QProgressBar();
-    pMemoryBar->setFixedWidth(80);
+    pMemoryBar -> setFixedWidth(80);
 
     //Lists: these items are important to manage the csv files
     pListAlbum = new ArtistList(this);
-
-    pListSongs = new QListWidget(this);
-    pListSongs->addItem("Song 1");
-    pListSongs->addItem("Song 2");
-    pListSongs->addItem("Song 3");
+    pListSongs = new TrackList("AWOL");
 
     //Layout control
-    vbox1->addWidget(pLibrary);
-    vbox1->addWidget(pListAlbum->getArtistList());
-    vbox1->addStretch();
+    vbox1 -> addWidget(pLibrary);
+    vbox1 -> addWidget(pListAlbum->getArtistList());
+    vbox1 -> addStretch();
 
-    vbox3->addWidget(pPlayButton);
-    vbox3->addWidget(pInfoButton);
+    vbox3 -> addWidget(pPlayButton);
+    vbox3 -> addWidget(pInfoButton);
 
-    vbox4->addWidget(pSongSlider);
-    vbox4->addWidget(pCurrentlyPlaying);
+    vbox4 -> addWidget(pSongSlider);
+    vbox4 -> addWidget(pCurrentlyPlaying);
 
-    hbox1->addStretch();
-    hbox1->addWidget(pMemory);
-    hbox1->addWidget(pMemoryBar);
-    hbox1->addSpacing(hSpacing*5);
-    hbox1->addWidget(pPaginateButton);
+    hbox1 -> addStretch();
+    hbox1 -> addWidget(pMemory);
+    hbox1 -> addWidget(pMemoryBar);
+    hbox1 -> addSpacing(hSpacing*5);
+    hbox1 -> addWidget(pPaginateButton);
 
-    hbox2->addLayout(vbox4);
-    hbox2->addLayout(vbox3);
-    hbox2->setContentsMargins(horMargin, verMargin, horMargin, verMargin);
+    hbox2 -> addLayout(vbox4);
+    hbox2 -> addLayout(vbox3);
+    hbox2 -> setContentsMargins(horMargin, verMargin, horMargin, verMargin);
 
-    vbox2->addWidget(pListSongs);
-    vbox2->addSpacing(vSpacing);
-    vbox2->addLayout(hbox2);
-    vbox2->addSpacing(vSpacing);
-    vbox2->addLayout(hbox1);
+    vbox2 -> addWidget(pListSongs -> getTrackList());
+    vbox2 -> addWidget(pListSongs);
+    vbox2 -> addSpacing(vSpacing);
+    vbox2 -> addLayout(hbox2);
+    vbox2 -> addSpacing(vSpacing);
+    vbox2 -> addLayout(hbox1);
 
     generalhBox->addLayout(vbox1);
     generalhBox->addSpacing(hSpacing*6);
@@ -83,9 +82,11 @@ MainWindow::MainWindow(QWidget *parent) {
  * @param button
  */
 void MainWindow::setBtnColor(QPushButton *button) {
-    QPalette pal =  button->palette();
+
+    QPalette pal =  button -> palette();
     pal.setColor(QPalette::Button, QColor(Qt::gray));
-    button->setAutoFillBackground(true);
-    button->setPalette(pal);
-    button->update();
+    button -> setAutoFillBackground(true);
+    button -> setPalette(pal);
+    button -> update();
+
 }

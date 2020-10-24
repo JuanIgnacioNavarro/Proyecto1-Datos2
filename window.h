@@ -15,6 +15,7 @@
 
 #include "fstream"
 #include "list.h"
+#include "TrackList.h"
 
 using namespace std;
 
@@ -22,7 +23,9 @@ using namespace std;
  * GUI control class
  */
 class MainWindow : public QWidget {
+
 private:
+
     QLabel* pLibrary;
     QLabel* pCurrentlyPlaying;
     QLabel* pMemory;
@@ -36,7 +39,7 @@ private:
     QProgressBar* pMemoryBar;
 
     ArtistList* pListAlbum;
-    QListWidget* pListSongs;
+    TrackList* pListSongs;
 
     QVBoxLayout* vbox1;
     QVBoxLayout* vbox2;
@@ -58,5 +61,7 @@ private:
     std::pair<std::string, std::vector<char*>> readCSV (std::string filename);
 
 public:
+
     MainWindow(QWidget* parent = 0);
+
 };

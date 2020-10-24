@@ -11,6 +11,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "TrackList.h"
 
 using namespace std;
 
@@ -18,10 +19,12 @@ using namespace std;
  * Artists List Class
  * @brief it controls the information in the artists list
  */
-class ArtistList: public QWidget{
+class ArtistList: public QWidget {
 
 private:
+
     QListWidget* artistsList;
+    TrackList* trackList;
 
     //int used for keeping important numbers
     int actualPage;
@@ -32,6 +35,7 @@ private:
     vector<pair<string, string>> pageVector;
 
 public:
+
     ArtistList(QWidget* parent = 0);
     void loadItems();
     void printVector();
@@ -39,4 +43,5 @@ public:
     void checkPosition(int row);
     void artistItemClicked(QListWidgetItem* item);
     QListWidget* getArtistList();
+
 };
