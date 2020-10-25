@@ -27,13 +27,14 @@ private:
     QListWidget* ptracksList;
 
     //vector used to load information from csv
-    vector<string> trackNames;
+    vector<vector<string>> trackNames;
     void trackItemClicked(QListWidgetItem* item);
 
 public:
     TrackList();
     void loadItems(string artist_name);
     void addItems();
+    void deleteItems();
     QListWidget* getTrackList();
 };
 

@@ -21,9 +21,7 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList) {
     ifstream myFile("/home/juan/Documents/Proyecto 1/Repo/Proyecto1-Datos2/CSV Files/raw_artists2.csv"); //IMPORTANT: use your own raw_artist2.csv path
 
     if (!myFile.is_open()) {
-
         printf("Error opening the file");
-
     }
 
     actualPage = 0;
@@ -56,7 +54,7 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList) {
     //The vector size is the amount of artist names the page will have
     pageVector.resize(10);
     loadItems();
-    printVector();
+    //printVector();
     addItems();
 
     //This Signal and Slot is needed for the pagination
@@ -75,36 +73,26 @@ QListWidget* ArtistList::getArtistList() {
  * @brief This method loads the first items that are displayed in the list
  */
 void ArtistList::loadItems() {
-
     ifstream myFile("/home/juan/Documents/Proyecto 1/Repo/Proyecto1-Datos2/CSV Files/raw_artists2.csv"); //IMPORTANT: use your own raw_artist2.csv path
 
     if (!myFile.is_open()) {
-
         printf("Error");
-
     }
 
     for (int i = 0; i < 11; i++){
 
         for (int j = 0; j <= artist_nameIndex ; j++) {
-
             string columnData;
             getline(myFile, columnData, ',');
 
             if (i > 0) {
-
                 if (j == artist_idIndex) {
-
                     pageVector.at(i - 1).first = columnData.c_str();
-
-                } else if (j ==  artist_nameIndex){
-
-                    pageVector.at(i - 1).second = columnData.c_str();
-
                 }
-
+                else if (j ==  artist_nameIndex){
+                    pageVector.at(i - 1).second = columnData.c_str();
+                }
             }
-
         }
 
         string nextLine;
@@ -120,11 +108,9 @@ void ArtistList::loadItems() {
 void ArtistList::printVector() {
 
     for (int i = 0; i < pageVector.size(); i++) {
-
         string id = pageVector.at(i).first;
         string name = pageVector.at(i).second;
         cout << i << " id: " << id << " name: " << name << endl;
-
     }
 
 }
@@ -135,18 +121,15 @@ void ArtistList::printVector() {
 void ArtistList::addItems() {
 
     for (int i = 0; i < pageVector.size(); i++) {
-
         QListWidgetItem* newItem = new QListWidgetItem;
         QString itemText = QString::fromStdString(pageVector.at(i).second);
         newItem -> setText(itemText);
         newItem -> setFont(QFont( "arial", 12));
         newItem -> setTextAlignment(Qt::AlignLeft);
         artistsList -> addItem(newItem);
-
     }
 
     connect(artistsList, &QListWidget::itemDoubleClicked, this, &ArtistList::artistItemDoubleClicked); // Changed to only one click
-
 }
 
 /*!
@@ -154,6 +137,7 @@ void ArtistList::addItems() {
  * @param item
  */
 void ArtistList::artistItemDoubleClicked(QListWidgetItem* item) {
+    songsList->deleteItems();
     string itemArtistName = item->text().toStdString();
     songsList->loadItems(itemArtistName);
     songsList->addItems();
