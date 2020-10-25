@@ -21,7 +21,8 @@ TrackList::TrackList() {
  */
 void TrackList::loadItems(string artist_name) {
 
-    ifstream myFile("/home/juan/Documents/Proyecto 1/Repo/Proyecto1-Datos2/CSV Files/raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    //ifstream myFile("/home/juan/Documents/Proyecto 1/Repo/Proyecto1-Datos2/CSV Files/raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
 
     if (!myFile.is_open()) {
 
@@ -87,8 +88,28 @@ void TrackList::trackItemClicked(QListWidgetItem* item) {
 
 }
 
+/*!
+ * @brief This method returns ptracksList instance
+ */
 QListWidget* TrackList::getTrackList() {
 
     return ptracksList;
+
+}
+
+/*!
+ * @brief This method delete all the songs of the previous artist
+ */
+void TrackList::clear() {
+
+    int size = ptracksList -> count();
+
+    cout << "size = " << size << endl;
+
+    for (int i = 0; i < size; i ++) {
+
+        ptracksList ->takeItem(0);
+
+    }
 
 }

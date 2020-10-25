@@ -3,7 +3,7 @@
 //
 
 #include "list.h"
-#include "TrackList.cpp" // ????????????????????????????????????
+#include "TrackList.cpp"
 #include "window.h"
 
 /*!
@@ -14,49 +14,14 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList) {
 
     //List instance and size
     this -> artistsList = new QListWidget();
-    this-> songsList = songsList;
+    this -> songsList = songsList;
     artistsList -> setFixedWidth(300);
     artistsList -> setFixedHeight(200);
 
-    ifstream myFile("/home/juan/Documents/Proyecto 1/Repo/Proyecto1-Datos2/CSV Files/raw_artists2.csv"); //IMPORTANT: use your own raw_artist2.csv path
-
-    if (!myFile.is_open()) {
-
-        printf("Error opening the file");
-
-    }
-
     actualPage = 0;
-    int i = 0;
+    artist_nameIndex = 0;
 
-    //With this while you'll find the index of the information needed.
-    while (true) {
-
-        string columnName;
-        getline(myFile, columnName, ',');
-
-        if (columnName == "artist_id") {
-
-            artist_idIndex = i;
-
-        } else if (columnName == "artist_name") {
-
-            artist_nameIndex = i;
-            break;
-
-        }
-
-        i++;
-
-    }
-
-    myFile.clear();
-    myFile.seekg(0);
-
-    //The vector size is the amount of artist names the page will have
-    pageVector.resize(10);
     loadItems();
-    printVector();
     addItems();
 
     //This Signal and Slot is needed for the pagination
@@ -65,6 +30,9 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList) {
 
 }
 
+/*!
+ * @brief This method returns artistsList instance
+ */
 QListWidget* ArtistList::getArtistList() {
 
     return artistsList;
@@ -76,7 +44,8 @@ QListWidget* ArtistList::getArtistList() {
  */
 void ArtistList::loadItems() {
 
-    ifstream myFile("/home/juan/Documents/Proyecto 1/Repo/Proyecto1-Datos2/CSV Files/raw_artists2.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    //ifstream myFile("/home/juan/Documents/Proyecto 1/Repo/Proyecto1-Datos2/CSV Files/raw_artists2.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
 
     if (!myFile.is_open()) {
 
@@ -84,46 +53,19 @@ void ArtistList::loadItems() {
 
     }
 
-    for (int i = 0; i < 11; i++){
+    for (int i = 0; i < 11; i++) {
 
-        for (int j = 0; j <= artist_nameIndex ; j++) {
+        string columnData;
+        getline(myFile, columnData, ',');
 
-            string columnData;
-            getline(myFile, columnData, ',');
+        if (i > 0) {
 
-            if (i > 0) {
-
-                if (j == artist_idIndex) {
-
-                    pageVector.at(i - 1).first = columnData.c_str();
-
-                } else if (j ==  artist_nameIndex){
-
-                    pageVector.at(i - 1).second = columnData.c_str();
-
-                }
-
-            }
+            pageVector.push_back(columnData);
 
         }
 
         string nextLine;
         getline(myFile, nextLine);
-
-    }
-
-}
-
-/*!
- * @brief just to make sure, this method prints the loaded vector
- */
-void ArtistList::printVector() {
-
-    for (int i = 0; i < pageVector.size(); i++) {
-
-        string id = pageVector.at(i).first;
-        string name = pageVector.at(i).second;
-        cout << i << " id: " << id << " name: " << name << endl;
 
     }
 
@@ -137,7 +79,7 @@ void ArtistList::addItems() {
     for (int i = 0; i < pageVector.size(); i++) {
 
         QListWidgetItem* newItem = new QListWidgetItem;
-        QString itemText = QString::fromStdString(pageVector.at(i).second);
+        QString itemText = QString::fromStdString(pageVector[i]);
         newItem -> setText(itemText);
         newItem -> setFont(QFont( "arial", 12));
         newItem -> setTextAlignment(Qt::AlignLeft);
@@ -154,9 +96,12 @@ void ArtistList::addItems() {
  * @param item
  */
 void ArtistList::artistItemDoubleClicked(QListWidgetItem* item) {
-    string itemArtistName = item->text().toStdString();
-    songsList->loadItems(itemArtistName);
-    songsList->addItems();
+
+    string itemArtistName = item -> text().toStdString();
+    songsList -> clear();
+    songsList -> loadItems(itemArtistName);
+    songsList -> addItems();
+
 }
 
 /*!
@@ -202,3 +147,23 @@ void ArtistList::checkPosition(int row) {
     }
 
 }
+
+
+
+
+/*!
+ * @brief just to make sure, this method prints the loaded vector
+ */
+/*
+void ArtistList::printVector() {
+
+   for (int i = 0; i < pageVector.size(); i++) {
+
+       //string id = pageVector.at(i).first;
+       //string name = pageVector.at(i).second;
+       //cout << i << " id: " << id << " name: " << name << endl;
+
+   }
+
+}
+*/

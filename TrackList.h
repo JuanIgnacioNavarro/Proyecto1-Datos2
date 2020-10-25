@@ -24,6 +24,7 @@ using namespace std;
 class TrackList: public QWidget {
 
 private:
+
     QListWidget* ptracksList;
 
     //vector used to load information from csv
@@ -31,10 +32,13 @@ private:
     void trackItemClicked(QListWidgetItem* item);
 
 public:
+
     TrackList();
     void loadItems(string artist_name);
     void addItems();
     QListWidget* getTrackList();
+    void clear();
+
 };
 
 #endif //PROYECTO1_DATOS2
