@@ -29,16 +29,17 @@ private:
 
     //int used for keeping important numbers
     int actualPage;
+    int artist_idIndex;
     int artist_nameIndex;
 
     //vector used to load information from csv
-    vector<string> pageVector;
+    vector<pair<string, string>> pageVector;
 
 public:
 
     ArtistList(QWidget* parent, TrackList* songsList);
     void loadItems();
-    //void printVector();
+    void printVector();
     void addItems();
     void checkPosition(int row);
     void artistItemDoubleClicked(QListWidgetItem* item);

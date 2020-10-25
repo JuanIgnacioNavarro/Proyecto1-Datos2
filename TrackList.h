@@ -26,7 +26,6 @@ using namespace std;
 class TrackList: public QWidget {
 
 private:
-
     QListWidget* ptracksList;
 
     SongBox* songBox;
@@ -40,8 +39,6 @@ public:
     void addItems();
     void deleteItems();
     QListWidget* getTrackList();
-    void clear();
-
 };
 
 #endif //PROYECTO1_DATOS2
