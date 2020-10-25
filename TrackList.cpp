@@ -22,7 +22,8 @@ TrackList::TrackList(SongBox* pSongBox) {
  */
 void TrackList::loadItems(string artist_name) {
 
-    ifstream myFile("/home/juan/Documents/Proyecto 1/Repo/Proyecto1-Datos2/CSV Files/raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    //ifstream myFile("/home/juan/Documents/Proyecto 1/Repo/Proyecto1-Datos2/CSV Files/raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
 
     if (!myFile.is_open()) {
 
@@ -117,6 +118,9 @@ void TrackList::trackItemClicked(QListWidgetItem* item) {
 
 }
 
+/*!
+ * @brief This method returns ptracksList instance
+ */
 QListWidget* TrackList::getTrackList() {
 
     return ptracksList;
