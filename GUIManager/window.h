@@ -28,16 +28,16 @@ class MainWindow : public QWidget {
 private:
 
     QLabel* pLibrary;
-    QLabel* pCurrentlyPlaying;
-    QLabel* pMemory;
+    QLabel* pCurrentlyPlaying; //Shows the actual song Name
+    QLabel* pMemory; //Shows the memory usage
 
-    QPushButton* pPaginateButton;
+    QPushButton* pPaginateButton; //Allows to load every song in the list
     QPushButton* pPlayButton;
     QPushButton* pInfoButton;
 
     QSlider* pSongSlider;
 
-    QProgressBar* pMemoryBar;
+    QProgressBar* pMemoryBar; //Shows the memory usage graphically
 
     ArtistList* pListAlbum;
     trackList* pListSongs;
@@ -53,16 +53,15 @@ private:
     QHBoxLayout* hbox1;
     QHBoxLayout* hbox2;
 
-    int vSpacing = 8;
-    int hSpacing = 6;
+    int vSpacing = 8; //Vertical spacing constant
+    int hSpacing = 6; //Horizontal spacing constant
 
-    int verMargin = 20;
-    int horMargin = 40;
+    int verMargin = 20; //Vertical margin constant
+    int horMargin = 40; //Horizaontal margin constant
 
     //methods
     void setBtnColor(QPushButton* button);
     pair<string, vector<char*>> readCSV (string filename);
-
     void pCheckTracksButtonClicked();
 
 public:

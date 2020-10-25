@@ -3,8 +3,9 @@
 #include "../SongManager/trackList.h"
 #import <QWidget>
 
-/*
- * Contructor. Adds the main items of the Gui
+/*!
+ * @name Constructor
+ * @brief Adds the main items of the Gui
  */
 MainWindow::MainWindow(QWidget *parent) {
 
@@ -42,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) {
     pSongBox = new SongBox(pCurrentlyPlaying);
 
     //Lists: these items are important to manage the csv files
-    pListSongs = new trackList(pSongBox);
+    pListSongs = new TrackList(pSongBox);
     pListAlbum = new ArtistList(this, pListSongs);
 
     //Layout control
@@ -80,8 +81,9 @@ MainWindow::MainWindow(QWidget *parent) {
 
 }
 
-/*
- * Method for setting the buttons design
+/*!
+ * @name ButtonDesigner
+ * @brief Method for setting the buttons design
  * @param button
  */
 void MainWindow::setBtnColor(QPushButton *button) {

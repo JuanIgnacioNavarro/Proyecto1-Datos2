@@ -7,27 +7,28 @@
 #include "trackList.h"
 
 /*!
- * Constructor Method
+ * @name TrackList
+ * @brief track list constructor method
  * @param parent
  */
-trackList::trackList(SongBox* pSongBox) {
+TrackList::TrackList(SongBox* pSongBox) {
 
-    //List instance and size
     ptracksList = new QListWidget();
     songBox = pSongBox;
 }
 
 /*!
- * @brief This method looks for the tracks names and add them to the the trackNames vector.
+ * @name loadItems
+ * @brief Loads the csv file songs into a vector
+ * @param artist_name : Name in the artist of the songs
  */
-void trackList::loadItems(string artist_name) {
+void TrackList::loadItems(string artist_name) {
 
-    ifstream myFile("raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    ifstream myFile("raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
 
     if (!myFile.is_open()) {
 
         printf("Error opening the file");
-
     }
 
     string line;
@@ -59,9 +60,11 @@ void trackList::loadItems(string artist_name) {
 }
 
 /*!
- * @brief This method adds the most recent loaded vector
+ * @name addItems
+ * @brief This method adds the most recent loaded vector.
+ * @details Loads the vector information into a List Item.
  */
-void trackList::addItems() {
+void TrackList::addItems() {
 
     int size = trackNames.size();
 
@@ -69,26 +72,11 @@ void trackList::addItems() {
 
         QListWidgetItem* newItem = new QListWidgetItem;
 
-        //Creates a Widget to show all the info
-        /*
-        QWidget* itemWidget = new QWidget();
-        QString itemID = QString::fromStdString(trackNames.front()[0]);
-        QLabel* widgetID = new QLabel(itemID);
-        QString itemName = QString::fromStdString(trackNames.front()[1]);
-        QLabel* widgetName = new QLabel(itemName);
-        QHBoxLayout* widgetLayout = new QHBoxLayout();
-        widgetLayout->addWidget(widgetName);
-        itemWidget->setLayout(widgetLayout);
-        ptracksList->addItem(newItem);
-        ptracksList->setItemWidget(newItem, itemWidget);
-        */
-        //Displays the song name as the text
-
         QString itemText = QString::fromStdString(trackNames.front()[1]);
         QString itemID = QString::fromStdString(trackNames.front()[0]);
         trackNames.erase(trackNames.begin());
         newItem -> setText(itemText);
-        newItem->setData(Qt::UserRole, itemID);
+        newItem->setData(Qt::UserRole, itemID); //User role lets the program save the ID of each song
         newItem -> setFont(QFont( "arial", 12));
         newItem -> setTextAlignment(Qt::AlignLeft);
         ptracksList -> addItem(newItem);
@@ -96,15 +84,17 @@ void trackList::addItems() {
 
     }
 
-    connect(ptracksList, &QListWidget::itemClicked, this, &trackList::trackItemClicked); // Changed to only one click
+    //Allows connecting the click of an item with a method that plays the song
+    connect(ptracksList, &QListWidget::itemClicked, this, &TrackList::trackItemClicked); // Changed to only one click
 
 }
 
 /*!
- * It is necessary to load the list of songs when an Item is doubly clicked
+ * @name trackItemClicked
+ * @details It is necessary to load the list of songs when an Item is doubly clicked
  * @param item
  */
-void trackList::trackItemClicked(QListWidgetItem* item) {
+void TrackList::trackItemClicked(QListWidgetItem* item) {
 
     string text = item -> text().toStdString();
     int id = item->data(Qt::UserRole).toInt();
@@ -113,17 +103,15 @@ void trackList::trackItemClicked(QListWidgetItem* item) {
 
     songBox->loadSong(id);
 
-    //Code to look for the song and play it.
-
 }
 
-QListWidget* trackList::getTrackList() {
+QListWidget* TrackList::getTrackList() {
 
     return ptracksList;
 
 }
 
-void trackList::deleteItems() {
+void TrackList::deleteItems() {
     int listSize = ptracksList->count();
     cout << "Amount of rows in the songs list: " << listSize << endl;
     for (int i = 0; i < listSize; i++) {

@@ -4,6 +4,7 @@
 
 #pragma once
 
+//Imported external libraries
 #include <QWidget>
 #include <QPushButton>
 #include <QListWidget>
@@ -11,13 +12,14 @@
 #include <string>
 #include <vector>
 
+//Imported Project files
 #include "iostream"
 #include "../SongManager/trackList.h"
 
 using namespace std;
 
 /*!
- * Artists List Class
+ * @name Artists List Class
  * @brief it controls the information in the artists list
  */
 class ArtistList: public QWidget {
@@ -29,8 +31,6 @@ private:
 
     //int used for keeping important numbers
     int actualPage;
-    int artist_idIndex;
-    int artist_nameIndex;
 
     //vector used to load information from csv
     vector<string> pageVector;
@@ -39,11 +39,9 @@ public:
 
     ArtistList(QWidget* parent, trackList* songsList);
     void loadItems();
-    //void printVector();
     void addItems();
     void checkPosition(int row);
     void artistItemDoubleClicked(QListWidgetItem* item);
     QListWidget* getArtistList();
-    string getArtist();
 
 };

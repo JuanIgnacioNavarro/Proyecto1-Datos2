@@ -7,6 +7,7 @@
 
 #pragma once
 
+//Imported external Libraries
 #include <QWidget>
 #include <QPushButton>
 #include <QListWidget>
@@ -15,15 +16,16 @@
 #include <string>
 #include <vector>
 
+//Imported project files
 #include "../PlaySongManager/songManagement.h"
 
 using namespace std;
 
 /*!
- * trackList Class
+ * @name TrackList Class
  * @brief it controls the information in the track list
  */
-class trackList: public QWidget {
+class TrackList: public QWidget {
 
 private:
     QListWidget* ptracksList;
@@ -34,7 +36,7 @@ private:
     void trackItemClicked(QListWidgetItem* item);
 
 public:
-    trackList(SongBox* pSongBox);
+    TrackList(SongBox* pSongBox);
     void loadItems(string artist_name);
     void addItems();
     void deleteItems();

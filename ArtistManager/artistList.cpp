@@ -2,12 +2,12 @@
 // Created by nachogranados on 22/10/20.
 //
 
+//Imported Project Files
 #include "artistList.h"
-#include "../SongManager/trackList.h"
 #include "../GUIManager/window.h"
 
 /*!
- * Constructor Method
+ * @name Constructor Method
  * @param parent
  */
 ArtistList::ArtistList(QWidget *parent, trackList *songsList) {
@@ -21,7 +21,6 @@ ArtistList::ArtistList(QWidget *parent, trackList *songsList) {
     actualPage = 0;
 
     loadItems();
-    //printVector();
     addItems();
 
     //This Signal and Slot is needed for the pagination
@@ -31,21 +30,22 @@ ArtistList::ArtistList(QWidget *parent, trackList *songsList) {
 }
 
 QListWidget* ArtistList::getArtistList() {
-
     return artistsList;
-
 }
 
+
 /*!
+ * @name loadItems
  * @brief This method loads the first items that are displayed in the list
  */
 void ArtistList::loadItems() {
-    ifstream myFile("raw_artists_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    ifstream myFile("raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
 
     if (!myFile.is_open()) {
         printf("Error");
     }
 
+    //Loads 10 lines of the artists file
     for (int i = 0; i < 11; i++) {
         string columnData;
         getline(myFile, columnData, ',');
@@ -60,22 +60,9 @@ void ArtistList::loadItems() {
 }
 
 /*!
- * @brief just to make sure, this method prints the loaded vector
- */
- /*
-void ArtistList::printVector() {
-
-    for (int i = 0; i < pageVector.size(); i++) {
-        string id = pageVector.at(i).first;
-        string name = pageVector.at(i).second;
-        cout << i << " id: " << id << " name: " << name << endl;
-    }
-
-}
-  */
-
-/*!
+ * @name AddItems
  * @brief This method adds the most recent loaded vector
+ * @details loads the pageVector items into the GUI as list items
  */
 void ArtistList::addItems() {
 
@@ -92,7 +79,7 @@ void ArtistList::addItems() {
 }
 
 /*!
- * It is necessary to load the list of songs when an Item is doubly clicked
+ * @brief Plays the song when the song's list item is doubly clicked
  * @param item
  */
 void ArtistList::artistItemDoubleClicked(QListWidgetItem* item) {
@@ -103,8 +90,8 @@ void ArtistList::artistItemDoubleClicked(QListWidgetItem* item) {
 }
 
 /*!
- * This method allows the pagination, depending on the row the user is located
- *the method decides what to load or destroy.
+ * @brief This method allows the pagination.
+ * @details depending on the position of the user it decides where to load more information in the list
  * @param row
  */
 void ArtistList::checkPosition(int row) {
