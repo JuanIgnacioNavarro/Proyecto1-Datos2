@@ -38,8 +38,11 @@ MainWindow::MainWindow(QWidget *parent) {
     pMemoryBar = new QProgressBar();
     pMemoryBar -> setFixedWidth(80);
 
+    //Song Management object
+    pSongBox = new SongBox(pCurrentlyPlaying);
+
     //Lists: these items are important to manage the csv files
-    pListSongs = new TrackList();
+    pListSongs = new TrackList(pSongBox);
     pListAlbum = new ArtistList(this, pListSongs);
 
     //Layout control

@@ -15,6 +15,8 @@
 #include <string>
 #include <vector>
 
+#include "songManagement.h"
+
 using namespace std;
 
 /*!
@@ -26,12 +28,13 @@ class TrackList: public QWidget {
 private:
     QListWidget* ptracksList;
 
+    SongBox* songBox;
     //vector used to load information from csv
     vector<vector<string>> trackNames;
     void trackItemClicked(QListWidgetItem* item);
 
 public:
-    TrackList();
+    TrackList(SongBox* pSongBox);
     void loadItems(string artist_name);
     void addItems();
     void deleteItems();

@@ -16,6 +16,7 @@
 #include "fstream"
 #include "list.h"
 #include "TrackList.h"
+#include "songManagement.h"
 
 using namespace std;
 
@@ -40,6 +41,8 @@ private:
 
     ArtistList* pListAlbum;
     TrackList* pListSongs;
+
+    SongBox* pSongBox;
 
     QVBoxLayout* vbox1;
     QVBoxLayout* vbox2;

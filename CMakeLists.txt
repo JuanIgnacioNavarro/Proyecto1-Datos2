@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 14)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Multimedia REQUIRED)
 
-add_executable(Proyecto1-Datos2 main.cpp window.cpp window.h list.h list.cpp)
+add_executable(Proyecto1-Datos2 main.cpp window.cpp window.h list.h list.cpp songManagement.cpp songManagement.h)
 
 target_link_libraries(Proyecto1-Datos2 Qt5::Widgets)
 target_link_libraries(Proyecto1-Datos2 Qt5::Multimedia)

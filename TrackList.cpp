@@ -10,11 +10,11 @@
  * Constructor Method
  * @param parent
  */
-TrackList::TrackList() {
+TrackList::TrackList(SongBox* pSongBox) {
 
     //List instance and size
     ptracksList = new QListWidget();
-
+    songBox = pSongBox;
 }
 
 /*!
@@ -110,6 +110,8 @@ void TrackList::trackItemClicked(QListWidgetItem* item) {
     int id = item->data(Qt::UserRole).toInt();
     cout << "Im clicking an item: " << text << endl;
     cout << "This item has the id: " << id << endl;
+
+    songBox->loadSong(id);
 
     //Code to look for the song and play it.
 
