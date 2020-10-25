@@ -4,13 +4,13 @@
 
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QHBoxLayout>
-#include "TrackList.h"
+#include "trackList.h"
 
 /*!
  * Constructor Method
  * @param parent
  */
-TrackList::TrackList(SongBox* pSongBox) {
+trackList::trackList(SongBox* pSongBox) {
 
     //List instance and size
     ptracksList = new QListWidget();
@@ -20,9 +20,9 @@ TrackList::TrackList(SongBox* pSongBox) {
 /*!
  * @brief This method looks for the tracks names and add them to the the trackNames vector.
  */
-void TrackList::loadItems(string artist_name) {
+void trackList::loadItems(string artist_name) {
 
-    ifstream myFile("/home/juan/Documents/Proyecto1/Repo/Proyecto1-Datos2/CSV Files/raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
+    ifstream myFile("raw_tracks_new.csv"); //IMPORTANT: use your own raw_artist2.csv path
 
     if (!myFile.is_open()) {
 
@@ -61,7 +61,7 @@ void TrackList::loadItems(string artist_name) {
 /*!
  * @brief This method adds the most recent loaded vector
  */
-void TrackList::addItems() {
+void trackList::addItems() {
 
     int size = trackNames.size();
 
@@ -96,7 +96,7 @@ void TrackList::addItems() {
 
     }
 
-    connect(ptracksList, &QListWidget::itemClicked, this, &TrackList::trackItemClicked); // Changed to only one click
+    connect(ptracksList, &QListWidget::itemClicked, this, &trackList::trackItemClicked); // Changed to only one click
 
 }
 
@@ -104,7 +104,7 @@ void TrackList::addItems() {
  * It is necessary to load the list of songs when an Item is doubly clicked
  * @param item
  */
-void TrackList::trackItemClicked(QListWidgetItem* item) {
+void trackList::trackItemClicked(QListWidgetItem* item) {
 
     string text = item -> text().toStdString();
     int id = item->data(Qt::UserRole).toInt();
@@ -117,13 +117,13 @@ void TrackList::trackItemClicked(QListWidgetItem* item) {
 
 }
 
-QListWidget* TrackList::getTrackList() {
+QListWidget* trackList::getTrackList() {
 
     return ptracksList;
 
 }
 
-void TrackList::deleteItems() {
+void trackList::deleteItems() {
     int listSize = ptracksList->count();
     cout << "Amount of rows in the songs list: " << listSize << endl;
     for (int i = 0; i < listSize; i++) {

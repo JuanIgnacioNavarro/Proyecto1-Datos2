@@ -15,15 +15,15 @@
 #include <string>
 #include <vector>
 
-#include "songManagement.h"
+#include "../PlaySongManager/songManagement.h"
 
 using namespace std;
 
 /*!
- * TrackList Class
+ * trackList Class
  * @brief it controls the information in the track list
  */
-class TrackList: public QWidget {
+class trackList: public QWidget {
 
 private:
     QListWidget* ptracksList;
@@ -34,7 +34,7 @@ private:
     void trackItemClicked(QListWidgetItem* item);
 
 public:
-    TrackList(SongBox* pSongBox);
+    trackList(SongBox* pSongBox);
     void loadItems(string artist_name);
     void addItems();
     void deleteItems();

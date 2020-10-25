@@ -12,7 +12,7 @@
 #include <vector>
 
 #include "iostream"
-#include "TrackList.h"
+#include "../SongManager/trackList.h"
 
 using namespace std;
 
@@ -25,7 +25,7 @@ class ArtistList: public QWidget {
 private:
 
     QListWidget* artistsList;
-    TrackList* songsList;
+    trackList* songsList;
 
     //int used for keeping important numbers
     int actualPage;
@@ -33,13 +33,13 @@ private:
     int artist_nameIndex;
 
     //vector used to load information from csv
-    vector<pair<string, string>> pageVector;
+    vector<string> pageVector;
 
 public:
 
-    ArtistList(QWidget* parent, TrackList* songsList);
+    ArtistList(QWidget* parent, trackList* songsList);
     void loadItems();
-    void printVector();
+    //void printVector();
     void addItems();
     void checkPosition(int row);
     void artistItemDoubleClicked(QListWidgetItem* item);

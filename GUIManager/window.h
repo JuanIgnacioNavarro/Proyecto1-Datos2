@@ -14,9 +14,9 @@
 #include <sstream>
 
 #include "fstream"
-#include "list.h"
-#include "TrackList.h"
-#include "songManagement.h"
+#include "../ArtistManager/artistList.h"
+#include "../SongManager/trackList.h"
+#include "../PlaySongManager/songManagement.h"
 
 using namespace std;
 
@@ -40,7 +40,7 @@ private:
     QProgressBar* pMemoryBar;
 
     ArtistList* pListAlbum;
-    TrackList* pListSongs;
+    trackList* pListSongs;
 
     SongBox* pSongBox;
 

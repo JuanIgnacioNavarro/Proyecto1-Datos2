@@ -1,6 +1,6 @@
 #include "window.h"
-#include "list.h"
-#include "TrackList.h"
+#include "../ArtistManager/artistList.h"
+#include "../SongManager/trackList.h"
 #import <QWidget>
 
 /*
@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) {
     pSongBox = new SongBox(pCurrentlyPlaying);
 
     //Lists: these items are important to manage the csv files
-    pListSongs = new TrackList(pSongBox);
+    pListSongs = new trackList(pSongBox);
     pListAlbum = new ArtistList(this, pListSongs);
 
     //Layout control
