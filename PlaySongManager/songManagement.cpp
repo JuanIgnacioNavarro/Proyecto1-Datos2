@@ -3,17 +3,20 @@
 //
 
 //Imported project libraries
+#include <QtWidgets/QMessageBox>
 #include "songManagement.h"
+#include "../GUIManager/window.h"
 
 /*!
  * @name SongBox
  * @brief SongBox class constructor
  * @param songInfo : QLabel
  */
-SongBox::SongBox(QLabel *songInfo) {
-    this->songInfo = songInfo;
+SongBox::SongBox(QLabel *psongInfoLabel, QPushButton* pPlayButton) {
+    this->pSongInfoLabel = psongInfoLabel;
     this->player = new QMediaPlayer();
     this->songDirection = "";
+    this->pPlayButton = pPlayButton;
 }
 
 /*!
@@ -21,8 +24,8 @@ SongBox::SongBox(QLabel *songInfo) {
  * @brief load the song by creating the path were the file is located
  * @param songID : int
  */
-void SongBox::loadSong(int songID) {
-    //File name management
+void SongBox::loadSong(int songID, string songName) {
+    //File path management
     string fileName = std::to_string(songID);
     int lenght = fileName.length();
 
@@ -63,20 +66,20 @@ void SongBox::loadSong(int songID) {
     path.append(folder);
     path.append("/");
     path.append(fileName);
-    songDirection = path;
-    cout << "The path is: " << path << endl;
-
-    //This goes in play() method
-    try {
-        QString fileName = QString::fromStdString(songDirection);
-        cout << "El path del archivo se consiguió exitosamente" << endl;
-        player->setMedia(QUrl::fromLocalFile(fileName));
-        player->play();
-    } catch (int e) {
-        cout << "El path del archivo no se logró conseguir" << endl;
-        songDirection = "";
+    songDirection = QString::fromStdString(path);
+    QUrl url = QUrl::fromLocalFile(songDirection);
+    if (!fileExists(songDirection)){
+        QMessageBox msgBox;
+        msgBox.setText("Song not available");
+        msgBox.setInformativeText("Download the complete data set to access all the songs");
+        msgBox.exec();
     }
-
+    else{
+        player->setMedia(QUrl::fromLocalFile(songDirection));
+        string songNameText = "Song Name: " + songName;
+        pSongInfoLabel->setText(QString::fromStdString(songNameText));
+        pPlayButton->setEnabled(true);
+    }
 
 }
 
@@ -86,7 +89,29 @@ void SongBox::loadSong(int songID) {
  * @details controls if the song is already loaded. indicated if the song is available and plays the song.
  */
 void SongBox::play() {
-    if (songDirection == ""){
 
+    if (!isPlaying){
+        player->play();
+        isPlaying = true;
+    }
+    else{
+        player->pause();
+        isPlaying = false;
+    }
+}
+
+/*!
+ * @brief This method checks if a file exists or not
+ * @param path
+ * @return bool that indicates if the file exists or not
+ */
+bool SongBox::fileExists(QString path) {
+    QFileInfo check_file(path);
+    //Check if the file exists
+    //check if it is a file or directory
+    if (check_file.exists() && check_file.isFile()){
+        return true;
+    } else{
+        return false;
     }
 }

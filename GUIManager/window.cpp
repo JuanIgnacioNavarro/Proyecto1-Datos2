@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) {
 
     //Labels
     pLibrary = new QLabel("Library", this);
-    pCurrentlyPlaying = new QLabel("Currently playing: ", this);
+    pCurrentlyPlaying = new QLabel("Select a song.. ", this);
     pMemory = new QLabel("Memory %", this);
 
     //Buttons
@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent) {
     setBtnColor(pInfoButton);
     pPlayButton = new QPushButton("Play/Pause", this);
     setBtnColor(pPlayButton);
+    pPlayButton->setEnabled(false);
+
 
     //Song Slider (shows the song progress)
     pSongSlider = new QSlider(Qt::Horizontal, this);
@@ -40,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) {
     pMemoryBar -> setFixedWidth(80);
 
     //Song Management object
-    pSongBox = new SongBox(pCurrentlyPlaying);
+    pSongBox = new SongBox(pCurrentlyPlaying, pPlayButton);
 
     //Lists: these items are important to manage the csv files
     pListSongs = new TrackList(pSongBox);
@@ -79,6 +81,8 @@ MainWindow::MainWindow(QWidget *parent) {
 
     setLayout(generalhBox);
 
+    //Slots
+    connect(pPlayButton, &QPushButton::clicked, this, &MainWindow::playButtonClicked);
 }
 
 /*!
@@ -94,4 +98,8 @@ void MainWindow::setBtnColor(QPushButton *button) {
     button -> setPalette(pal);
     button -> update();
 
+}
+
+void MainWindow::playButtonClicked() {
+    pSongBox->play();
 }

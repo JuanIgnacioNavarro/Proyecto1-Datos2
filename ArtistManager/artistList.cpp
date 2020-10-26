@@ -10,13 +10,17 @@
  * @name Constructor Method
  * @param parent
  */
-ArtistList::ArtistList(QWidget *parent, trackList *songsList) {
+ArtistList::ArtistList(QWidget *parent, TrackList *songsList) {
 
     //List instance and size
     this -> artistsList = new QListWidget();
     this -> songsList = songsList;
     artistsList -> setFixedWidth(300);
     artistsList -> setFixedHeight(200);
+
+    songsList->loadItems("AWOL");
+    songsList->addItems();
+
 
     actualPage = 0;
 
@@ -110,7 +114,6 @@ void ArtistList::checkPosition(int row) {
 
             //load the Next Page
             actualPage = 2;
-
         }
 
     } else {

@@ -27,7 +27,7 @@ class ArtistList: public QWidget {
 private:
 
     QListWidget* artistsList;
-    trackList* songsList;
+    TrackList* songsList;
 
     //int used for keeping important numbers
     int actualPage;
@@ -37,7 +37,7 @@ private:
 
 public:
 
-    ArtistList(QWidget* parent, trackList* songsList);
+    ArtistList(QWidget* parent, TrackList* songsList);
     void loadItems();
     void addItems();
     void checkPosition(int row);

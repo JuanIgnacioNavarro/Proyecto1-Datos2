@@ -12,6 +12,7 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QMediaPlayer>
+#include <QFileInfo>
 
 //Imported project files
 #include "iostream"
@@ -26,17 +27,22 @@ using namespace std;
 class SongBox {
 private:
 
-    string songDirection; //Controls the selected song path
-    QLabel* songInfo; //Shows the song information
+    QString songDirection; //Controls the selected song path
+    QLabel* pSongInfoLabel; //Shows the song information
     QMediaPlayer* player; //attribute that allows playing the song
+    QPushButton* pPlayButton;
+
 
 public:
-
-    SongBox(QLabel* songInfo);
-    void loadSong(int songID);
+    //Attributes
+    bool isPlaying;
+    //Methods
+    SongBox(QLabel* psongInfoLabel,QPushButton* pPlayButton);
+    void loadSong(int songID, string songNames);
     void loadExtraInfo (string songName, string songLenght, string album);
     void play();
-    void showInfo();
+    bool showInfo();
+    bool fileExists(QString path);
 
 };
 

@@ -32,7 +32,7 @@ private:
     QLabel* pMemory; //Shows the memory usage
 
     QPushButton* pPaginateButton; //Allows to load every song in the list
-    QPushButton* pPlayButton;
+
     QPushButton* pInfoButton;
 
     QSlider* pSongSlider;
@@ -40,7 +40,7 @@ private:
     QProgressBar* pMemoryBar; //Shows the memory usage graphically
 
     ArtistList* pListAlbum;
-    trackList* pListSongs;
+    TrackList* pListSongs;
 
     SongBox* pSongBox;
 
@@ -63,9 +63,10 @@ private:
     void setBtnColor(QPushButton* button);
     pair<string, vector<char*>> readCSV (string filename);
     void pCheckTracksButtonClicked();
+    void playButtonClicked();
 
 public:
 
     MainWindow(QWidget* parent = 0);
-
+    QPushButton* pPlayButton;
 };

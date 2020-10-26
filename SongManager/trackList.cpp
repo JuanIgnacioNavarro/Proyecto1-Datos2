@@ -75,17 +75,17 @@ void TrackList::addItems() {
         QString itemText = QString::fromStdString(trackNames.front()[1]);
         QString itemID = QString::fromStdString(trackNames.front()[0]);
         trackNames.erase(trackNames.begin());
-        newItem -> setText(itemText);
+        newItem->setText(itemText);
         newItem->setData(Qt::UserRole, itemID); //User role lets the program save the ID of each song
-        newItem -> setFont(QFont( "arial", 12));
-        newItem -> setTextAlignment(Qt::AlignLeft);
+        newItem->setFont(QFont( "arial", 12));
+        newItem->setTextAlignment(Qt::AlignLeft);
         ptracksList -> addItem(newItem);
-
 
     }
 
+    trackNames.clear();
     //Allows connecting the click of an item with a method that plays the song
-    connect(ptracksList, &QListWidget::itemClicked, this, &TrackList::trackItemClicked); // Changed to only one click
+    connect(ptracksList, &QListWidget::itemDoubleClicked, this, &TrackList::trackItemDoubleClicked); // Changed to only one click
 
 }
 
@@ -94,14 +94,14 @@ void TrackList::addItems() {
  * @details It is necessary to load the list of songs when an Item is doubly clicked
  * @param item
  */
-void TrackList::trackItemClicked(QListWidgetItem* item) {
+void TrackList::trackItemDoubleClicked(QListWidgetItem* item) {
 
     string text = item -> text().toStdString();
     int id = item->data(Qt::UserRole).toInt();
     cout << "Im clicking an item: " << text << endl;
     cout << "This item has the id: " << id << endl;
 
-    songBox->loadSong(id);
+    songBox->loadSong(id, text);
 
 }
 
@@ -114,10 +114,14 @@ QListWidget* TrackList::getTrackList() {
 void TrackList::deleteItems() {
     int listSize = ptracksList->count();
     cout << "Amount of rows in the songs list: " << listSize << endl;
+    //ptracksList->clear();
+
     for (int i = 0; i < listSize; i++) {
-        QListWidgetItem *deletionItem = ptracksList->item(0);
-        ptracksList->removeItemWidget(deletionItem);
-        delete deletionItem;
+
+        delete ptracksList->item(0);
+
     }
+    int listSize2 = ptracksList->count();
+    cout << "Amount of rows in the songs list: " << listSize2 << endl;
 }
 
