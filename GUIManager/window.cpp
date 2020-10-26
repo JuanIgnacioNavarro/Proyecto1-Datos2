@@ -17,18 +17,21 @@ MainWindow::MainWindow(QWidget *parent) {
 
     hbox1 = new QHBoxLayout();
     hbox2 = new QHBoxLayout();
+    hbox3 = new QHBoxLayout();
     generalhBox = new QHBoxLayout();
 
     //Labels
     pLibrary = new QLabel("Library", this);
     pCurrentlyPlaying = new QLabel("Select a song.. ", this);
     pMemory = new QLabel("Memory %", this);
+    pSongDuration = new QLabel("Song Duration: 30s", this);
 
     //Buttons
     pPaginateButton = new QPushButton("Paginate", this);
     setBtnColor(pPaginateButton);
     pInfoButton = new QPushButton("info", this);
     setBtnColor(pInfoButton);
+    pInfoButton->setEnabled(false);
     pPlayButton = new QPushButton("Play/Pause", this);
     setBtnColor(pPlayButton);
     pPlayButton->setEnabled(false);
@@ -42,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) {
     pMemoryBar -> setFixedWidth(80);
 
     //Song Management object
-    pSongBox = new SongBox(pCurrentlyPlaying, pPlayButton);
+    pSongBox = new SongBox(pCurrentlyPlaying, pPlayButton, pSongSlider, pInfoButton);
 
     //Lists: these items are important to manage the csv files
     pListSongs = new TrackList(pSongBox);
@@ -56,8 +59,12 @@ MainWindow::MainWindow(QWidget *parent) {
     vbox3 -> addWidget(pPlayButton);
     vbox3 -> addWidget(pInfoButton);
 
+    hbox3 -> addWidget(pCurrentlyPlaying);
+    hbox3->addStretch();
+    hbox3->addWidget(pSongDuration);
+
     vbox4 -> addWidget(pSongSlider);
-    vbox4 -> addWidget(pCurrentlyPlaying);
+    vbox4 -> addLayout(hbox3);
 
     hbox1 -> addStretch();
     hbox1 -> addWidget(pMemory);
@@ -83,6 +90,9 @@ MainWindow::MainWindow(QWidget *parent) {
 
     //Slots
     connect(pPlayButton, &QPushButton::clicked, this, &MainWindow::playButtonClicked);
+    connect(pInfoButton,  &QPushButton::clicked, this, &MainWindow::showSongInfo);
+    connect(SongBox::player, &QMediaPlayer::positionChanged, this, &MainWindow::moveSlider);
+    connect(pSongSlider, &QSlider::sliderReleased, this, &MainWindow::songPosition);
 }
 
 /*!
@@ -102,4 +112,16 @@ void MainWindow::setBtnColor(QPushButton *button) {
 
 void MainWindow::playButtonClicked() {
     pSongBox->play();
+}
+
+void MainWindow::showSongInfo(){
+    pSongBox->showInfo();
+}
+
+void MainWindow::moveSlider(qint64 position) {
+    pSongSlider->setValue(position/300);
+}
+
+void MainWindow::songPosition() {
+    //SongBox::player->setPosition(pSongSlider->value());
 }

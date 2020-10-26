@@ -4,32 +4,49 @@
 
 //Imported project libraries
 #include <QtWidgets/QMessageBox>
+#import <QWidget>
+#include <sys/socket.h>
 #include "songManagement.h"
 #include "../GUIManager/window.h"
+
+QMediaPlayer* SongBox::player = new QMediaPlayer();
 
 /*!
  * @name SongBox
  * @brief SongBox class constructor
  * @param songInfo : QLabel
  */
-SongBox::SongBox(QLabel *psongInfoLabel, QPushButton* pPlayButton) {
+SongBox::SongBox(QLabel *psongInfoLabel, QPushButton *pPlayButton, QSlider *pSongSlider,
+                 QPushButton *pInfoButton) {
+
     this->pSongInfoLabel = psongInfoLabel;
-    this->player = new QMediaPlayer();
+    //player = new QMediaPlayer();
+    player->setNotifyInterval(10);
     this->songDirection = "";
     this->pPlayButton = pPlayButton;
-}
+    this->pSongSlider = pSongSlider;
+    this->pInfoButton = pInfoButton;
+    //connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChange(qint64)));
+    //connect(pSongSlider, SIGNAL(sliderReleased()), this, SLOT(positionChange));
 
+}
+void SongBox::positionChanged(qint64 number) {
+    pSongSlider->setValue(number);
+}
+void SongBox::positionChange(qint64 number) {
+    player->setPosition(pSongSlider->value());
+}
 /*!
  * @name loadSong
  * @brief load the song by creating the path were the file is located
  * @param songID : int
  */
-void SongBox::loadSong(int songID, string songName) {
+void SongBox::loadSong(int songID, string songName, string album) {
     //File path management
     string fileName = std::to_string(songID);
-    int lenght = fileName.length();
+    int length = fileName.length();
 
-    switch (lenght) {
+    switch (length) {
         case 1:
             fileName = "00000" + fileName;
             break;
@@ -50,9 +67,9 @@ void SongBox::loadSong(int songID, string songName) {
 
     //File folder management
     string folder = std::to_string((int) songID/1000);
-    int folderLenght = folder.length();
+    int folderLength = folder.length();
 
-    switch (folderLenght) {
+    switch (folderLength) {
         case 1:
             folder = "00" + folder;
             break;
@@ -63,6 +80,7 @@ void SongBox::loadSong(int songID, string songName) {
 
     //Complete path management
     string path = "/home/juan/Downloads/fma_small/";
+    cout << path << endl;
     path.append(folder);
     path.append("/");
     path.append(fileName);
@@ -73,12 +91,16 @@ void SongBox::loadSong(int songID, string songName) {
         msgBox.setText("Song not available");
         msgBox.setInformativeText("Download the complete data set to access all the songs");
         msgBox.exec();
+
     }
     else{
         player->setMedia(QUrl::fromLocalFile(songDirection));
         string songNameText = "Song Name: " + songName;
         pSongInfoLabel->setText(QString::fromStdString(songNameText));
         pPlayButton->setEnabled(true);
+        pInfoButton->setEnabled(true);
+        this -> album = album;
+
     }
 
 }
@@ -93,6 +115,7 @@ void SongBox::play() {
     if (!isPlaying){
         player->play();
         isPlaying = true;
+
     }
     else{
         player->pause();
@@ -114,4 +137,17 @@ bool SongBox::fileExists(QString path) {
     } else{
         return false;
     }
+}
+
+void SongBox::showInfo() {
+    QMessageBox msgBox;
+    msgBox.setText("Song information: ");
+    string infoText = "Album: ";
+    infoText.append(this->album);
+    msgBox.setInformativeText(QString::fromStdString(infoText));
+    msgBox.exec();
+}
+
+void SongBox::songProgress(qint64 position) {
+    cout << "Im moving!" << endl;
 }
