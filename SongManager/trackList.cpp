@@ -11,10 +11,12 @@
  * @brief track list constructor method
  * @param parent
  */
-TrackList::TrackList(SongBox* pSongBox) {
+TrackList::TrackList(SongBox* pSongBox, RAMManagement* ramMemory) {
 
-    ptracksList = new QListWidget();
-    songBox = pSongBox;
+    this -> ptracksList = new QListWidget();
+    this -> songBox = pSongBox;
+    this -> ramMemory = ramMemory;
+
 }
 
 /*!
@@ -24,7 +26,8 @@ TrackList::TrackList(SongBox* pSongBox) {
  */
 void TrackList::loadItems(string artist_name) {
 
-    ifstream myFile("raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    //ifstream myFile("raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files//raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
 
     if (!myFile.is_open()) {
 
@@ -93,6 +96,7 @@ void TrackList::addItems() {
     }
 
     trackNames.clear();
+
     //Allows connecting the click of an item with a method that plays the song
     connect(ptracksList, &QListWidget::itemDoubleClicked, this, &TrackList::trackItemDoubleClicked); // Changed to only one click
 
@@ -112,7 +116,9 @@ void TrackList::trackItemDoubleClicked(QListWidgetItem* item) {
     cout << "Im clicking an item: " << text << endl;
     cout << "This item has the id: " << id << endl;
 
-    songBox->loadSong(id, text, album);
+    songBox -> loadSong(id, text, album);
+
+    ramMemory -> calculateUsage();
 
 }
 
@@ -123,6 +129,7 @@ QListWidget* TrackList::getTrackList() {
 }
 
 void TrackList::deleteItems() {
+
     int listSize = ptracksList->count();
     cout << "Amount of rows in the songs list: " << listSize << endl;
 
@@ -131,7 +138,8 @@ void TrackList::deleteItems() {
         delete ptracksList->item(0);
 
     }
+
     int listSize2 = ptracksList->count();
     cout << "Amount of rows in the songs list: " << listSize2 << endl;
-}
 
+}

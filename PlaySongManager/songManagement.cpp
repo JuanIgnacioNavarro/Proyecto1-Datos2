@@ -26,43 +26,63 @@ SongBox::SongBox(QLabel *psongInfoLabel, QPushButton *pPlayButton, QSlider *pSon
     this->pPlayButton = pPlayButton;
     this->pSongSlider = pSongSlider;
     this->pInfoButton = pInfoButton;
+
     //connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChange(qint64)));
     //connect(pSongSlider, SIGNAL(sliderReleased()), this, SLOT(positionChange));
 
 }
 void SongBox::positionChanged(qint64 number) {
+
     pSongSlider->setValue(number);
+
 }
+
 void SongBox::positionChange(qint64 number) {
+
     player->setPosition(pSongSlider->value());
+
 }
+
 /*!
  * @name loadSong
  * @brief load the song by creating the path were the file is located
  * @param songID : int
  */
 void SongBox::loadSong(int songID, string songName, string album) {
+
     //File path management
     string fileName = std::to_string(songID);
     int length = fileName.length();
 
     switch (length) {
+
         case 1:
+
             fileName = "00000" + fileName;
             break;
+
         case 2:
+
             fileName = "0000" + fileName;
             break;
+
         case 3:
+
             fileName = "000" + fileName;
             break;
+
         case 4:
+
             fileName = "00" + fileName;
             break;
+
         case 5:
+
             fileName = "0" + fileName;
             break;
+
     }
+
     fileName = fileName + ".mp3";
 
     //File folder management
@@ -70,35 +90,44 @@ void SongBox::loadSong(int songID, string songName, string album) {
     int folderLength = folder.length();
 
     switch (folderLength) {
+
         case 1:
+
             folder = "00" + folder;
             break;
+
         case 2:
+
             folder = "0" + folder;
             break;
+
     }
 
     //Complete path management
-    string path = "/home/juan/Downloads/fma_small/";
+    //string path = "/home/juan/Downloads/fma_small/";
+    string path = "/home/nachogranados/Canciones FMA/fma_small/";
+
     cout << path << endl;
     path.append(folder);
     path.append("/");
     path.append(fileName);
     songDirection = QString::fromStdString(path);
     QUrl url = QUrl::fromLocalFile(songDirection);
-    if (!fileExists(songDirection)){
+
+    if (!fileExists(songDirection)) {
+
         QMessageBox msgBox;
         msgBox.setText("Song not available");
         msgBox.setInformativeText("Download the complete data set to access all the songs");
         msgBox.exec();
 
-    }
-    else{
-        player->setMedia(QUrl::fromLocalFile(songDirection));
+    } else {
+
+        player -> setMedia(QUrl::fromLocalFile(songDirection));
         string songNameText = "Song Name: " + songName;
-        pSongInfoLabel->setText(QString::fromStdString(songNameText));
-        pPlayButton->setEnabled(true);
-        pInfoButton->setEnabled(true);
+        pSongInfoLabel -> setText(QString::fromStdString(songNameText));
+        pPlayButton -> setEnabled(true);
+        pInfoButton -> setEnabled(true);
         this -> album = album;
 
     }
@@ -112,15 +141,18 @@ void SongBox::loadSong(int songID, string songName, string album) {
  */
 void SongBox::play() {
 
-    if (!isPlaying){
-        player->play();
+    if (!isPlaying) {
+
+        player -> play();
         isPlaying = true;
 
-    }
-    else{
-        player->pause();
+    } else {
+
+        player -> pause();
         isPlaying = false;
+
     }
+
 }
 
 /*!
@@ -129,25 +161,36 @@ void SongBox::play() {
  * @return bool that indicates if the file exists or not
  */
 bool SongBox::fileExists(QString path) {
+
     QFileInfo check_file(path);
     //Check if the file exists
     //check if it is a file or directory
-    if (check_file.exists() && check_file.isFile()){
+
+    if (check_file.exists() && check_file.isFile()) {
+
         return true;
-    } else{
+
+    } else {
+
         return false;
+
     }
+
 }
 
 void SongBox::showInfo() {
+
     QMessageBox msgBox;
     msgBox.setText("Song information: ");
     string infoText = "Album: ";
     infoText.append(this->album);
     msgBox.setInformativeText(QString::fromStdString(infoText));
     msgBox.exec();
+
 }
 
 void SongBox::songProgress(qint64 position) {
+
     cout << "Im moving!" << endl;
+
 }

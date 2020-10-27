@@ -1,7 +1,8 @@
 #include "window.h"
-#include "../ArtistManager/artistList.h"
-#include "../SongManager/trackList.h"
 #import <QWidget>
+
+// Need to be checked
+#include "../MemoryManager/RAMManagement.cpp"
 
 /*!
  * @name Constructor
@@ -36,20 +37,39 @@ MainWindow::MainWindow(QWidget *parent) {
     setBtnColor(pPlayButton);
     pPlayButton->setEnabled(false);
 
-
     //Song Slider (shows the song progress)
     pSongSlider = new QSlider(Qt::Horizontal, this);
+
+    //RAMManagement object
+    ramMemory = new RAMManagement();
+    ramMemory -> calculateUsage();
+
+
+
+
+
+
 
     //Memory Bar (shows the memory usage by the program)
     pMemoryBar = new QProgressBar();
     pMemoryBar -> setFixedWidth(80);
+    pMemoryBar -> setRange(0,800000);
+    pMemoryBar -> setValue(ramMemory -> getRamMemory());
 
     //Song Management object
     pSongBox = new SongBox(pCurrentlyPlaying, pPlayButton, pSongSlider, pInfoButton);
 
+
+
+
+
     //Lists: these items are important to manage the csv files
-    pListSongs = new TrackList(pSongBox);
-    pListAlbum = new ArtistList(this, pListSongs);
+    pListSongs = new TrackList(pSongBox, ramMemory);
+    pListAlbum = new ArtistList(this, pListSongs, ramMemory);
+
+
+
+
 
     //Layout control
     vbox1 -> addWidget(pLibrary);
