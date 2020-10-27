@@ -20,8 +20,8 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList, RAMManagement* ram
     artistsList -> setFixedWidth(300);
     artistsList -> setFixedHeight(200);
 
-    songsList->loadItems("AWOL");
-    songsList->addItems();
+    songsList -> loadItems("AWOL");
+    songsList -> addItems();
 
     actualPage = 0;
 
@@ -55,11 +55,25 @@ void ArtistList::loadItems() {
 
     }
 
+    char quoteMark = '\"';
+    string temp = "";
+
     //Loads 10 lines of the artists file
     for (int i = 0; i < 11; i++) {
 
         string columnData;
         getline(myFile, columnData, ',');
+
+        if (columnData[0] == quoteMark) {
+
+            temp += columnData;
+            temp += ',';
+            getline(myFile, columnData, quoteMark);
+            temp += columnData;
+            temp += quoteMark;
+            columnData = temp;
+
+        }
 
         if (i > 0) {
 
@@ -89,6 +103,7 @@ void ArtistList::addItems() {
         newItem -> setFont(QFont( "arial", 12));
         newItem -> setTextAlignment(Qt::AlignLeft);
         artistsList -> addItem(newItem);
+        ramMemory -> addMemory(sizeof(QString));
 
     }
 
@@ -103,10 +118,9 @@ void ArtistList::addItems() {
 void ArtistList::artistItemDoubleClicked(QListWidgetItem* item) {
 
     songsList -> deleteItems();
-    string itemArtistName = item->text().toStdString();
+    string itemArtistName = item -> text().toStdString();
     songsList -> loadItems(itemArtistName);
     songsList -> addItems();
-    ramMemory -> calculateUsage();
 
 }
 

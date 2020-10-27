@@ -1,7 +1,6 @@
 #include "window.h"
 #import <QWidget>
 
-// Need to be checked
 #include "../MemoryManager/RAMManagement.cpp"
 
 /*!
@@ -19,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) {
     hbox1 = new QHBoxLayout();
     hbox2 = new QHBoxLayout();
     hbox3 = new QHBoxLayout();
+
     generalhBox = new QHBoxLayout();
 
     //Labels
@@ -32,44 +32,42 @@ MainWindow::MainWindow(QWidget *parent) {
     setBtnColor(pPaginateButton);
     pInfoButton = new QPushButton("info", this);
     setBtnColor(pInfoButton);
-    pInfoButton->setEnabled(false);
+    pInfoButton -> setEnabled(false);
     pPlayButton = new QPushButton("Play/Pause", this);
     setBtnColor(pPlayButton);
-    pPlayButton->setEnabled(false);
+    pPlayButton -> setEnabled(false);
 
     //Song Slider (shows the song progress)
     pSongSlider = new QSlider(Qt::Horizontal, this);
 
-    //RAMManagement object
-    ramMemory = new RAMManagement();
-    ramMemory -> calculateUsage();
-
-
-
-
-
-
-
     //Memory Bar (shows the memory usage by the program)
     pMemoryBar = new QProgressBar();
     pMemoryBar -> setFixedWidth(80);
-    pMemoryBar -> setRange(0,800000);
+    pMemoryBar -> setRange(0,3000);
+
+    //RAMManagement object
+    ramMemory = new RAMManagement(pMemoryBar);
+
+    // Calculate used ram memory
+    ramMemory -> addMemory(4 * sizeof(QLabel));
+    ramMemory -> addMemory(3 * sizeof(QPushButton));
+    ramMemory -> addMemory(sizeof(QSlider));
+    ramMemory -> addMemory(sizeof(QProgressBar));
+    ramMemory -> addMemory(sizeof(ArtistList));
+    ramMemory -> addMemory(sizeof(TrackList));
+    ramMemory -> addMemory(sizeof(RAMManagement));
+    ramMemory -> addMemory(sizeof(SongBox));
+    ramMemory -> addMemory(4 * sizeof(QVBoxLayout));
+    ramMemory -> addMemory(4 * sizeof(QHBoxLayout));
+    ramMemory -> addMemory(4 * sizeof(int));
     pMemoryBar -> setValue(ramMemory -> getRamMemory());
 
     //Song Management object
     pSongBox = new SongBox(pCurrentlyPlaying, pPlayButton, pSongSlider, pInfoButton);
 
-
-
-
-
     //Lists: these items are important to manage the csv files
     pListSongs = new TrackList(pSongBox, ramMemory);
     pListAlbum = new ArtistList(this, pListSongs, ramMemory);
-
-
-
-
 
     //Layout control
     vbox1 -> addWidget(pLibrary);
@@ -80,8 +78,8 @@ MainWindow::MainWindow(QWidget *parent) {
     vbox3 -> addWidget(pInfoButton);
 
     hbox3 -> addWidget(pCurrentlyPlaying);
-    hbox3->addStretch();
-    hbox3->addWidget(pSongDuration);
+    hbox3-> addStretch();
+    hbox3-> addWidget(pSongDuration);
 
     vbox4 -> addWidget(pSongSlider);
     vbox4 -> addLayout(hbox3);
@@ -105,7 +103,6 @@ MainWindow::MainWindow(QWidget *parent) {
     generalhBox -> addLayout(vbox1);
     generalhBox -> addSpacing(hSpacing*6);
     generalhBox -> addLayout(vbox2);
-
     setLayout(generalhBox);
 
     //Slots
@@ -113,6 +110,7 @@ MainWindow::MainWindow(QWidget *parent) {
     connect(pInfoButton,  &QPushButton::clicked, this, &MainWindow::showSongInfo);
     connect(SongBox::player, &QMediaPlayer::positionChanged, this, &MainWindow::moveSlider);
     connect(pSongSlider, &QSlider::sliderReleased, this, &MainWindow::songPosition);
+
 }
 
 /*!
@@ -131,17 +129,26 @@ void MainWindow::setBtnColor(QPushButton *button) {
 }
 
 void MainWindow::playButtonClicked() {
-    pSongBox->play();
+
+    pSongBox -> play();
+
 }
 
 void MainWindow::showSongInfo(){
-    pSongBox->showInfo();
+
+    pSongBox -> showInfo();
+
 }
 
 void MainWindow::moveSlider(qint64 position) {
-    pSongSlider->setValue(position/300);
+
+    pSongSlider -> setValue(position/300);
+
 }
 
 void MainWindow::songPosition() {
+
     //SongBox::player->setPosition(pSongSlider->value());
+
 }
+

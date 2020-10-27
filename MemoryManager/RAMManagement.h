@@ -4,6 +4,7 @@
 
 #pragma once
 #include "iostream"
+#include <QProgressBar>
 
 /*!
  * @name RAMManagement
@@ -14,14 +15,15 @@ class RAMManagement {
 private:
 
     //Attributes
-    long long memoryUsed;
-    int  ramMemory;
+    int  ramMemory = 0;
+    QProgressBar* pMemoryBar;
 
 public:
 
     //methods
-    RAMManagement();
-    void calculateUsage();
+    RAMManagement(QProgressBar* pMemoryBar);
     int getRamMemory();
+    void addMemory(int size);
+    void freeMemory(int size);
 
 };

@@ -3,11 +3,10 @@
 //
 
 //Imported external libraries
-#include "sys/sysinfo.h"
+//#include "sys/sysinfo.h"
 
 //Imported project files
 #include "RAMManagement.h"
-#include "../GUIManager/window.h"
 
 using namespace std;
 
@@ -15,31 +14,18 @@ using namespace std;
  * @name RAMManagement
  * @brief RAMManagement class constructor
  */
-RAMManagement::RAMManagement() {
+RAMManagement::RAMManagement(QProgressBar* pMemoryBar) {
 
+    this -> pMemoryBar = pMemoryBar;
+
+    /*
     struct sysinfo sysInformation;
     sysinfo (&sysInformation);
 
     memoryUsed = sysInformation.totalram - sysInformation.freeram;
     memoryUsed *= sysInformation.mem_unit;
     ramMemory = memoryUsed / 10000;
-
-}
-
-/*!
- * @name calculateUsage
- * @brief calculate how mucho RAM memory is used in the moment when is called
- */
-void RAMManagement::calculateUsage() {
-
-    struct sysinfo sysInformation;
-    sysinfo (&sysInformation);
-
-    memoryUsed = sysInformation.totalram - sysInformation.freeram;
-    memoryUsed *= sysInformation.mem_unit;
-    ramMemory = memoryUsed / 10000;
-
-    cout << "memory used is: " << ramMemory << endl;
+     */
 
 }
 
@@ -50,5 +36,27 @@ void RAMManagement::calculateUsage() {
 int RAMManagement::getRamMemory() {
 
     return ramMemory;
+
+}
+
+/*!
+ * @name addMemory
+ * @brief concatenate new memory
+ */
+void RAMManagement::addMemory(int size) {
+
+    ramMemory += size;
+    pMemoryBar -> setValue(ramMemory);
+
+}
+
+/*!
+ * @name freeMemory
+ * @brief free used memory
+ */
+void RAMManagement::freeMemory(int size) {
+
+    ramMemory -= size;
+    pMemoryBar -> setValue(ramMemory);
 
 }
