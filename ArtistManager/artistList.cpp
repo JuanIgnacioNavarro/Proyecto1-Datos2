@@ -10,17 +10,18 @@
  * @name Constructor Method
  * @param parent
  */
-ArtistList::ArtistList(QWidget *parent, TrackList *songsList) {
+ArtistList::ArtistList(QWidget *parent, TrackList *songsList, RAMManagement* ramMemory) {
 
     //List instance and size
     this -> artistsList = new QListWidget();
     this -> songsList = songsList;
+    this -> ramMemory = ramMemory;
+
     artistsList -> setFixedWidth(300);
     artistsList -> setFixedHeight(200);
 
-    songsList->loadItems("AWOL");
-    songsList->addItems();
-
+    songsList -> loadItems("AWOL");
+    songsList -> addItems();
 
     actualPage = 0;
 
@@ -34,31 +35,41 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList) {
 }
 
 QListWidget* ArtistList::getArtistList() {
-    return artistsList;
-}
 
+    return artistsList;
+
+}
 
 /*!
  * @name loadItems
  * @brief This method loads the first items that are displayed in the list
  */
 void ArtistList::loadItems() {
-    ifstream myFile("raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+
+    //ifstream myFile("raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
 
     if (!myFile.is_open()) {
+
         printf("Error");
+
     }
 
     //Loads 10 lines of the artists file
     for (int i = 0; i < 11; i++) {
+
         string columnData;
         getline(myFile, columnData, ',');
+
         if (i > 0) {
+
             pageVector.push_back(columnData);
+
         }
 
         string nextLine;
         getline(myFile, nextLine);
+
     }
 
 }
@@ -71,15 +82,18 @@ void ArtistList::loadItems() {
 void ArtistList::addItems() {
 
     for (int i = 0; i < pageVector.size(); i++) {
+
         QListWidgetItem* newItem = new QListWidgetItem;
         QString itemText = QString::fromStdString(pageVector[i]);
         newItem -> setText(itemText);
         newItem -> setFont(QFont( "arial", 12));
         newItem -> setTextAlignment(Qt::AlignLeft);
         artistsList -> addItem(newItem);
+
     }
 
     connect(artistsList, &QListWidget::itemDoubleClicked, this, &ArtistList::artistItemDoubleClicked); // Changed to only one click
+
 }
 
 /*!
@@ -87,10 +101,13 @@ void ArtistList::addItems() {
  * @param item
  */
 void ArtistList::artistItemDoubleClicked(QListWidgetItem* item) {
-    songsList->deleteItems();
-    string itemArtistName = item->text().toStdString();
-    songsList->loadItems(itemArtistName);
-    songsList->addItems();
+
+    songsList -> deleteItems();
+    string itemArtistName = item -> text().toStdString();
+    songsList -> loadItems(itemArtistName);
+    songsList -> addItems();
+    ramMemory -> calculateUsage();
+
 }
 
 /*!

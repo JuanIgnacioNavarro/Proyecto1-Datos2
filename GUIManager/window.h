@@ -12,11 +12,11 @@
 #include <QListWidget>
 #include <QProgressBar>
 #include <sstream>
-
 #include "fstream"
 #include "../ArtistManager/artistList.h"
 #include "../SongManager/trackList.h"
 #include "../PlaySongManager/songManagement.h"
+#include "../MemoryManager/RAMManagement.h"
 
 using namespace std;
 
@@ -41,6 +41,7 @@ private:
 
     ArtistList* pListAlbum;
     TrackList* pListSongs;
+    RAMManagement* ramMemory;
 
     SongBox* pSongBox;
 
@@ -53,11 +54,11 @@ private:
     QHBoxLayout* hbox1;
     QHBoxLayout* hbox2;
 
-    int vSpacing = 8; //Vertical spacing constant
-    int hSpacing = 6; //Horizontal spacing constant
+    int vSpacing = 8; // Vertical spacing constant
+    int hSpacing = 6; // Horizontal spacing constant
 
-    int verMargin = 20; //Vertical margin constant
-    int horMargin = 40; //Horizaontal margin constant
+    int verMargin = 20; // Vertical margin constant
+    int horMargin = 40; // Horizaontal margin constant
 
     //methods
     void setBtnColor(QPushButton* button);
@@ -69,4 +70,5 @@ public:
 
     MainWindow(QWidget* parent = 0);
     QPushButton* pPlayButton;
+
 };

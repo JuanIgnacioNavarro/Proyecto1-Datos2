@@ -25,6 +25,7 @@ using namespace std;
  * @details The SongBox controls the song file management, plays, stops and shows the song advancement
  */
 class SongBox {
+
 private:
 
     QString songDirection; //Controls the selected song path
@@ -32,10 +33,11 @@ private:
     QMediaPlayer* player; //attribute that allows playing the song
     QPushButton* pPlayButton;
 
-
 public:
+
     //Attributes
     bool isPlaying;
+
     //Methods
     SongBox(QLabel* psongInfoLabel,QPushButton* pPlayButton);
     void loadSong(int songID, string songNames);
@@ -45,4 +47,3 @@ public:
     bool fileExists(QString path);
 
 };
-

@@ -11,10 +11,12 @@
  * @brief track list constructor method
  * @param parent
  */
-TrackList::TrackList(SongBox* pSongBox) {
+TrackList::TrackList(SongBox* pSongBox, RAMManagement* ramMemory) {
 
-    ptracksList = new QListWidget();
-    songBox = pSongBox;
+    this -> ptracksList = new QListWidget();
+    this -> songBox = pSongBox;
+    this -> ramMemory = ramMemory;
+
 }
 
 /*!
@@ -24,11 +26,13 @@ TrackList::TrackList(SongBox* pSongBox) {
  */
 void TrackList::loadItems(string artist_name) {
 
-    ifstream myFile("raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    //ifstream myFile("raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files//raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
 
     if (!myFile.is_open()) {
 
         printf("Error opening the file");
+
     }
 
     string line;
@@ -39,6 +43,7 @@ void TrackList::loadItems(string artist_name) {
         getline(myFile, line, ',');
 
         if (line == artist_name) {
+
             vector<string> vector;
             getline(myFile, line, ',');
             vector.push_back(line); //Pushing back the song ID
@@ -75,15 +80,16 @@ void TrackList::addItems() {
         QString itemText = QString::fromStdString(trackNames.front()[1]);
         QString itemID = QString::fromStdString(trackNames.front()[0]);
         trackNames.erase(trackNames.begin());
-        newItem->setText(itemText);
-        newItem->setData(Qt::UserRole, itemID); //User role lets the program save the ID of each song
-        newItem->setFont(QFont( "arial", 12));
-        newItem->setTextAlignment(Qt::AlignLeft);
+        newItem -> setText(itemText);
+        newItem -> setData(Qt::UserRole, itemID); //User role lets the program save the ID of each song
+        newItem -> setFont(QFont( "arial", 12));
+        newItem -> setTextAlignment(Qt::AlignLeft);
         ptracksList -> addItem(newItem);
 
     }
 
     trackNames.clear();
+
     //Allows connecting the click of an item with a method that plays the song
     connect(ptracksList, &QListWidget::itemDoubleClicked, this, &TrackList::trackItemDoubleClicked); // Changed to only one click
 
@@ -97,11 +103,28 @@ void TrackList::addItems() {
 void TrackList::trackItemDoubleClicked(QListWidgetItem* item) {
 
     string text = item -> text().toStdString();
-    int id = item->data(Qt::UserRole).toInt();
+    int id = item -> data(Qt::UserRole).toInt();
     cout << "Im clicking an item: " << text << endl;
     cout << "This item has the id: " << id << endl;
 
-    songBox->loadSong(id, text);
+    songBox -> loadSong(id, text);
+    ramMemory -> calculateUsage();
+
+}
+
+void TrackList::deleteItems() {
+
+    int listSize = ptracksList -> count();
+    cout << "Amount of rows in the songs list: " << listSize << endl;
+
+    for (int i = 0; i < listSize; i++) {
+
+        delete ptracksList -> item (0);
+
+    }
+
+    int listSize2 = ptracksList -> count();
+    cout << "Amount of rows in the songs list: " << listSize2 << endl;
 
 }
 
@@ -110,18 +133,3 @@ QListWidget* TrackList::getTrackList() {
     return ptracksList;
 
 }
-
-void TrackList::deleteItems() {
-    int listSize = ptracksList->count();
-    cout << "Amount of rows in the songs list: " << listSize << endl;
-    //ptracksList->clear();
-
-    for (int i = 0; i < listSize; i++) {
-
-        delete ptracksList->item(0);
-
-    }
-    int listSize2 = ptracksList->count();
-    cout << "Amount of rows in the songs list: " << listSize2 << endl;
-}
-
