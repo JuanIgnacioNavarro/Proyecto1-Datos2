@@ -74,11 +74,20 @@ void TrackList::addItems() {
 
         QString itemText = QString::fromStdString(trackNames.front()[1]);
         QString itemID = QString::fromStdString(trackNames.front()[0]);
+        QString itemDuration = QString::fromStdString(trackNames.front()[2]);
+        QString itemAlbum = QString::fromStdString(trackNames.front()[3]);
         trackNames.erase(trackNames.begin());
-        newItem->setText(itemText);
+
+        //Saving the vector data as roles
+        newItem->setText(itemAlbum);
         newItem->setData(Qt::UserRole, itemID); //User role lets the program save the ID of each song
+        newItem->setData(Qt::DisplayRole, itemText);
+
+        //Item Style
         newItem->setFont(QFont( "arial", 12));
         newItem->setTextAlignment(Qt::AlignLeft);
+
+        //Adding the item to the list
         ptracksList -> addItem(newItem);
 
     }
@@ -96,12 +105,14 @@ void TrackList::addItems() {
  */
 void TrackList::trackItemDoubleClicked(QListWidgetItem* item) {
 
-    string text = item -> text().toStdString();
-    int id = item->data(Qt::UserRole).toInt();
+    string album = item -> text().toStdString();
+    int id = item -> data(Qt::UserRole).toInt();
+    string text = item -> data(Qt::DisplayRole).toString().toStdString();
+
     cout << "Im clicking an item: " << text << endl;
     cout << "This item has the id: " << id << endl;
 
-    songBox->loadSong(id, text);
+    songBox->loadSong(id, text, album);
 
 }
 
@@ -114,7 +125,6 @@ QListWidget* TrackList::getTrackList() {
 void TrackList::deleteItems() {
     int listSize = ptracksList->count();
     cout << "Amount of rows in the songs list: " << listSize << endl;
-    //ptracksList->clear();
 
     for (int i = 0; i < listSize; i++) {
 

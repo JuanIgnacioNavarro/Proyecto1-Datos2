@@ -30,6 +30,7 @@ private:
     QLabel* pLibrary;
     QLabel* pCurrentlyPlaying; //Shows the actual song Name
     QLabel* pMemory; //Shows the memory usage
+    QLabel* pSongDuration;
 
     QPushButton* pPaginateButton; //Allows to load every song in the list
 
@@ -52,6 +53,7 @@ private:
     QHBoxLayout* generalhBox;
     QHBoxLayout* hbox1;
     QHBoxLayout* hbox2;
+    QHBoxLayout* hbox3;
 
     int vSpacing = 8; //Vertical spacing constant
     int hSpacing = 6; //Horizontal spacing constant
@@ -64,6 +66,9 @@ private:
     pair<string, vector<char*>> readCSV (string filename);
     void pCheckTracksButtonClicked();
     void playButtonClicked();
+    void moveSlider(qint64 position);
+    void songPosition();
+    void showSongInfo();
 
 public:
 

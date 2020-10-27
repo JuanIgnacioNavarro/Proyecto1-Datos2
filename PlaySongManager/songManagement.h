@@ -13,6 +13,7 @@
 #include <QFileDialog>
 #include <QMediaPlayer>
 #include <QFileInfo>
+#include <QSlider>
 
 //Imported project files
 #include "iostream"
@@ -29,20 +30,28 @@ private:
 
     QString songDirection; //Controls the selected song path
     QLabel* pSongInfoLabel; //Shows the song information
-    QMediaPlayer* player; //attribute that allows playing the song
-    QPushButton* pPlayButton;
+    QSlider* pSongSlider;
 
+    QPushButton* pPlayButton;
+    QPushButton* pInfoButton;
+
+    string album;
 
 public:
     //Attributes
     bool isPlaying;
+    static QMediaPlayer* player; //attribute that allows playing the song
+
     //Methods
-    SongBox(QLabel* psongInfoLabel,QPushButton* pPlayButton);
-    void loadSong(int songID, string songNames);
-    void loadExtraInfo (string songName, string songLenght, string album);
+    SongBox(QLabel* psongInfoLabel, QPushButton* pPlayButton, QSlider* pSongSlider, QPushButton* pInfoButton);
+    void loadSong(int songID, string songNames, string album);
+    void loadExtraInfo (string songName, string duration, string album);
     void play();
-    bool showInfo();
+    void showInfo();
     bool fileExists(QString path);
+    void songProgress(qint64 position);
+    void positionChanged(qint64 number);
+    void positionChange(qint64 number);
 
 };
 
