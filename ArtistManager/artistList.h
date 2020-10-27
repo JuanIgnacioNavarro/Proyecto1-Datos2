@@ -15,7 +15,6 @@
 //Imported Project files
 #include "iostream"
 #include "../SongManager/trackList.h"
-#include "../MemoryManager/RAMManagement.h"
 
 using namespace std;
 
@@ -29,7 +28,6 @@ private:
 
     QListWidget* artistsList;
     TrackList* songsList;
-    RAMManagement* ramMemory;
 
     //int used for keeping important numbers
     int actualPage;
@@ -39,7 +37,7 @@ private:
 
 public:
 
-    ArtistList(QWidget* parent, TrackList* songsList, RAMManagement* ramMemory);
+    ArtistList(QWidget* parent, TrackList* songsList);
     void loadItems();
     void addItems();
     void checkPosition(int row);

@@ -2,6 +2,9 @@
 // Created by nachogranados on 22/10/20.
 //
 
+#ifndef PROYECTO1_DATOS2_TRACKLIST_H
+#define PROYECTO1_DATOS2_TRACKLIST_H
+
 #pragma once
 
 //Imported external Libraries
@@ -15,7 +18,6 @@
 
 //Imported project files
 #include "../PlaySongManager/songManagement.h"
-#include "../MemoryManager/RAMManagement.h"
 
 using namespace std;
 
@@ -26,23 +28,19 @@ using namespace std;
 class TrackList: public QWidget {
 
 private:
-
     QListWidget* ptracksList;
 
     SongBox* songBox;
-
-    RAMManagement* ramMemory;
-
     //vector used to load information from csv
     vector<vector<string>> trackNames;
     void trackItemDoubleClicked(QListWidgetItem* item);
 
 public:
-
-    TrackList(SongBox* pSongBox, RAMManagement* ramMemory);
+    TrackList(SongBox* pSongBox);
     void loadItems(string artist_name);
     void addItems();
     void deleteItems();
     QListWidget* getTrackList();
-
 };
+
+#endif //PROYECTO1_DATOS2

@@ -1,8 +1,7 @@
 #include "window.h"
+#include "../ArtistManager/artistList.h"
+#include "../SongManager/trackList.h"
 #import <QWidget>
-
-// I don't know how to run the program without this line, is trows undefine referenced to RAMManagement
-#include "../MemoryManager/RAMManagement.cpp"
 
 /*!
  * @name Constructor
@@ -34,25 +33,20 @@ MainWindow::MainWindow(QWidget *parent) {
     setBtnColor(pPlayButton);
     pPlayButton->setEnabled(false);
 
+
     //Song Slider (shows the song progress)
     pSongSlider = new QSlider(Qt::Horizontal, this);
-
-    // RAMManegement object
-    ramMemory = new RAMManagement();
-    ramMemory -> calculateUsage();
 
     //Memory Bar (shows the memory usage by the program)
     pMemoryBar = new QProgressBar();
     pMemoryBar -> setFixedWidth(80);
-    pMemoryBar -> setRange(0,800000);
-    pMemoryBar -> setValue(ramMemory -> getRamMemory());
 
     //Song Management object
     pSongBox = new SongBox(pCurrentlyPlaying, pPlayButton);
 
     //Lists: these items are important to manage the csv files
-    pListSongs = new TrackList(pSongBox, ramMemory);
-    pListAlbum = new ArtistList(this, pListSongs, ramMemory);
+    pListSongs = new TrackList(pSongBox);
+    pListAlbum = new ArtistList(this, pListSongs);
 
     //Layout control
     vbox1 -> addWidget(pLibrary);
@@ -89,7 +83,6 @@ MainWindow::MainWindow(QWidget *parent) {
 
     //Slots
     connect(pPlayButton, &QPushButton::clicked, this, &MainWindow::playButtonClicked);
-
 }
 
 /*!
@@ -108,7 +101,5 @@ void MainWindow::setBtnColor(QPushButton *button) {
 }
 
 void MainWindow::playButtonClicked() {
-
-    pSongBox -> play();
-
+    pSongBox->play();
 }
