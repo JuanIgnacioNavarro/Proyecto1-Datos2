@@ -17,6 +17,9 @@ TrackList::TrackList(SongBox* pSongBox, RAMManagement* ramMemory) {
     this -> songBox = pSongBox;
     this -> ramMemory = ramMemory;
 
+    //Allows connecting the click of an item with a method that plays the song
+    connect(ptracksList, &QListWidget::itemDoubleClicked, this, &TrackList::trackItemDoubleClicked); // Changed to only one click
+
 }
 
 /*!
@@ -97,6 +100,7 @@ void TrackList::addItems() {
         QString itemID = QString::fromStdString(trackNames.front()[0]);
         QString itemDuration = QString::fromStdString(trackNames.front()[2]);
         QString itemAlbum = QString::fromStdString(trackNames.front()[3]);
+
         trackNames.erase(trackNames.begin());
 
         //Saving the vector data as roles
@@ -108,17 +112,15 @@ void TrackList::addItems() {
         newItem -> setFont(QFont( "arial", 12));
         newItem -> setTextAlignment(Qt::AlignLeft);
 
+
         //Adding the item to the list
         ptracksList -> addItem(newItem);
-
-        ramMemory -> addMemory(sizeof(QString));
+        newItem = NULL;
+        ramMemory -> addMemory(sizeof(QListWidgetItem));
 
     }
 
     trackNames.clear();
-
-    //Allows connecting the click of an item with a method that plays the song
-    connect(ptracksList, &QListWidget::itemDoubleClicked, this, &TrackList::trackItemDoubleClicked); // Changed to only one click
 
 }
 
@@ -147,19 +149,14 @@ QListWidget* TrackList::getTrackList() {
 }
 
 void TrackList::deleteItems() {
-
     int listSize = ptracksList -> count();
-    cout << "Amount of rows in the songs list: " << listSize << endl;
 
     for (int i = 0; i < listSize; i++) {
 
         delete ptracksList -> item(0);
 
-        ramMemory -> freeMemory(sizeof(QString));
+        ramMemory -> freeMemory(sizeof(QListWidgetItem));
 
     }
-
-    int listSize2 = ptracksList -> count();
-    cout << "Amount of rows in the songs list: " << listSize2 << endl;
 
 }

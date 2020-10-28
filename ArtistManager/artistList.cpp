@@ -20,9 +20,6 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList, RAMManagement* ram
     artistsList -> setFixedWidth(300);
     artistsList -> setFixedHeight(200);
 
-    songsList -> loadItems("AWOL");
-    songsList -> addItems();
-
     actualPage = 0;
 
     loadItems();
