@@ -31,17 +31,23 @@ private:
     TrackList* songsList;
     RAMManagement* ramMemory;
 
-    //int used for keeping important numbers
-    int actualPage;
-
     //vector used to load information from csv
     vector<string> pageVector;
+
+    int previousPage;
+    int actualPage;
+    int nextPage;
+
+    bool checking;
 
 public:
 
     ArtistList(QWidget* parent, TrackList* songsList, RAMManagement* ramMemory);
-    void loadItems();
-    void addItems();
+
+    void loadItems(int range);
+    void addItems(int position);
+    void deleteItems(int position);
+
     void checkPosition(int row);
     void artistItemDoubleClicked(QListWidgetItem* item);
     QListWidget* getArtistList();
