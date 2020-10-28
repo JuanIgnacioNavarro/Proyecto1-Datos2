@@ -73,6 +73,7 @@ public:
     QPushButton* pPlayButton;
 
 private Q_SLOTS:
+
     void moveSongPosition();
     void sliderPressed();
     void moveSlider(qint64 position);

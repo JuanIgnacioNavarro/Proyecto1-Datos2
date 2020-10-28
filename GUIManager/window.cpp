@@ -144,7 +144,7 @@ void MainWindow::playButtonClicked() {
  * @name showSongInfo
  * @brief Private Slot that executes the showInfo method in the SongBox class
  */
-void MainWindow::showSongInfo(){
+void MainWindow::showSongInfo() {
 
     pSongBox -> showInfo();
 
@@ -156,8 +156,11 @@ void MainWindow::showSongInfo(){
  * @param position
  */
 void MainWindow::moveSlider(qint64 position) {
+
     if (!isSliderPressed){
-        pSongSlider->setValue(position/300);
+
+        pSongSlider -> setValue(position / 300);
+
     }
 }
 
@@ -166,8 +169,10 @@ void MainWindow::moveSlider(qint64 position) {
  * @brief This method moves the song position depending on the slider's position
  */
 void MainWindow::moveSongPosition() {
+
     isSliderPressed = false;
-    pSongBox->player->setPosition(pSongSlider->value()*300);
+    pSongBox -> player -> setPosition(pSongSlider -> value() * 300);
+
 }
 
 /*!
@@ -175,5 +180,7 @@ void MainWindow::moveSongPosition() {
  * @brief this method is a helper to determine when the song slider is being pressed
  */
 void MainWindow::sliderPressed() {
+
     isSliderPressed = true;
+
 }
