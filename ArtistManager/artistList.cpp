@@ -18,14 +18,14 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList, RAMManagement* ram
     this -> ramMemory = ramMemory;
 
     artistsList -> setFixedWidth(300);
-    //artistsList -> setFixedHeight(200);
+    artistsList -> setFixedHeight(200);
 
     previousPage = 0;
-    actualPage = 1;
     nextPage = 2;
+    count = 0;
     checking = false;
 
-    loadItems(0);
+    loadItems(-1);
     addItems(0);
 
     //This Signal and Slot is needed for the pagination
@@ -59,9 +59,12 @@ void ArtistList::loadItems(int range) {
     string temp = "";
     string title;
 
+    // This for is usded to pass some unnecessary lines
     for (int i = 0; i < range; i ++) {
 
         getline(myFile, title, ',');
+
+        cout << "title: " << title << endl;
 
         if (title[0] == quoteMark) {
 
@@ -74,23 +77,17 @@ void ArtistList::loadItems(int range) {
 
         }
 
-        if (i != range - 1) {
-
-            string nextLine;
-            getline(myFile, nextLine);
-
-        }
-
-
+        string nextLine;
+        getline(myFile, nextLine);
 
     }
 
     string columnData;
 
-    if (range == 0) {
+    // First load
+    if (range == -1) {
 
-        //First load
-        for (int i = previousPage * 10; i < (nextPage * 10) + 1; i ++) {
+        for (int i = previousPage * 10; i < (nextPage * 10) + 10; i ++) {
 
             getline(myFile, columnData, ',');
 
@@ -105,11 +102,7 @@ void ArtistList::loadItems(int range) {
 
             }
 
-            if (i > 0) {
-
-                pageVector.push_back(columnData);
-
-            }
+            pageVector.push_back(columnData);
 
             string nextLine;
             getline(myFile, nextLine);
@@ -118,7 +111,7 @@ void ArtistList::loadItems(int range) {
 
     } else {
 
-        for (int i = range; i < range + 11; i ++) {
+        for (int i = 0; i < 10; i ++) {
 
             getline(myFile, columnData, ',');
 
@@ -135,45 +128,12 @@ void ArtistList::loadItems(int range) {
 
             pageVector.push_back(columnData);
 
-            cout << "columnData: " << columnData << endl;
-
             string nextLine;
             getline(myFile, nextLine);
 
         }
 
-
     }
-
-    /*
-    //Loads 10 lines of the artists file
-    for (int i = 0; i < 11; i++) {
-
-        string columnData;
-        getline(myFile, columnData, ',');
-
-        if (columnData[0] == quoteMark) {
-
-            temp += columnData;
-            temp += ',';
-            getline(myFile, columnData, quoteMark);
-            temp += columnData;
-            temp += quoteMark;
-            columnData = temp;
-
-        }
-
-        if (i > 0) {
-
-            pageVector.push_back(columnData);
-
-        }
-
-        string nextLine;
-        getline(myFile, nextLine);
-
-    }
-    */
 
 }
 
@@ -184,33 +144,43 @@ void ArtistList::loadItems(int range) {
  */
 void ArtistList::addItems(int position) {
 
-    for (int i = position; i < position + pageVector.size(); i++) {
+    if (position == 0) {
 
-        cout << "pageVector: " << pageVector[i] << endl;
+        for (int i = pageVector.size() - 1; i >= 0; i --) {
 
-        QListWidgetItem* newItem = new QListWidgetItem;
-        QString itemText = QString::fromStdString(pageVector[i]);
+            QListWidgetItem* newItem = new QListWidgetItem;
+            QString itemText = QString::fromStdString(pageVector[i]);
 
-        newItem -> setText(itemText);
-        newItem -> setFont(QFont( "arial", 12));
-        newItem -> setTextAlignment(Qt::AlignLeft);
+            newItem -> setText(itemText);
+            newItem -> setFont(QFont( "arial", 12));
+            newItem -> setTextAlignment(Qt::AlignLeft);
 
-        if (position != 0) {
+            artistsList -> insertItem(0, newItem);
 
-            artistsList -> addItem(newItem);
-
-        } else {
-
-            //artistsList -> insertItem(0, newItem);
-            artistsList -> addItem(newItem);
+            ramMemory -> addMemory(sizeof(QString));
 
         }
 
-        ramMemory -> addMemory(sizeof(QString));
+    } else {
+
+        for (int i = 0; i < 10; i ++) {
+
+            QListWidgetItem* newItem = new QListWidgetItem;
+            QString itemText = QString::fromStdString(pageVector[i]);
+
+            newItem -> setText(itemText);
+            newItem -> setFont(QFont( "arial", 12));
+            newItem -> setTextAlignment(Qt::AlignLeft);
+
+            artistsList -> addItem(newItem);
+
+            ramMemory -> addMemory(sizeof(QString));
+
+        }
 
     }
 
-    connect(artistsList, &QListWidget::itemDoubleClicked, this, &ArtistList::artistItemDoubleClicked); // Changed to only one click
+    connect(artistsList, &QListWidget::itemDoubleClicked, this, &ArtistList::artistItemDoubleClicked);
 
 }
 
@@ -234,71 +204,55 @@ void ArtistList::artistItemDoubleClicked(QListWidgetItem* item) {
  */
 void ArtistList::checkPosition(int row) {
 
-    cout << "Im checking the position, row: " << row << endl;
-
-    /*
-    if (actualPage == 0) {
-
-        //load Next page
-        actualPage = 1;
-
-    } else if (actualPage == 1) {
-
-        if (11 >= row && 20 <= row) {
-
-            //load the Next Page
-            actualPage = 2;
-        }
-
-    } else {
-
-        if (1 <= row && 10 >= row) {
-
-            //Load the previous page
-            //Delete de next page
-            actualPage --;
-
-        } else if (11 <= row && 20 >= row) {
-
-            //Load de next page
-            //Delete the previous
-            actualPage ++;
-
-        }
-
-    }
-    */
+    count = artistsList -> count();
 
     if (checking == false) {
 
-        if (row == 0) {
+        if (row == 0 && previousPage > 0) {
 
             checking = true;
 
             previousPage --;
-
-            deleteItems(actualPage * 10); // This gotta be nextPage * 10
+            nextPage --;
 
             pageVector.clear();
-            loadItems(nextPage * 10); // this gotta be previousPage
+            loadItems(previousPage * 10);
+            addItems(0);
+
+            // Delete last ten items
+            for (int i = 0; i < 10; i ++) {
+
+                artistsList -> takeItem(count);
+
+                ramMemory -> freeMemory(sizeof(QString));
+
+            }
+
+            checking = false;
+
+        } else if (row == 29) {
+
+            checking = true;
+
+            previousPage ++;
+            nextPage ++;
+
+            pageVector.clear();
+            loadItems(nextPage * 10);
             addItems(1);
 
-            actualPage --;
-            nextPage --;
+            // Delete first ten items
+            for (int i = 0; i < 10; i ++) {
+
+                artistsList -> takeItem(0);
+
+                ramMemory -> freeMemory(sizeof(QString));
+
+            }
 
             checking = false;
 
         }
-
-    }
-
-}
-
-void ArtistList::deleteItems(int position) {
-
-    for (int i = 0; i < 10; i ++) {
-
-        artistsList -> takeItem(position);
 
     }
 
