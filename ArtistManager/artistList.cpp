@@ -18,7 +18,6 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList, RAMManagement* ram
     this -> ramMemory = ramMemory;
 
     artistsList -> setFixedWidth(300);
-    artistsList -> setFixedHeight(200);
 
     previousPage = 0;
     nextPage = 2;
@@ -46,8 +45,8 @@ QListWidget* ArtistList::getArtistList() {
  */
 void ArtistList::loadItems(int range) {
 
-    //ifstream myFile("raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
-    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    ifstream myFile("raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    //ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
 
     if (!myFile.is_open()) {
 

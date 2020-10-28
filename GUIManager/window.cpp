@@ -1,5 +1,6 @@
 #include "window.h"
 #import <QWidget>
+#include <QTimer>
 
 #include "../MemoryManager/RAMManagement.cpp"
 
@@ -28,14 +29,16 @@ MainWindow::MainWindow(QWidget *parent) {
     pSongDuration = new QLabel("Song Duration: 30s", this);
 
     //Buttons
-    pPaginateButton = new QPushButton("Paginate", this);
-    setBtnColor(pPaginateButton);
     pInfoButton = new QPushButton("info", this);
     setBtnColor(pInfoButton);
     pInfoButton -> setEnabled(false);
     pPlayButton = new QPushButton("Play/Pause", this);
     setBtnColor(pPlayButton);
     pPlayButton -> setEnabled(false);
+
+    //CheckBox
+    pPaginateCheckBox = new QCheckBox("Paginate" , this);
+    //pPaginateCheckBox->setCheckState(Qt::Checked);
 
     //Song Slider (shows the song progress)
     pSongSlider = new QSlider(Qt::Horizontal, this);
@@ -88,7 +91,7 @@ MainWindow::MainWindow(QWidget *parent) {
     hbox1 -> addWidget(pMemory);
     hbox1 -> addWidget(pMemoryBar);
     hbox1 -> addSpacing(hSpacing*5);
-    hbox1 -> addWidget(pPaginateButton);
+    hbox1 -> addWidget(pPaginateCheckBox);
 
     hbox2 -> addLayout(vbox4);
     hbox2 -> addLayout(vbox3);
@@ -105,14 +108,46 @@ MainWindow::MainWindow(QWidget *parent) {
     generalhBox -> addLayout(vbox2);
     setLayout(generalhBox);
 
-    //Slots
+    //Button Slots
     connect(pPlayButton, &QPushButton::clicked, this, &MainWindow::playButtonClicked);
     connect(pInfoButton,  &QPushButton::clicked, this, &MainWindow::showSongInfo);
 
-    //To control music bar
+    //CheckBox Slot
+    connect(pPaginateCheckBox, &QCheckBox::stateChanged, this, &MainWindow::paginate);
+
+    //Music control Slots
     connect(pSongBox->player, &QMediaPlayer::positionChanged, this, &MainWindow::moveSlider);
     connect(pSongSlider, &QSlider::sliderPressed, this, &MainWindow::sliderPressed);
     connect(pSongSlider, &QSlider::sliderReleased, this, &MainWindow::moveSongPosition);
+}
+
+/*!
+ * @name resizeEvent
+ * @brief method that detects when the window is resized
+ * @details allows knowing when was the window resized by the user, used for calculating the lists amount of elements
+ * @param e this is the event
+ */
+void MainWindow::resizeEvent(QResizeEvent *e) {
+    if (!isResizing){
+        isResizing = true;
+        QTimer::singleShot(500, this, &MainWindow::resizingHelper);
+    }
+}
+
+/*!
+ * @name resizingHelper
+ * @brief avoids making unnecesary updates between the initial and the final size in a resizeEvent
+ * @return
+ */
+void MainWindow::resizingHelper() {
+    isResizing = false;
+
+    //Implement the updating list amount of elements logic here
+    cout << "Track list Width: " << this->pListSongs->getTrackList()->width() << endl;
+    cout << "Track list Height: " << this->pListSongs->getTrackList()->height()<< endl;
+
+    cout << "Artist Width: " << this->pListAlbum->getArtistList()->width() << endl;
+    cout << "Artist Height: " << this->pListAlbum->getArtistList()->height()<< endl;
 }
 
 /*!
@@ -183,4 +218,15 @@ void MainWindow::sliderPressed() {
 
     isSliderPressed = true;
 
+}
+
+void MainWindow::paginate(int state) {
+    if (state == Qt::Checked){
+        //From no pagination to pagination method logic
+        cout << "I'm going to paginate" << endl;
+    }
+    else{
+        //From pagination to no pagination method logic
+        cout << "No more pagination" << endl;
+    }
 }

@@ -14,6 +14,7 @@
 TrackList::TrackList(SongBox* pSongBox, RAMManagement* ramMemory) {
 
     this -> ptracksList = new QListWidget();
+    ptracksList->setMinimumWidth(400);
     this -> songBox = pSongBox;
     this -> ramMemory = ramMemory;
 
@@ -29,8 +30,8 @@ TrackList::TrackList(SongBox* pSongBox, RAMManagement* ramMemory) {
  */
 void TrackList::loadItems(string artist_name) {
 
-    //ifstream myFile("raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
-    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files//raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    ifstream myFile("raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    //ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files//raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
 
     if (!myFile.is_open()) {
 
