@@ -9,7 +9,7 @@
 #include "songManagement.h"
 #include "../GUIManager/window.h"
 
-QMediaPlayer* SongBox::player = new QMediaPlayer();
+
 
 /*!
  * @name SongBox
@@ -19,8 +19,8 @@ QMediaPlayer* SongBox::player = new QMediaPlayer();
 SongBox::SongBox(QLabel *psongInfoLabel, QPushButton *pPlayButton, QSlider *pSongSlider,
                  QPushButton *pInfoButton) {
 
+    player = new QMediaPlayer();
     this->pSongInfoLabel = psongInfoLabel;
-    //player = new QMediaPlayer();
     player->setNotifyInterval(10);
     this->songDirection = "";
     this->pPlayButton = pPlayButton;
@@ -31,17 +31,7 @@ SongBox::SongBox(QLabel *psongInfoLabel, QPushButton *pPlayButton, QSlider *pSon
     //connect(pSongSlider, SIGNAL(sliderReleased()), this, SLOT(positionChange));
 
 }
-void SongBox::positionChanged(qint64 number) {
 
-    pSongSlider->setValue(number);
-
-}
-
-void SongBox::positionChange(qint64 number) {
-
-    player->setPosition(pSongSlider->value());
-
-}
 
 /*!
  * @name loadSong
@@ -104,8 +94,8 @@ void SongBox::loadSong(int songID, string songName, string album) {
     }
 
     //Complete path management
-    //string path = "/home/juan/Downloads/fma_small/";
-    string path = "/home/nachogranados/Canciones FMA/fma_small/";
+    string path = "/home/juan/Downloads/fma_small/";
+    //string path = "/home/nachogranados/Canciones FMA/fma_small/";
 
     cout << path << endl;
     path.append(folder);
@@ -142,7 +132,6 @@ void SongBox::loadSong(int songID, string songName, string album) {
 void SongBox::play() {
 
     if (!isPlaying) {
-
         player -> play();
         isPlaying = true;
 
@@ -178,6 +167,10 @@ bool SongBox::fileExists(QString path) {
 
 }
 
+/*!
+ * @name showInfo
+ * @brief shows the song extra information on a message box
+ */
 void SongBox::showInfo() {
 
     QMessageBox msgBox;
@@ -186,11 +179,5 @@ void SongBox::showInfo() {
     infoText.append(this->album);
     msgBox.setInformativeText(QString::fromStdString(infoText));
     msgBox.exec();
-
-}
-
-void SongBox::songProgress(qint64 position) {
-
-    cout << "Im moving!" << endl;
 
 }

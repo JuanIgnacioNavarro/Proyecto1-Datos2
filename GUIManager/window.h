@@ -62,18 +62,23 @@ private:
     int verMargin = 20; // Vertical margin constant
     int horMargin = 40; // Horizaontal margin constant
 
+    //boolean
+    bool isSliderPressed = false;
+
     //methods
     void setBtnColor(QPushButton* button);
     pair<string, vector<char*>> readCSV (string filename);
-    void pCheckTracksButtonClicked();
-    void playButtonClicked();
-    void moveSlider(qint64 position);
-    void songPosition();
-    void showSongInfo();
 
 public:
 
     MainWindow(QWidget* parent = 0);
     QPushButton* pPlayButton;
+
+private Q_SLOTS:
+    void moveSongPosition();
+    void sliderPressed();
+    void moveSlider(qint64 position);
+    void playButtonClicked();
+    void showSongInfo();
 
 };

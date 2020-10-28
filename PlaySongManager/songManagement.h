@@ -32,10 +32,10 @@ private:
 
     QString songDirection; // Controls the selected song path
     QLabel* pSongInfoLabel; // Shows the song information
-    QSlider* pSongSlider;
 
     QPushButton* pPlayButton;
     QPushButton* pInfoButton;
+    QSlider* pSongSlider;
 
     string album;
 
@@ -43,18 +43,14 @@ public:
 
     //Attributes
     bool isPlaying;
-    static QMediaPlayer* player; // attribute that allows playing the song
+    QMediaPlayer* player; // attribute that allows playing the song
 
     //Methods
     SongBox(QLabel* psongInfoLabel, QPushButton* pPlayButton, QSlider* pSongSlider, QPushButton* pInfoButton);
     void loadSong(int songID, string songNames, string album);
-    void loadExtraInfo (string songName, string duration, string album);
     void play();
     void showInfo();
     bool fileExists(QString path);
-    void songProgress(qint64 position);
-    void positionChanged(qint64 number);
-    void positionChange(qint64 number);
 
 };
 

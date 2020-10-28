@@ -106,13 +106,20 @@ MainWindow::MainWindow(QWidget *parent) {
     generalhBox -> addSpacing(hSpacing*6);
     generalhBox -> addLayout(vbox2);
 
+    cout << "Memory of a list widget: " << sizeof(TrackList) << endl;
+    cout << "Memory of a list widget" << sizeof(QListWidget) << endl;
+    cout << "Memory of a list widget" << sizeof(QListWidgetItem) << endl;
+
     setLayout(generalhBox);
 
     //Slots
     connect(pPlayButton, &QPushButton::clicked, this, &MainWindow::playButtonClicked);
     connect(pInfoButton,  &QPushButton::clicked, this, &MainWindow::showSongInfo);
-    connect(SongBox::player, &QMediaPlayer::positionChanged, this, &MainWindow::moveSlider);
-    connect(pSongSlider, &QSlider::sliderReleased, this, &MainWindow::songPosition);
+
+    //To control music bar
+    connect(pSongBox->player, &QMediaPlayer::positionChanged, this, &MainWindow::moveSlider);
+    connect(pSongSlider, &QSlider::sliderPressed, this, &MainWindow::sliderPressed);
+    connect(pSongSlider, &QSlider::sliderReleased, this, &MainWindow::moveSongPosition);
 }
 
 /*!
@@ -130,18 +137,46 @@ void MainWindow::setBtnColor(QPushButton *button) {
 
 }
 
+/*!
+ * @name playButtonClicked
+ * @brief Slot that plays the chosen song once the play button is clicked
+ */
 void MainWindow::playButtonClicked() {
     pSongBox->play();
 }
 
+/*!
+ * @name showSongInfo
+ * @brief Private Slot that executes the showInfo method in the SongBox class
+ */
 void MainWindow::showSongInfo(){
     pSongBox->showInfo();
 }
 
+/*!
+ * @name moveSlider
+ * @brief this method moves the slider depending in the song's position
+ * @param position
+ */
 void MainWindow::moveSlider(qint64 position) {
-    pSongSlider->setValue(position/300);
+    if (!isSliderPressed){
+        pSongSlider->setValue(position/300);
+    }
 }
 
-void MainWindow::songPosition() {
-    //SongBox::player->setPosition(pSongSlider->value());
+/*!
+ * @name moveSongPosition
+ * @brief This method moves the song position depending on the slider's position
+ */
+void MainWindow::moveSongPosition() {
+    isSliderPressed = false;
+    pSongBox->player->setPosition(pSongSlider->value()*300);
+}
+
+/*!
+ * @name sliderPressed
+ * @brief this method is a helper to determine when the song slider is being pressed
+ */
+void MainWindow::sliderPressed() {
+    isSliderPressed = true;
 }
