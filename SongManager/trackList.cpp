@@ -16,6 +16,7 @@ TrackList::TrackList(SongBox* pSongBox, RAMManagement* ramMemory) {
     this -> ptracksList = new QListWidget();
     this -> songBox = pSongBox;
     this -> ramMemory = ramMemory;
+    ptracksList->setMinimumWidth(400);
 
     //Allows connecting the click of an item with a method that plays the song
     connect(ptracksList, &QListWidget::itemDoubleClicked, this, &TrackList::trackItemDoubleClicked); // Changed to only one click

@@ -18,7 +18,7 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList, RAMManagement* ram
     this -> ramMemory = ramMemory;
 
     artistsList -> setFixedWidth(300);
-    artistsList -> setFixedHeight(200);
+    //artistsList -> setFixedHeight(200);
 
     actualPage = 0;
 

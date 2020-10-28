@@ -3,6 +3,8 @@
 //
 
 #pragma once
+
+//External libraries imports
 #import <QWidget>
 #include <QLabel>
 #include <QPushButton>
@@ -11,8 +13,11 @@
 #include <QHBoxLayout>
 #include <QListWidget>
 #include <QProgressBar>
+#include <QCheckBox>
 #include <sstream>
 #include "fstream"
+
+//Project files imports
 #include "../ArtistManager/artistList.h"
 #include "../SongManager/trackList.h"
 #include "../PlaySongManager/songManagement.h"
@@ -26,25 +31,33 @@ using namespace std;
 class MainWindow : public QWidget {
 
 private:
-
+    //Labels
     QLabel* pLibrary;
     QLabel* pCurrentlyPlaying; //Shows the actual song Name
     QLabel* pMemory; //Shows the memory usage
     QLabel* pSongDuration;
 
-    QPushButton* pPaginateButton; // Allows to load every song in the list
+    //Buttons
     QPushButton* pInfoButton;
 
+    //CheckBox
+    QCheckBox* pPaginateCheckBox;
+
+    //Slider
     QSlider* pSongSlider;
 
+    //ProgressBar
     QProgressBar* pMemoryBar; // Shows the memory usage graphically
 
+    //Lists and memory management
     ArtistList* pListAlbum;
     TrackList* pListSongs;
     RAMManagement* ramMemory;
 
+    //Song management
     SongBox* pSongBox;
 
+    //Layouts
     QVBoxLayout* vbox1;
     QVBoxLayout* vbox2;
     QVBoxLayout* vbox3;
@@ -55,6 +68,7 @@ private:
     QHBoxLayout* hbox2;
     QHBoxLayout* hbox3;
 
+    //Constants
     int vSpacing = 8; // Vertical spacing constant
     int hSpacing = 6; // Horizontal spacing constant
     int verMargin = 20; // Vertical margin constant
@@ -62,10 +76,17 @@ private:
 
     //boolean
     bool isSliderPressed = false;
+    bool isResizing = false;
+
 
     //methods
     void setBtnColor(QPushButton* button);
     pair<string, vector<char*>> readCSV (string filename);
+    void resizingHelper();
+
+protected:
+    
+    void resizeEvent(QResizeEvent* e);
 
 public:
 
@@ -73,10 +94,12 @@ public:
     QPushButton* pPlayButton;
 
 private Q_SLOTS:
+
     void moveSongPosition();
     void sliderPressed();
     void moveSlider(qint64 position);
     void playButtonClicked();
     void showSongInfo();
+    void paginate(int state);
 
 };
