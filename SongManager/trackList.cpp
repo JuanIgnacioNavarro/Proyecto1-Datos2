@@ -35,22 +35,40 @@ void TrackList::loadItems(string artist_name) {
     }
 
     string line;
+    char quoteMark = '\"';
+    string temp = "";
 
     //With this while you'll find the names of the tracks depending on the artist_id.
     while (!myFile.eof()) {
 
         getline(myFile, line, ',');
 
+        // Posible way to load names that has more than one artist but it requires a little check
+        /*
+        if (line[0] == quoteMark) {
+
+            temp += line;
+            getline(myFile, line, quoteMark);
+            temp += line;
+            temp += quoteMark;
+            line = temp;
+
+            //cout << "line: " << line << endl;
+
+        }
+        */
+
         if (line == artist_name) {
+
             vector<string> vector;
             getline(myFile, line, ',');
-            vector.push_back(line); //Pushing back the song ID
+            vector.push_back(line); // Pushing back the song ID
             getline(myFile, line, ',');
-            vector.push_back(line); //Pushing back the song Name
+            vector.push_back(line); // Pushing back the song Name
             getline(myFile, line, ',');
-            vector.push_back(line); //Pushing back the track duration
+            vector.push_back(line); // Pushing back the track duration
             getline(myFile, line, ',');
-            vector.push_back(line); //Pushing back the album title
+            vector.push_back(line); // Pushing back the album title
 
             trackNames.push_back(vector);
 
@@ -82,16 +100,18 @@ void TrackList::addItems() {
         trackNames.erase(trackNames.begin());
 
         //Saving the vector data as roles
-        newItem->setText(itemAlbum);
-        newItem->setData(Qt::UserRole, itemID); //User role lets the program save the ID of each song
-        newItem->setData(Qt::DisplayRole, itemText);
+        newItem -> setText(itemAlbum);
+        newItem -> setData(Qt::UserRole, itemID); // User role lets the program save the ID of each song
+        newItem -> setData(Qt::DisplayRole, itemText);
 
         //Item Style
-        newItem->setFont(QFont( "arial", 12));
-        newItem->setTextAlignment(Qt::AlignLeft);
+        newItem -> setFont(QFont( "arial", 12));
+        newItem -> setTextAlignment(Qt::AlignLeft);
 
         //Adding the item to the list
         ptracksList -> addItem(newItem);
+
+        ramMemory -> addMemory(sizeof(QString));
 
     }
 
@@ -118,8 +138,6 @@ void TrackList::trackItemDoubleClicked(QListWidgetItem* item) {
 
     songBox -> loadSong(id, text, album);
 
-    ramMemory -> calculateUsage();
-
 }
 
 QListWidget* TrackList::getTrackList() {
@@ -130,16 +148,18 @@ QListWidget* TrackList::getTrackList() {
 
 void TrackList::deleteItems() {
 
-    int listSize = ptracksList->count();
+    int listSize = ptracksList -> count();
     cout << "Amount of rows in the songs list: " << listSize << endl;
 
     for (int i = 0; i < listSize; i++) {
 
-        delete ptracksList->item(0);
+        delete ptracksList -> item(0);
+
+        ramMemory -> freeMemory(sizeof(QString));
 
     }
 
-    int listSize2 = ptracksList->count();
+    int listSize2 = ptracksList -> count();
     cout << "Amount of rows in the songs list: " << listSize2 << endl;
 
 }

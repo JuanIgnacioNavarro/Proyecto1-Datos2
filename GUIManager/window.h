@@ -33,7 +33,6 @@ private:
     QLabel* pSongDuration;
 
     QPushButton* pPaginateButton; // Allows to load every song in the list
-
     QPushButton* pInfoButton;
 
     QSlider* pSongSlider;
@@ -58,7 +57,6 @@ private:
 
     int vSpacing = 8; // Vertical spacing constant
     int hSpacing = 6; // Horizontal spacing constant
-
     int verMargin = 20; // Vertical margin constant
     int horMargin = 40; // Horizaontal margin constant
 

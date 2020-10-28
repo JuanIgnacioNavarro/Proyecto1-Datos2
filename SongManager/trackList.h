@@ -33,13 +33,16 @@ private:
 
     SongBox* songBox;
     //vector used to load information from csv
+
     vector<vector<string>> trackNames;
     void trackItemDoubleClicked(QListWidgetItem* item);
 
 public:
+
     TrackList(SongBox* pSongBox, RAMManagement* ramMemory);
     void loadItems(string artist_name);
     void addItems();
     void deleteItems();
     QListWidget* getTrackList();
+
 };
