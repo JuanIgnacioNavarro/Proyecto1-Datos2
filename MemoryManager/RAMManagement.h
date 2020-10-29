@@ -17,11 +17,12 @@ private:
     //Attributes
     int  ramMemory = 0;
     QProgressBar* pMemoryBar;
+    QLabel* pBytes;
 
 public:
 
     //methods
-    RAMManagement(QProgressBar* pMemoryBar);
+    RAMManagement(QProgressBar* pMemoryBar, QLabel* pBytes);
     int getRamMemory();
     void addMemory(int size);
     void freeMemory(int size);

@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) {
     pCurrentlyPlaying = new QLabel("Select a song.. ", this);
     pMemory = new QLabel("Memory %", this);
     pSongDuration = new QLabel("Song Duration: 30s", this);
+    pBytes = new QLabel("KB", this);
 
     //Buttons
     pInfoButton = new QPushButton("info", this);
@@ -47,10 +48,10 @@ MainWindow::MainWindow(QWidget *parent) {
     //Memory Bar (shows the memory usage by the program)
     pMemoryBar = new QProgressBar();
     pMemoryBar -> setFixedWidth(80);
-    pMemoryBar -> setRange(0,8000);
+    pMemoryBar -> setRange(0,10000);
 
     //RAMManagement object
-    ramMemory = new RAMManagement(pMemoryBar);
+    ramMemory = new RAMManagement(pMemoryBar, pBytes);
 
     // Calculate used ram memory
     ramMemory -> addMemory(4 * sizeof(QLabel));
@@ -91,8 +92,8 @@ MainWindow::MainWindow(QWidget *parent) {
     hbox1 -> addStretch();
     hbox1 -> addWidget(pMemory);
     hbox1 -> addWidget(pMemoryBar);
-    hbox1 -> addSpacing(hSpacing*5);
-    hbox1 -> addWidget(pAllSongsCheckBox);
+    hbox1 -> addWidget(pBytes);
+    hbox1 -> addSpacing(hSpacing * 5);
     hbox1 -> addWidget(pPaginateCheckBox);
 
     hbox2 -> addLayout(vbox4);
@@ -106,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent) {
     vbox2 -> addLayout(hbox1);
 
     generalhBox -> addLayout(vbox1);
-    generalhBox -> addSpacing(hSpacing*6);
+    generalhBox -> addSpacing(hSpacing * 6);
     generalhBox -> addLayout(vbox2);
     setLayout(generalhBox);
 
@@ -122,6 +123,7 @@ MainWindow::MainWindow(QWidget *parent) {
     connect(pSongBox->player, &QMediaPlayer::positionChanged, this, &MainWindow::moveSlider);
     connect(pSongSlider, &QSlider::sliderPressed, this, &MainWindow::sliderPressed);
     connect(pSongSlider, &QSlider::sliderReleased, this, &MainWindow::moveSongPosition);
+
 }
 
 /*!
@@ -143,6 +145,7 @@ void MainWindow::resizeEvent(QResizeEvent *e) {
  * @return
  */
 void MainWindow::resizingHelper() {
+
     isResizing = false;
 
     //Implement the updating list amount of elements logic here
@@ -151,6 +154,7 @@ void MainWindow::resizingHelper() {
 
     cout << "Artist Width: " << this->pListAlbum->getArtistList()->width() << endl;
     cout << "Artist Height: " << this->pListAlbum->getArtistList()->height()<< endl;
+
 }
 
 /*!

@@ -28,13 +28,12 @@ class TrackList: public QWidget {
 private:
 
     QListWidget* ptracksList;
-
     RAMManagement* ramMemory;
-
     SongBox* songBox;
-    //vector used to load information from csv
 
+    //vector used to load information from csv
     vector<vector<string>> trackNames;
+
     void trackItemDoubleClicked(QListWidgetItem* item);
 
 public:

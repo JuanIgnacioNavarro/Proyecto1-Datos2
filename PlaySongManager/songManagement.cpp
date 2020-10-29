@@ -5,11 +5,8 @@
 //Imported project libraries
 #include <QtWidgets/QMessageBox>
 #import <QWidget>
-#include <sys/socket.h>
 #include "songManagement.h"
 #include "../GUIManager/window.h"
-
-
 
 /*!
  * @name SongBox
@@ -20,18 +17,17 @@ SongBox::SongBox(QLabel *psongInfoLabel, QPushButton *pPlayButton, QSlider *pSon
                  QPushButton *pInfoButton) {
 
     player = new QMediaPlayer();
-    this->pSongInfoLabel = psongInfoLabel;
-    player->setNotifyInterval(10);
-    this->songDirection = "";
-    this->pPlayButton = pPlayButton;
-    this->pSongSlider = pSongSlider;
-    this->pInfoButton = pInfoButton;
+    this -> pSongInfoLabel = psongInfoLabel;
+    player -> setNotifyInterval(10);
+    this -> songDirection = "";
+    this -> pPlayButton = pPlayButton;
+    this -> pSongSlider = pSongSlider;
+    this -> pInfoButton = pInfoButton;
 
     //connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChange(qint64)));
     //connect(pSongSlider, SIGNAL(sliderReleased()), this, SLOT(positionChange));
 
 }
-
 
 /*!
  * @name loadSong
@@ -94,8 +90,8 @@ void SongBox::loadSong(int songID, string songName, string album) {
     }
 
     //Complete path management
-    string path = "/home/juan/Downloads/fma_small/";
-    //string path = "/home/nachogranados/Canciones FMA/fma_small/";
+    //string path = "/home/juan/Downloads/fma_small/";
+    string path = "/home/nachogranados/Canciones FMA/fma_small/";
 
     cout << path << endl;
     path.append(folder);

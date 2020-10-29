@@ -14,18 +14,10 @@ using namespace std;
  * @name RAMManagement
  * @brief RAMManagement class constructor
  */
-RAMManagement::RAMManagement(QProgressBar* pMemoryBar) {
+RAMManagement::RAMManagement(QProgressBar* pMemoryBar, QLabel* pBytes) {
 
     this -> pMemoryBar = pMemoryBar;
-
-    /*
-    struct sysinfo sysInformation;
-    sysinfo (&sysInformation);
-
-    memoryUsed = sysInformation.totalram - sysInformation.freeram;
-    memoryUsed *= sysInformation.mem_unit;
-    ramMemory = memoryUsed / 10000;
-     */
+    this -> pBytes = pBytes;
 
 }
 
@@ -48,6 +40,11 @@ void RAMManagement::addMemory(int size) {
     ramMemory += size;
     pMemoryBar -> setValue(ramMemory);
 
+    float kiloBytes = ramMemory / 1024;
+    float kiloBytes2 = round(kiloBytes * 100) / 100;
+    QString text = QString::number(kiloBytes2) + " KB";
+    pBytes -> setText(text);
+
 }
 
 /*!
@@ -58,5 +55,10 @@ void RAMManagement::freeMemory(int size) {
 
     ramMemory -= size;
     pMemoryBar -> setValue(ramMemory);
+
+    float kiloBytes = ramMemory / 1024;
+    float kiloBytes2 = round(kiloBytes * 100) / 100;
+    QString text = QString::number(kiloBytes2) + " KB";
+    pBytes -> setText(text);
 
 }
