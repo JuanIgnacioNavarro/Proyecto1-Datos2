@@ -32,6 +32,7 @@ private:
     QLabel* pCurrentlyPlaying; //Shows the actual song Name
     QLabel* pMemory; //Shows the memory usage
     QLabel* pSongDuration;
+    QLabel* pBytes;
 
     //Buttons
     QPushButton* pInfoButton;
