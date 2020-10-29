@@ -2,9 +2,11 @@
 // Created by juan on 25/10/20.
 //
 
-//Imported project libraries
+//External libraries
 #include <QtWidgets/QMessageBox>
 #import <QWidget>
+
+//Imported project libraries
 #include "songManagement.h"
 #include "../GUIManager/window.h"
 
@@ -23,9 +25,6 @@ SongBox::SongBox(QLabel *psongInfoLabel, QPushButton *pPlayButton, QSlider *pSon
     this -> pPlayButton = pPlayButton;
     this -> pSongSlider = pSongSlider;
     this -> pInfoButton = pInfoButton;
-
-    //connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChange(qint64)));
-    //connect(pSongSlider, SIGNAL(sliderReleased()), this, SLOT(positionChange));
 
 }
 
@@ -93,7 +92,6 @@ void SongBox::loadSong(int songID, string songName, string album) {
     string path = "/home/juan/Downloads/fma_small/";
     //string path = "/home/nachogranados/Canciones FMA/fma_small/";
 
-    cout << path << endl;
     path.append(folder);
     path.append("/");
     path.append(fileName);
