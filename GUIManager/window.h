@@ -38,6 +38,7 @@ private:
 
     //CheckBox
     QCheckBox* pPaginateCheckBox;
+    QCheckBox* pAllSongsCheckBox;
 
     //Slider
     QSlider* pSongSlider;
@@ -96,5 +97,6 @@ private Q_SLOTS:
     void playButtonClicked();
     void showSongInfo();
     void paginate(int state);
+    void showAllSongs(int state);
 
 };

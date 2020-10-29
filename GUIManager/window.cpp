@@ -38,7 +38,8 @@ MainWindow::MainWindow(QWidget *parent) {
 
     //CheckBox
     pPaginateCheckBox = new QCheckBox("Paginate" , this);
-    //pPaginateCheckBox->setCheckState(Qt::Checked);
+    pPaginateCheckBox->setEnabled(false);
+    pAllSongsCheckBox = new QCheckBox("Show all Songs", this);
 
     //Song Slider (shows the song progress)
     pSongSlider = new QSlider(Qt::Horizontal, this);
@@ -91,6 +92,7 @@ MainWindow::MainWindow(QWidget *parent) {
     hbox1 -> addWidget(pMemory);
     hbox1 -> addWidget(pMemoryBar);
     hbox1 -> addSpacing(hSpacing*5);
+    hbox1 -> addWidget(pAllSongsCheckBox);
     hbox1 -> addWidget(pPaginateCheckBox);
 
     hbox2 -> addLayout(vbox4);
@@ -114,6 +116,7 @@ MainWindow::MainWindow(QWidget *parent) {
 
     //CheckBox Slot
     connect(pPaginateCheckBox, &QCheckBox::stateChanged, this, &MainWindow::paginate);
+    connect(pAllSongsCheckBox, &QCheckBox::stateChanged, this, &MainWindow::showAllSongs);
 
     //Music control Slots
     connect(pSongBox->player, &QMediaPlayer::positionChanged, this, &MainWindow::moveSlider);
@@ -221,15 +224,23 @@ void MainWindow::sliderPressed() {
 }
 
 void MainWindow::paginate(int state) {
-    if (state == Qt::Checked){
+    if (state == Qt::Checked) {
         //From no pagination to pagination method logic
         pListSongs->deleteItems();
         pListSongs->loadAllSongs();
         pListSongs->addItems();
         pListAlbum->getArtistList()->setEnabled(false);
     }
+
+}
+
+void MainWindow::showAllSongs(int state) {
+    if (state == Qt::Checked){
+        cout << "Show all songs check box enabled" << endl;
+        pPaginateCheckBox->setEnabled(true);
+    }
     else{
-        //From pagination to no pagination method logic
-        cout << "No more pagination" << endl;
+        cout << "Show all songs check box disabled" << endl;
+        pPaginateCheckBox->setEnabled(false);
     }
 }
