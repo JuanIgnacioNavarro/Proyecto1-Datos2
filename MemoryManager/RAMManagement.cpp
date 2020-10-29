@@ -56,9 +56,8 @@ void RAMManagement::freeMemory(int size) {
     ramMemory -= size;
     pMemoryBar -> setValue(ramMemory);
 
-    float kiloBytes = ramMemory / 1024;
-    float kiloBytes2 = round(kiloBytes * 100) / 100;
-    QString text = QString::number(kiloBytes2) + " KB";
+    float kiloBytes = round((ramMemory / 1024) * 100) / 100;
+    QString text = QString::fromStdString(to_string(kiloBytes)) + " KB";
     pBytes -> setText(text);
 
 }

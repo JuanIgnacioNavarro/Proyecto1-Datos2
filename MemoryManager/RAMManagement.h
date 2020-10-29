@@ -15,7 +15,7 @@ class RAMManagement {
 private:
 
     //Attributes
-    int  ramMemory = 0;
+    float  ramMemory = 0;
     QProgressBar* pMemoryBar;
     QLabel* pBytes;
 

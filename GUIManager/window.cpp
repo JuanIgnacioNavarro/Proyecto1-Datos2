@@ -94,6 +94,7 @@ MainWindow::MainWindow(QWidget *parent) {
     hbox1 -> addWidget(pMemoryBar);
     hbox1 -> addWidget(pBytes);
     hbox1 -> addSpacing(hSpacing * 5);
+    hbox1 -> addWidget(pAllSongsCheckBox);
     hbox1 -> addWidget(pPaginateCheckBox);
 
     hbox2 -> addLayout(vbox4);
