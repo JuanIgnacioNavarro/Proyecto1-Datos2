@@ -223,7 +223,10 @@ void MainWindow::sliderPressed() {
 void MainWindow::paginate(int state) {
     if (state == Qt::Checked){
         //From no pagination to pagination method logic
-        cout << "I'm going to paginate" << endl;
+        pListSongs->deleteItems();
+        pListSongs->loadAllSongs();
+        pListSongs->addItems();
+        pListAlbum->getArtistList()->setEnabled(false);
     }
     else{
         //From pagination to no pagination method logic

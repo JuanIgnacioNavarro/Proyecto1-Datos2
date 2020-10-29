@@ -44,5 +44,6 @@ public:
     void addItems();
     void deleteItems();
     QListWidget* getTrackList();
+    void loadAllSongs();
 
 };

@@ -73,6 +73,7 @@ void TrackList::loadItems(string artist_name) {
             vector.push_back(line); // Pushing back the track duration
             getline(myFile, line, ',');
             vector.push_back(line); // Pushing back the album title
+            vector.push_back(artist_name);
 
             trackNames.push_back(vector);
 
@@ -102,12 +103,15 @@ void TrackList::addItems() {
         QString itemDuration = QString::fromStdString(trackNames.front()[2]);
         QString itemAlbum = QString::fromStdString(trackNames.front()[3]);
 
+        string songExtraInfo = "Song Name: "+ itemText.toStdString() + ",\nAlbum : " + itemAlbum.toStdString() + ",\nArtist name: "
+                               + trackNames.front()[4] + ",\nOriginal lenght: " + itemDuration.toStdString();
+
         trackNames.erase(trackNames.begin());
 
         //Saving the vector data as roles
-        newItem -> setText(itemAlbum);
         newItem -> setData(Qt::UserRole, itemID); // User role lets the program save the ID of each song
         newItem -> setData(Qt::DisplayRole, itemText);
+        newItem->setData(Qt::AccessibleTextRole, QString::fromStdString(songExtraInfo));
 
         //Item Style
         newItem -> setFont(QFont( "arial", 12));
@@ -132,14 +136,11 @@ void TrackList::addItems() {
  */
 void TrackList::trackItemDoubleClicked(QListWidgetItem* item) {
 
-    string album = item -> text().toStdString();
+    string extraInfo = item->data(Qt::AccessibleTextRole).toString().toStdString();
     int id = item -> data(Qt::UserRole).toInt();
     string text = item -> data(Qt::DisplayRole).toString().toStdString();
 
-    cout << "Im clicking an item: " << text << endl;
-    cout << "This item has the id: " << id << endl;
-
-    songBox -> loadSong(id, text, album);
+    songBox -> loadSong(id, text, extraInfo);
 
 }
 
@@ -160,5 +161,45 @@ void TrackList::deleteItems() {
         ramMemory -> freeMemory(sizeof(QListWidgetItem));
 
     }
+
+}
+
+void TrackList::loadAllSongs() {
+
+    ifstream myFile("raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    //ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files//raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+
+    if (!myFile.is_open()) {
+
+        printf("Error opening the file");
+    }
+
+    string line;
+    string temp = "";
+
+    //With this while you'll find the names of the tracks depending on the artist_id.
+    getline(myFile, line);
+
+    for (int i = 0; i < 2900 ; i++){
+    //while (!myFile.eof()) {
+
+        getline(myFile, line, ',');
+        getline(myFile, line, ',');
+        string artist_name = line;
+        vector<string> vector;
+        getline(myFile, line, ',');
+        vector.push_back(line); // Pushing back the song ID
+        getline(myFile, line, ',');
+        vector.push_back(line); // Pushing back the song Name
+        getline(myFile, line, ',');
+        vector.push_back(line); // Pushing back the track duration
+        getline(myFile, line, ',');
+        vector.push_back(line); // Pushing back the album title
+        vector.push_back(artist_name);
+
+        trackNames.push_back(vector);
+    }
+
+    myFile.close();
 
 }
