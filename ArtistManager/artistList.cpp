@@ -45,8 +45,8 @@ QListWidget* ArtistList::getArtistList() {
  */
 void ArtistList::loadItems(int range) {
 
-    ifstream myFile("raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
-    //ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    //ifstream myFile("raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
 
     if (!myFile.is_open()) {
 
@@ -58,12 +58,10 @@ void ArtistList::loadItems(int range) {
     string temp = "";
     string title;
 
-    // This for is usded to pass some unnecessary lines
+    // This for is used to pass some unnecessary lines
     for (int i = 0; i < range; i ++) {
 
         getline(myFile, title, ',');
-
-        cout << "title: " << title << endl;
 
         if (title[0] == quoteMark) {
 
@@ -134,6 +132,8 @@ void ArtistList::loadItems(int range) {
 
     }
 
+    myFile.close();
+
 }
 
 /*!
@@ -191,8 +191,8 @@ void ArtistList::artistItemDoubleClicked(QListWidgetItem* item) {
 
     songsList -> deleteItems();
     string itemArtistName = item -> text().toStdString();
-    songsList -> loadItems(itemArtistName);
-    songsList -> addItems();
+    songsList -> loadItems(itemArtistName, 0);
+    songsList -> addItems(0);
 
 }
 

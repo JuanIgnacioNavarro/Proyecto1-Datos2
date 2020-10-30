@@ -71,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent) {
     pSongBox = new SongBox(pCurrentlyPlaying, pPlayButton, pSongSlider, pInfoButton);
 
     //Lists: these items are important to manage the csv files
-    pListSongs = new TrackList(pSongBox, ramMemory);
+    pListSongs = new TrackList(pSongBox, ramMemory, false);
     pListAlbum = new ArtistList(this, pListSongs, ramMemory);
 
     //Layout control
@@ -134,10 +134,15 @@ MainWindow::MainWindow(QWidget *parent) {
  * @param e this is the event
  */
 void MainWindow::resizeEvent(QResizeEvent *e) {
+
     if (!isResizing){
+
         isResizing = true;
+
         QTimer::singleShot(500, this, &MainWindow::resizingHelper);
+
     }
+
 }
 
 /*!
@@ -150,11 +155,11 @@ void MainWindow::resizingHelper() {
     isResizing = false;
 
     //Implement the updating list amount of elements logic here
-    cout << "Track list Width: " << this->pListSongs->getTrackList()->width() << endl;
-    cout << "Track list Height: " << this->pListSongs->getTrackList()->height()<< endl;
+    cout << "Track list Width: " << this->pListSongs -> getTrackList() -> width() << endl;
+    cout << "Track list Height: " << this->pListSongs -> getTrackList() -> height()<< endl;
 
-    cout << "Artist Width: " << this->pListAlbum->getArtistList()->width() << endl;
-    cout << "Artist Height: " << this->pListAlbum->getArtistList()->height()<< endl;
+    cout << "Artist Width: " << this->pListAlbum -> getArtistList() -> width() << endl;
+    cout << "Artist Height: " << this->pListAlbum -> getArtistList() -> height()<< endl;
 
 }
 
@@ -229,23 +234,33 @@ void MainWindow::sliderPressed() {
 }
 
 void MainWindow::paginate(int state) {
+
     if (state == Qt::Checked) {
+
         //From no pagination to pagination method logic
-        pListSongs->deleteItems();
-        pListSongs->loadAllSongs();
-        pListSongs->addItems();
-        pListAlbum->getArtistList()->setEnabled(false);
+        pListSongs -> deleteItems();
+        pListSongs -> loadAllSongs();
+        pListSongs -> addItems(1);
+        pListAlbum -> getArtistList() -> setEnabled(false);
+
     }
 
 }
 
 void MainWindow::showAllSongs(int state) {
-    if (state == Qt::Checked){
-        cout << "Show all songs check box enabled" << endl;
-        pPaginateCheckBox->setEnabled(true);
+
+    if (state == Qt::Checked) {
+
+        pPaginateCheckBox -> setEnabled(true);
+        pListSongs -> pagination = true;
+        pListSongs -> loadItems("artist_name", -1);
+        pListSongs -> addItems(0);
+
+    } else {
+
+        pPaginateCheckBox -> setEnabled(false);
+        pListSongs -> pagination = false;
+
     }
-    else{
-        cout << "Show all songs check box disabled" << endl;
-        pPaginateCheckBox->setEnabled(false);
-    }
+
 }

@@ -2,9 +2,6 @@
 // Created by nachogranados on 26/10/20.
 //
 
-//Imported external libraries
-//#include "sys/sysinfo.h"
-
 //Imported project files
 #include "RAMManagement.h"
 

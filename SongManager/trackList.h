@@ -34,15 +34,35 @@ private:
     //vector used to load information from csv
     vector<vector<string>> trackNames;
 
+
+
+
+    int previousPage;
+    int nextPage;
+
+    // bool used to avoid conflictive callings
+    bool checking;
+
+    // int used to delete last ten items in the QListWidget
+    int count;
+
+
+
+
+
+
     void trackItemDoubleClicked(QListWidgetItem* item);
 
 public:
 
-    TrackList(SongBox* pSongBox, RAMManagement* ramMemory);
-    void loadItems(string artist_name);
-    void addItems();
+    bool pagination;
+
+    TrackList(SongBox* pSongBox, RAMManagement* ramMemory, bool pagination);
+    void loadItems(string artist_name, int range);
+    void addItems(int position);
     void deleteItems();
     QListWidget* getTrackList();
     void loadAllSongs();
+    void checkPosition(int row);
 
 };
