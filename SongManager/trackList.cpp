@@ -23,6 +23,11 @@ TrackList::TrackList(SongBox* pSongBox, RAMManagement* ramMemory, PaginateSubjec
 
     this -> songBox = pSongBox;
     this -> ramMemory = ramMemory;
+    this -> pagination = pagination;
+    previousPage = 0;
+    nextPage = 2;
+    count = 0;
+    checking = false;
 
     previousPage = 0;
     nextPage = 2;
@@ -43,7 +48,7 @@ TrackList::TrackList(SongBox* pSongBox, RAMManagement* ramMemory, PaginateSubjec
  * @brief Loads the csv file songs into a vector by artist
  * @param artist_name : Name in the artist of the songs
  */
-void TrackList::loadItems(string artist_name) {
+void TrackList::loadItems(string artist_name, int range) {
 
     ifstream myFile(TracksFilePath);
 
@@ -57,20 +62,28 @@ void TrackList::loadItems(string artist_name) {
     //Finding the artist's songs in the file and saving them in the vector
     while (!myFile.eof()) {
 
-        getline(myFile, line, ',');
+        string line;
+        char quoteMark = '\"';
+        string temp = "";
+
+        //With this while you'll find the names of the tracks depending on the artist_id.
+        while (!myFile.eof()) {
+
+            getline(myFile, line, ',');
+
+            // Posible way to load names that has more than one artist but it requires a little check
+            /*
+            if (line[0] == quoteMark) {
+
+                temp += line;
+                getline(myFile, line, quoteMark);
+                temp += line;
+                temp += quoteMark;
+                line = temp;
 
         if (line == artist_name) {
 
-            vector<string> vector;
-            getline(myFile, line, ',');
-            vector.push_back(line); // Pushing back the song ID
-            getline(myFile, line, ',');
-            vector.push_back(line); // Pushing back the song Name
-            getline(myFile, line, ',');
-            vector.push_back(line); // Pushing back the track duration
-            getline(myFile, line, ',');
-            vector.push_back(line); // Pushing back the album title
-            vector.push_back(artist_name);
+    } else if (pagination == true && artist_name == "artist_name") {
 
             trackNames.push_back(vector);
         }
@@ -146,6 +159,7 @@ void TrackList::loadAllSongs(int range, int pageSize) {
 
     if (!myFile.is_open()) {
         printf("Error opening the file");
+
     }
 
     string line;

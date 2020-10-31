@@ -61,12 +61,10 @@ void ArtistList::loadItems(int range) {
     string temp = "";
     string title;
 
-    // This for is usded to pass some unnecessary lines
+    // This for is used to pass some unnecessary lines
     for (int i = 0; i < range; i ++) {
 
         getline(myFile, title, ',');
-
-        cout << "title: " << title << endl;
 
         if (title[0] == quoteMark) {
 
@@ -136,6 +134,8 @@ void ArtistList::loadItems(int range) {
         }
 
     }
+
+    myFile.close();
 
 }
 

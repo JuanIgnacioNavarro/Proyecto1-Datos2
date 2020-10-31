@@ -2,7 +2,6 @@
 // Created by nachogranados on 26/10/20.
 //
 
-
 //Imported project files
 #include "RAMManagement.h"
 

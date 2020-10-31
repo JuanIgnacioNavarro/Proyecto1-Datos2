@@ -27,6 +27,7 @@ using namespace std;
 class MainWindow : public QWidget {
 
 private:
+
     //Labels
     QLabel* pLibrary;
     QLabel* pCurrentlyPlaying; //Shows the actual song Name
@@ -73,7 +74,7 @@ private:
     int vSpacing = 8; // Vertical spacing constant
     int hSpacing = 6; // Horizontal spacing constant
     int verMargin = 20; // Vertical margin constant
-    int horMargin = 40; // Horizaontal margin constant
+    int horMargin = 40; // Horizontal margin constant
 
     //Boolean
     bool isSliderPressed = false;

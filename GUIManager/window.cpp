@@ -138,10 +138,15 @@ MainWindow::MainWindow(QWidget *parent) {
  * @param e this is the event
  */
 void MainWindow::resizeEvent(QResizeEvent *e) {
+
     if (!isResizing){
+
         isResizing = true;
+
         QTimer::singleShot(500, this, &MainWindow::resizingHelper);
+
     }
+
 }
 
 /*!
@@ -154,11 +159,11 @@ void MainWindow::resizingHelper() {
     isResizing = false;
 
     //Implement the updating list amount of elements logic here
-    cout << "Track list Width: " << this->pListSongs->getTrackList()->width() << endl;
-    cout << "Track list Height: " << this->pListSongs->getTrackList()->height()<< endl;
+    cout << "Track list Width: " << this->pListSongs -> getTrackList() -> width() << endl;
+    cout << "Track list Height: " << this->pListSongs -> getTrackList() -> height()<< endl;
 
-    cout << "Artist Width: " << this->pListAlbum->getArtistList()->width() << endl;
-    cout << "Artist Height: " << this->pListAlbum->getArtistList()->height()<< endl;
+    cout << "Artist Width: " << this->pListAlbum -> getArtistList() -> width() << endl;
+    cout << "Artist Height: " << this->pListAlbum -> getArtistList() -> height()<< endl;
 
 }
 
@@ -245,4 +250,5 @@ void MainWindow::showAllSongs(int state) {
         pPaginateCheckBox->setEnabled(false);
         subject->createMessage("DontShowAll");
     }
+
 }
