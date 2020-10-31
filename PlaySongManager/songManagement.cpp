@@ -89,8 +89,8 @@ void SongBox::loadSong(int songID, string songName, string album) {
     }
 
     //Complete path management
-    //string path = "/home/juan/Downloads/fma_small/";
-    string path = "/home/nachogranados/Canciones FMA/fma_small/";
+    string path = "/home/juan/Downloads/fma_small/";
+    //string path = "/home/nachogranados/Canciones FMA/fma_small/";
 
     path.append(folder);
     path.append("/");
