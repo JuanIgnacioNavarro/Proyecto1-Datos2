@@ -46,7 +46,7 @@ public:
     QMediaPlayer* player; // attribute that allows playing the song
 
     //Methods
-    SongBox(QLabel* psongInfoLabel, QPushButton* pPlayButton, QSlider* pSongSlider, QPushButton* pInfoButton);
+    SongBox(QLabel* psongInfoLabel, QPushButton* pPlayButton, QSlider* pSongSlider, QPushButton* pInfoButton, QWidget* widget);
     void loadSong(int songID, string songNames, string album);
     void play();
     void showInfo();

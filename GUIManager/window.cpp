@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) {
 
     //CheckBox
     pPaginateCheckBox = new QCheckBox("Paginate" , this);
+    pPaginateCheckBox->setCheckState(Qt::Checked);
     pPaginateCheckBox->setEnabled(false);
     pAllSongsCheckBox = new QCheckBox("Show all Songs", this);
 
@@ -51,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent) {
     pMemoryBar -> setRange(0,10000);
 
     //RAMManagement object
-    ramMemory = new RAMManagement(pMemoryBar, pBytes);
+    ramMemory = ramMemory->getInstace(pMemoryBar, pBytes);
 
     // Calculate used ram memory
     ramMemory -> addMemory(4 * sizeof(QLabel));
@@ -68,11 +69,14 @@ MainWindow::MainWindow(QWidget *parent) {
     pMemoryBar -> setValue(ramMemory -> getRamMemory());
 
     //Song Management object
-    pSongBox = new SongBox(pCurrentlyPlaying, pPlayButton, pSongSlider, pInfoButton);
+    pSongBox = new SongBox(pCurrentlyPlaying, pPlayButton, pSongSlider, pInfoButton, this);
+
+    //Paginate Subject
+    subject = new PaginateSubject;
 
     //Lists: these items are important to manage the csv files
-    pListSongs = new TrackList(pSongBox, ramMemory);
-    pListAlbum = new ArtistList(this, pListSongs, ramMemory);
+    pListSongs = new TrackList(pSongBox, ramMemory, subject);
+    pListAlbum = new ArtistList(this, pListSongs, ramMemory, subject);
 
     //Layout control
     vbox1 -> addWidget(pLibrary);
@@ -178,9 +182,7 @@ void MainWindow::setBtnColor(QPushButton *button) {
  * @brief Slot that plays the chosen song once the play button is clicked
  */
 void MainWindow::playButtonClicked() {
-
     pSongBox -> play();
-
 }
 
 /*!
@@ -223,29 +225,24 @@ void MainWindow::moveSongPosition() {
  * @brief this method is a helper to determine when the song slider is being pressed
  */
 void MainWindow::sliderPressed() {
-
     isSliderPressed = true;
-
 }
 
-void MainWindow::paginate(int state) {
-    if (state == Qt::Checked) {
-        //From no pagination to pagination method logic
-        pListSongs->deleteItems();
-        pListSongs->loadAllSongs();
-        pListSongs->addItems();
-        pListAlbum->getArtistList()->setEnabled(false);
-    }
+//Three messages: 1. ShowAllPaginate 2.ShowAllDontPaginate 3. DontShowAll
 
+void MainWindow::paginate(int state) {
+    if (state == Qt::Unchecked){
+        subject->createMessage("ShowAllDontPaginate");
+    }
 }
 
 void MainWindow::showAllSongs(int state) {
     if (state == Qt::Checked){
-        cout << "Show all songs check box enabled" << endl;
         pPaginateCheckBox->setEnabled(true);
+        subject->createMessage("ShowAllPaginate");
     }
     else{
-        cout << "Show all songs check box disabled" << endl;
         pPaginateCheckBox->setEnabled(false);
+        subject->createMessage("DontShowAll");
     }
 }

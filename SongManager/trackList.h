@@ -16,6 +16,8 @@
 //Imported project files
 #include "../PlaySongManager/songManagement.h"
 #include "../MemoryManager/RAMManagement.h"
+#include "../PaginateManager/paginateObserver.h"
+#include "../ListItemManager/listItemFactory.h"
 
 using namespace std;
 
@@ -23,26 +25,57 @@ using namespace std;
  * @name TrackList Class
  * @brief it controls the information in the track list
  */
-class TrackList: public QWidget {
+class TrackList: public QWidget, IObserver {
 
 private:
 
+    //Gui attirbutes
     QListWidget* ptracksList;
+
+    //Memory control
     RAMManagement* ramMemory;
+
+    //Song control
     SongBox* songBox;
 
-    //vector used to load information from csv
+    //Loaded information
     vector<vector<string>> trackNames;
 
-    void trackItemDoubleClicked(QListWidgetItem* item);
+    //Bool
+    bool checking = false;
+
+    //Integers to control pagination
+    int previousPage;
+    int nextPage;
+    int count;
+
+    //File path
+    string TracksFilePath;
 
 public:
 
-    TrackList(SongBox* pSongBox, RAMManagement* ramMemory);
+    TrackList(SongBox* pSongBox, RAMManagement* ramMemory, PaginateSubject* subject);
+
+    //Loading items
     void loadItems(string artist_name);
-    void addItems();
+    void loadAllSongs(int range, int pageSize);
+
+    //Adding items
+    void addItems(int position);
+
+    //Deleting items
     void deleteItems();
+
     QListWidget* getTrackList();
-    void loadAllSongs();
+
+    //Observer method
+    void update(const string messageFromSubject) override;
+
+private Q_SLOTS:
+
+    //To Paginate
+    void checkPosition(int row);
+    //To choose a song
+    void trackItemDoubleClicked(QListWidgetItem* item);
 
 };

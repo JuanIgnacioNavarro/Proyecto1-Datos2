@@ -16,6 +16,8 @@
 #include "iostream"
 #include "../SongManager/trackList.h"
 #include "../MemoryManager/RAMManagement.h"
+#include "../PaginateManager/paginateObserver.h"
+#include "../ListItemManager/listItemFactory.h"
 
 using namespace std;
 
@@ -23,7 +25,7 @@ using namespace std;
  * @name Artists List Class
  * @brief it controls the information in the artists list
  */
-class ArtistList: public QWidget {
+class ArtistList: public QWidget, IObserver {
 
 private:
 
@@ -45,12 +47,14 @@ private:
 
 public:
 
-    ArtistList(QWidget* parent, TrackList* songsList, RAMManagement* ramMemory);
+    ArtistList(QWidget* parent, TrackList* songsList, RAMManagement* ramMemory, PaginateSubject* subject);
 
     void loadItems(int range);
     void addItems(int position);
     void checkPosition(int row);
     void artistItemDoubleClicked(QListWidgetItem* item);
+
+    void update(const string messageFromSubject) override;
 
     QListWidget* getArtistList();
 

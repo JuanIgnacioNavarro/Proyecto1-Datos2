@@ -10,7 +10,9 @@
  * @name Constructor Method
  * @param parent
  */
-ArtistList::ArtistList(QWidget *parent, TrackList *songsList, RAMManagement* ramMemory) {
+ArtistList::ArtistList(QWidget *parent, TrackList *songsList, RAMManagement* ramMemory, PaginateSubject* subject) {
+
+    subject->attach(this);
 
     //List instance and size
     this -> artistsList = new QListWidget();
@@ -44,6 +46,7 @@ QListWidget* ArtistList::getArtistList() {
  * @brief This method loads the first items that are displayed in the list
  */
 void ArtistList::loadItems(int range) {
+
 
     ifstream myFile("raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
     //ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
@@ -147,16 +150,11 @@ void ArtistList::addItems(int position) {
 
         for (int i = pageVector.size() - 1; i >= 0; i --) {
 
-            QListWidgetItem* newItem = new QListWidgetItem;
             QString itemText = QString::fromStdString(pageVector[i]);
-
-            newItem -> setText(itemText);
-            newItem -> setFont(QFont( "arial", 12));
-            newItem -> setTextAlignment(Qt::AlignLeft);
-
-            artistsList -> insertItem(0, newItem);
-
-            ramMemory -> addMemory(sizeof(QString));
+            ArtistListItem* newItem = new ArtistListItem;
+            newItem->settingItem(itemText, "", "");
+            artistsList -> insertItem(0, newItem->getItem());
+            delete newItem;
 
         }
 
@@ -164,16 +162,11 @@ void ArtistList::addItems(int position) {
 
         for (int i = 0; i < 10; i ++) {
 
-            QListWidgetItem* newItem = new QListWidgetItem;
             QString itemText = QString::fromStdString(pageVector[i]);
-
-            newItem -> setText(itemText);
-            newItem -> setFont(QFont( "arial", 12));
-            newItem -> setTextAlignment(Qt::AlignLeft);
-
-            artistsList -> addItem(newItem);
-
-            ramMemory -> addMemory(sizeof(QString));
+            ArtistListItem* newItem = new ArtistListItem;
+            newItem->settingItem(itemText, "", "");
+            artistsList -> addItem(newItem->getItem());
+            delete newItem;
 
         }
 
@@ -192,7 +185,7 @@ void ArtistList::artistItemDoubleClicked(QListWidgetItem* item) {
     songsList -> deleteItems();
     string itemArtistName = item -> text().toStdString();
     songsList -> loadItems(itemArtistName);
-    songsList -> addItems();
+    songsList -> addItems(1);
 
 }
 
@@ -220,11 +213,8 @@ void ArtistList::checkPosition(int row) {
 
             // Delete last ten items
             for (int i = 0; i < 10; i ++) {
-
                 artistsList -> takeItem(count);
-
                 ramMemory -> freeMemory(sizeof(QString));
-
             }
 
             checking = false;
@@ -232,27 +222,33 @@ void ArtistList::checkPosition(int row) {
         } else if (row == 29) {
 
             checking = true;
-
             previousPage ++;
             nextPage ++;
-
             pageVector.clear();
             loadItems(nextPage * 10);
             addItems(1);
 
             // Delete first ten items
             for (int i = 0; i < 10; i ++) {
-
                 artistsList -> takeItem(0);
-
                 ramMemory -> freeMemory(sizeof(QString));
-
             }
-
             checking = false;
-
         }
-
     }
+}
 
+//    _______
+//___/ Observer method
+
+void ArtistList::update(const string messageFromSubject) {
+    if (messageFromSubject == "ShowAllPaginate"){
+        artistsList->setEnabled(false);
+    }
+    else if (messageFromSubject == "DontShowAll"){
+        artistsList->setEnabled(true);
+    }
+    else{
+        artistsList->setEnabled(false);
+    }
 }

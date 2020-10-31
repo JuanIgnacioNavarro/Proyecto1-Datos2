@@ -3,6 +3,8 @@
 //
 
 #pragma once
+
+//Imported external libraries
 #include "iostream"
 #include <QProgressBar>
 
@@ -12,17 +14,23 @@
  */
 class RAMManagement {
 
+    static RAMManagement* instance;
+
 private:
 
     //Attributes
     float  ramMemory = 0;
     QProgressBar* pMemoryBar;
     QLabel* pBytes;
+    RAMManagement(QProgressBar* pMemoryBar, QLabel* pBytes);
 
 public:
-
+    static RAMManagement* getInstace(QProgressBar* pMemoryBar, QLabel* pBytes){
+        if (!instance)
+            instance = new RAMManagement(pMemoryBar, pBytes);
+        return instance;
+    }
     //methods
-    RAMManagement(QProgressBar* pMemoryBar, QLabel* pBytes);
     int getRamMemory();
     void addMemory(int size);
     void freeMemory(int size);

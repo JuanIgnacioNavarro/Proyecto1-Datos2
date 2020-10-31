@@ -16,9 +16,9 @@
  * @param songInfo : QLabel
  */
 SongBox::SongBox(QLabel *psongInfoLabel, QPushButton *pPlayButton, QSlider *pSongSlider,
-                 QPushButton *pInfoButton) {
+                 QPushButton *pInfoButton, QWidget* widget) {
 
-    player = new QMediaPlayer();
+    this -> player = new QMediaPlayer(widget);
     this -> pSongInfoLabel = psongInfoLabel;
     player -> setNotifyInterval(10);
     this -> songDirection = "";
@@ -126,15 +126,18 @@ void SongBox::loadSong(int songID, string songName, string album) {
 void SongBox::play() {
 
     if (!isPlaying) {
-        player -> play();
+
+        player->play();
+        qDebug() << player->errorString();
         isPlaying = true;
 
     } else {
 
-        player -> pause();
+        player->pause();
         isPlaying = false;
 
     }
+
 
 }
 

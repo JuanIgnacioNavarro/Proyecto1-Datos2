@@ -47,6 +47,9 @@ private:
     //ProgressBar
     QProgressBar* pMemoryBar; // Shows the memory usage graphically
 
+    //Subject
+    PaginateSubject* subject;
+
     //Lists and memory management
     ArtistList* pListAlbum;
     TrackList* pListSongs;

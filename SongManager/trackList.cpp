@@ -11,56 +11,53 @@
  * @brief track list constructor method
  * @param parent
  */
-TrackList::TrackList(SongBox* pSongBox, RAMManagement* ramMemory) {
+TrackList::TrackList(SongBox* pSongBox, RAMManagement* ramMemory, PaginateSubject* subject) {
+
+    subject->attach(this);
+
+    TracksFilePath = "raw_tracks_new.csv";
+    //TracksFilePath = "/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files//raw_tracks_new.csv";
 
     this -> ptracksList = new QListWidget();
-    ptracksList->setMinimumWidth(400);
+    this -> ptracksList->setMinimumWidth(400);
+
     this -> songBox = pSongBox;
     this -> ramMemory = ramMemory;
 
-    //Allows connecting the click of an item with a method that plays the song
-    connect(ptracksList, &QListWidget::itemDoubleClicked, this, &TrackList::trackItemDoubleClicked); // Changed to only one click
+    previousPage = 0;
+    nextPage = 2;
+    count = 0;
+    checking = false;
+
+    //Song lists slots
+    connect(ptracksList, &QListWidget::itemDoubleClicked, this, &TrackList::trackItemDoubleClicked);
+    connect(ptracksList, &QListWidget::currentRowChanged, this, &TrackList::checkPosition);
 
 }
 
+//    _______
+//___/ File control
+
 /*!
  * @name loadItems
- * @brief Loads the csv file songs into a vector
+ * @brief Loads the csv file songs into a vector by artist
  * @param artist_name : Name in the artist of the songs
  */
 void TrackList::loadItems(string artist_name) {
 
-    ifstream myFile("raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
-    //ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files//raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    ifstream myFile(TracksFilePath);
 
     if (!myFile.is_open()) {
-
         printf("Error opening the file");
     }
 
     string line;
-    char quoteMark = '\"';
     string temp = "";
 
-    //With this while you'll find the names of the tracks depending on the artist_id.
+    //Finding the artist's songs in the file and saving them in the vector
     while (!myFile.eof()) {
 
         getline(myFile, line, ',');
-
-        // Posible way to load names that has more than one artist but it requires a little check
-        /*
-        if (line[0] == quoteMark) {
-
-            temp += line;
-            getline(myFile, line, quoteMark);
-            temp += line;
-            temp += quoteMark;
-            line = temp;
-
-            //cout << "line: " << line << endl;
-
-        }
-        */
 
         if (line == artist_name) {
 
@@ -76,13 +73,10 @@ void TrackList::loadItems(string artist_name) {
             vector.push_back(artist_name);
 
             trackNames.push_back(vector);
-
         }
-
     }
 
     myFile.close();
-
 }
 
 /*!
@@ -90,43 +84,173 @@ void TrackList::loadItems(string artist_name) {
  * @brief This method adds the most recent loaded vector.
  * @details Loads the vector information into a List Item.
  */
-void TrackList::addItems() {
+void TrackList::addItems(int position) {
 
     int size = trackNames.size();
 
-    for (int i = 0; i < size; i++) {
+    if (position == 0){
+        for (int i = 0; i < size; i++) {
 
-        QListWidgetItem* newItem = new QListWidgetItem;
+            QString itemText = QString::fromStdString(trackNames.back()[1]);
+            QString itemID = QString::fromStdString(trackNames.back()[0]);
+            string songExtraInfo = "Song Name: "+ itemText.toStdString() + ",\nAlbum : " + trackNames.back()[3]+ ",\nArtist name: "
+                                   + trackNames.front()[4] + ",\nOriginal lenght: " + trackNames.back()[2];
 
-        QString itemText = QString::fromStdString(trackNames.front()[1]);
-        QString itemID = QString::fromStdString(trackNames.front()[0]);
-        QString itemDuration = QString::fromStdString(trackNames.front()[2]);
-        QString itemAlbum = QString::fromStdString(trackNames.front()[3]);
+            SongListItem* newItem = new SongListItem;
+            newItem->settingItem(itemText, itemID, songExtraInfo);
+            ptracksList -> insertItem(0, newItem->getItem());
+            delete newItem;
+            ramMemory -> addMemory(sizeof(QListWidgetItem));
 
-        string songExtraInfo = "Song Name: "+ itemText.toStdString() + ",\nAlbum : " + itemAlbum.toStdString() + ",\nArtist name: "
-                               + trackNames.front()[4] + ",\nOriginal lenght: " + itemDuration.toStdString();
-
-        trackNames.erase(trackNames.begin());
-
-        //Saving the vector data as roles
-        newItem -> setData(Qt::UserRole, itemID); // User role lets the program save the ID of each song
-        newItem -> setData(Qt::DisplayRole, itemText);
-        newItem->setData(Qt::AccessibleTextRole, QString::fromStdString(songExtraInfo));
-
-        //Item Style
-        newItem -> setFont(QFont( "arial", 12));
-        newItem -> setTextAlignment(Qt::AlignLeft);
-
-
-        //Adding the item to the list
-        ptracksList -> addItem(newItem);
-        newItem = NULL;
-        ramMemory -> addMemory(sizeof(QListWidgetItem));
-
+        }
     }
 
-    trackNames.clear();
+    else{
+        for (int i = 0; i < size; i++) {
 
+            QString itemText = QString::fromStdString(trackNames.front()[1]);
+            QString itemID = QString::fromStdString(trackNames.front()[0]);
+            string songExtraInfo = "Song Name: "+ itemText.toStdString() + ",\nAlbum : " + trackNames.front()[3]+ ",\nArtist name: "
+                                   + trackNames.front()[4] + ",\nOriginal lenght: " + trackNames.front()[2];
+            SongListItem* newItem = new SongListItem;
+            trackNames.erase(trackNames.begin());
+
+            newItem->settingItem(itemText, itemID, songExtraInfo);
+            ptracksList -> addItem(newItem->getItem());
+            delete newItem;
+            ramMemory -> addMemory(sizeof(QListWidgetItem));
+
+        }
+    }
+    trackNames.clear();
+}
+
+void TrackList::deleteItems() {
+    int listSize = ptracksList -> count();
+
+    for (int i = 0; i < listSize; i++) {
+        delete ptracksList -> item(0);
+        ramMemory -> freeMemory(sizeof(QListWidgetItem));
+    }
+}
+
+/*!
+ * @name loadAllSongs
+ * @brief method that allows to load all the songs with or wihtout pagination
+ * @param range
+ * @param pageSize
+ */
+void TrackList::loadAllSongs(int range, int pageSize) {
+
+    ifstream myFile(TracksFilePath);
+
+    if (!myFile.is_open()) {
+        printf("Error opening the file");
+    }
+
+    string line;
+    string temp = "";
+
+    for (int i = 0; i < range; ++i) {
+        getline(myFile, line);
+    }
+
+    getline(myFile, line);
+
+    if (range == -1){
+        for (int i = previousPage * pageSize; i < (nextPage * pageSize) + pageSize ; i++){
+
+            getline(myFile, line, ',');
+            getline(myFile, line, ',');
+            string artist_name = line;
+            vector<string> vector;
+            getline(myFile, line, ',');
+            vector.push_back(line); // Pushing back the song ID
+            getline(myFile, line, ',');
+            vector.push_back(line); // Pushing back the song Name
+            getline(myFile, line, ',');
+            vector.push_back(line); // Pushing back the track duration
+            getline(myFile, line, ',');
+            vector.push_back(line); // Pushing back the album title
+            vector.push_back(artist_name);
+
+            trackNames.push_back(vector);
+        }
+    } else{
+        for (int i = 0; i < pageSize ; i++){
+
+            getline(myFile, line, ',');
+            getline(myFile, line, ',');
+            string artist_name = line;
+            vector<string> vector;
+            getline(myFile, line, ',');
+            vector.push_back(line); // Pushing back the song ID
+            getline(myFile, line, ',');
+            vector.push_back(line); // Pushing back the song Name
+            getline(myFile, line, ',');
+            vector.push_back(line); // Pushing back the track duration
+            getline(myFile, line, ',');
+            vector.push_back(line); // Pushing back the album title
+            vector.push_back(artist_name);
+
+            trackNames.push_back(vector);
+        }
+    }
+
+    myFile.close();
+
+}
+
+//    _______
+//___/ Slots
+
+/*!
+ * @name checkPosition
+ * @brief Checks the actual position in the list determines if loading a new page is needed
+ * @param row is the actual row number
+ */
+void TrackList::checkPosition(int row) {
+    count = ptracksList -> count();
+
+    if (!checking){
+        if (row == 0 && previousPage > 0 ){
+            checking = true;
+
+            previousPage --;
+            nextPage --;
+
+            //Load previous page
+            trackNames.clear();
+            loadAllSongs(previousPage * 10, 10);
+            addItems(0);
+
+            //Delete the last page
+            for (int i = 0; i < 10; ++i) {
+                ptracksList -> takeItem(count);
+                ramMemory -> freeMemory(sizeof(QListWidgetItem));
+            }
+            checking = false;
+
+        } else if (row == 29){
+            checking = true;
+
+            previousPage ++;
+            nextPage ++;
+
+            //Load the next page
+            trackNames.clear();
+            loadAllSongs(nextPage * 10, 10);
+            addItems(1);
+
+            //Delete the previous page
+            for (int i = 0; i < 10; ++i) {
+                ptracksList -> takeItem(0);
+                ramMemory -> freeMemory(sizeof(QListWidgetItem));
+            }
+
+            checking  = false;
+        }
+    }
 }
 
 /*!
@@ -144,63 +268,28 @@ void TrackList::trackItemDoubleClicked(QListWidgetItem* item) {
 
 }
 
+//    _______
+//___/ Getters and setters
+
 QListWidget* TrackList::getTrackList() {
-
     return ptracksList;
-
 }
 
-void TrackList::deleteItems() {
+//    _______
+//___/ Observer method
 
-    int listSize = ptracksList -> count();
-
-    for (int i = 0; i < listSize; i++) {
-
-        delete ptracksList -> item(0);
-
-        ramMemory -> freeMemory(sizeof(QListWidgetItem));
-
+void TrackList::update(const string messageFromSubject) {
+    if (messageFromSubject == "ShowAllPaginate"){
+        deleteItems();
+        loadAllSongs(-1, 10);
+        addItems(1);
     }
-
-}
-
-void TrackList::loadAllSongs() {
-
-    ifstream myFile("raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
-    //ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files//raw_tracks_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
-
-    if (!myFile.is_open()) {
-
-        printf("Error opening the file");
+    else if (messageFromSubject == "DontShowAll"){
+        deleteItems();
     }
-
-    string line;
-    string temp = "";
-
-    //With this while you'll find the names of the tracks depending on the artist_id.
-    getline(myFile, line);
-
-    //for (int i = 0; i < 2900 ; i++){
-    while (!myFile.eof()) {
-
-        getline(myFile, line, ',');
-        getline(myFile, line, ',');
-        string artist_name = line;
-        vector<string> vector;
-        getline(myFile, line, ',');
-        vector.push_back(line); // Pushing back the song ID
-        getline(myFile, line, ',');
-        vector.push_back(line); // Pushing back the song Name
-        getline(myFile, line, ',');
-        vector.push_back(line); // Pushing back the track duration
-        getline(myFile, line, ',');
-        vector.push_back(line); // Pushing back the album title
-        vector.push_back(artist_name);
-
-        trackNames.push_back(vector);
-
+    else if (messageFromSubject == "ShowAllDontPaginate"){
+        deleteItems();
+        loadAllSongs(-1, 100000);
+        addItems(1);
     }
-
-    myFile.close();
-
 }
