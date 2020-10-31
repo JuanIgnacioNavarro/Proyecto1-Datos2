@@ -38,12 +38,17 @@ private:
 
     int previousPage;
     int nextPage;
+    int pageSize;
 
     // bool used to avoid conflictive callings
     bool checking;
 
     // int used to delete last ten items in the QListWidget
     int count;
+
+    //methods
+    void manageSetBigSize();
+    void manageSmallSize();
 
 public:
 

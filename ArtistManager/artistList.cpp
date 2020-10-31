@@ -14,6 +14,9 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList, RAMManagement* ram
 
     subject->attach(this);
 
+    //Define the page size
+    this->pageSize = 8;
+
     //List instance and size
     this -> artistsList = new QListWidget();
     this -> songsList = songsList;
@@ -61,10 +64,12 @@ void ArtistList::loadItems(int range) {
     string temp = "";
     string title;
 
-    // This for is used to pass some unnecessary lines
+    // This for is usded to pass some unnecessary lines
     for (int i = 0; i < range; i ++) {
 
         getline(myFile, title, ',');
+
+        cout << "title: " << title << endl;
 
         if (title[0] == quoteMark) {
 
@@ -87,7 +92,7 @@ void ArtistList::loadItems(int range) {
     // First load
     if (range == -1) {
 
-        for (int i = previousPage * 10; i < (nextPage * 10) + 10; i ++) {
+        for (int i = previousPage * pageSize; i < (nextPage * pageSize) + pageSize; i ++) {
 
             getline(myFile, columnData, ',');
 
@@ -111,7 +116,7 @@ void ArtistList::loadItems(int range) {
 
     } else {
 
-        for (int i = 0; i < 10; i ++) {
+        for (int i = 0; i < pageSize; i ++) {
 
             getline(myFile, columnData, ',');
 
@@ -134,8 +139,6 @@ void ArtistList::loadItems(int range) {
         }
 
     }
-
-    myFile.close();
 
 }
 
@@ -160,7 +163,7 @@ void ArtistList::addItems(int position) {
 
     } else {
 
-        for (int i = 0; i < 10; i ++) {
+        for (int i = 0; i < pageSize; i ++) {
 
             QString itemText = QString::fromStdString(pageVector[i]);
             ArtistListItem* newItem = new ArtistListItem;
@@ -208,32 +211,39 @@ void ArtistList::checkPosition(int row) {
             nextPage --;
 
             pageVector.clear();
-            loadItems(previousPage * 10);
+            loadItems(previousPage * pageSize);
             addItems(0);
 
-            // Delete last ten items
-            for (int i = 0; i < 10; i ++) {
+            // Delete last pageSize items
+            for (int i = 0; i < pageSize; i ++) {
                 artistsList -> takeItem(count);
                 ramMemory -> freeMemory(sizeof(QString));
             }
 
             checking = false;
 
-        } else if (row == 29) {
+        } else if (row == pageSize*3-1) {
 
             checking = true;
             previousPage ++;
             nextPage ++;
             pageVector.clear();
-            loadItems(nextPage * 10);
+            loadItems(nextPage * pageSize);
             addItems(1);
 
             // Delete first ten items
-            for (int i = 0; i < 10; i ++) {
+            for (int i = 0; i < pageSize; i ++) {
                 artistsList -> takeItem(0);
                 ramMemory -> freeMemory(sizeof(QString));
             }
+
+            // Delete last ten items
+            for (int i = 0; i < pageSize; i ++) {
+                artistsList -> takeItem(count);
+                ramMemory -> freeMemory(sizeof(QString));
+            }
             checking = false;
+
         }
     }
 }
@@ -248,7 +258,105 @@ void ArtistList::update(const string messageFromSubject) {
     else if (messageFromSubject == "DontShowAll"){
         artistsList->setEnabled(true);
     }
-    else{
+    else if (messageFromSubject == "ShowAllDontPaginate"){
         artistsList->setEnabled(false);
     }
+    else if (messageFromSubject == "SetSmallSize"){
+        cout << "Setting small size artist list" << endl;
+        manageSmallSize();
+    }
+    else if (messageFromSubject == "SetBigSize"){
+        cout << "Setting big size artist list" << endl;
+        manageSetBigSize();
+    }
 }
+
+void ArtistList::manageSetBigSize() {
+    if (previousPage > 0 && previousPage%2 == 1 && !(pageSize == 8)){
+        checking = true;
+
+        //Loading prevoius 4 elements
+        pageVector.clear();
+        loadItems((previousPage-1) * pageSize);
+        addItems(0);
+
+        //Loading the next 8 elements
+        pageVector.clear();
+        loadItems((nextPage + 1) * pageSize);
+        addItems(1);
+
+        pageVector.clear();
+        loadItems((nextPage + 2) * pageSize);
+        addItems(1);
+
+        nextPage--;
+        previousPage--;
+
+        //Resetting the page size
+        pageSize = 8;
+
+        checking = false;
+    }
+
+    else if (previousPage%2 == 0 && !(pageSize == 8)){
+        checking = true;
+
+        //Loading the next 12 items
+        pageVector.clear();
+        loadItems((nextPage + 1) * pageSize);
+        addItems(1);
+        pageVector.clear();
+        cout << "Loading 4 new items" << endl;
+        loadItems((nextPage + 2) * pageSize);
+        addItems(1);
+        pageVector.clear();
+        cout << "Loading 4 new items" << endl;
+        loadItems((nextPage + 3) * pageSize);
+        addItems(1);
+        pageVector.clear();
+        cout << "Loading 4 new items" << endl;
+        pageSize = 8;
+
+        nextPage++;
+        previousPage++;
+
+        checking = false;
+
+    }
+}
+
+void ArtistList::manageSmallSize() {
+    if (previousPage > 0 && !(pageSize==4)){
+        pageSize = 4;
+        checking = true;
+
+        // Delete first 4 items
+        for (int i = 0; i < 4; i ++) {
+            artistsList -> takeItem(0);
+            ramMemory -> freeMemory(sizeof(QString));
+        }
+
+        // Delete last 8 items
+        count = artistsList -> count();
+        for (int i = 0; i < 8; i ++) {
+            artistsList -> takeItem(pageSize*3);
+            ramMemory -> freeMemory(sizeof(QString));
+        }
+
+        previousPage += 2;
+        nextPage += 2;
+        checking = false;
+    }
+    else if (previousPage == 0 && !(pageSize==4)){
+        pageSize = 4;
+        checking = true;
+
+        // Delete last 12 items
+        for (int i = 0; i < 12; i ++) {
+            artistsList -> takeItem(pageSize * 3);
+            ramMemory -> freeMemory(sizeof(QString));
+        }
+        checking = false;
+    }
+}
+

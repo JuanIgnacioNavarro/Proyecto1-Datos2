@@ -81,7 +81,8 @@ MainWindow::MainWindow(QWidget *parent) {
     //Layout control
     vbox1 -> addWidget(pLibrary);
     vbox1 -> addWidget(pListAlbum -> getArtistList());
-    vbox1 -> addStretch();
+    vbox1->setSpacing(vSpacing);
+    vbox1->addStretch(0);
 
     vbox3 -> addWidget(pPlayButton);
     vbox3 -> addWidget(pInfoButton);
@@ -138,15 +139,10 @@ MainWindow::MainWindow(QWidget *parent) {
  * @param e this is the event
  */
 void MainWindow::resizeEvent(QResizeEvent *e) {
-
     if (!isResizing){
-
         isResizing = true;
-
         QTimer::singleShot(500, this, &MainWindow::resizingHelper);
-
     }
-
 }
 
 /*!
@@ -158,12 +154,21 @@ void MainWindow::resizingHelper() {
 
     isResizing = false;
 
-    //Implement the updating list amount of elements logic here
-    cout << "Track list Width: " << this->pListSongs -> getTrackList() -> width() << endl;
-    cout << "Track list Height: " << this->pListSongs -> getTrackList() -> height()<< endl;
+    if (this->pListSongs->getTrackList()->height()  < 250){
+        subject->createMessage("SetSmallSize");
+    }
+    else{
+        subject->createMessage("SetBigSize");
+    }
 
-    cout << "Artist Width: " << this->pListAlbum -> getArtistList() -> width() << endl;
-    cout << "Artist Height: " << this->pListAlbum -> getArtistList() -> height()<< endl;
+    //Implement the updating list amount of elements logic here
+    /*
+    cout << "Track list Width: " << this->pListSongs->getTrackList()->width() << endl;
+    cout << "Track list Height: " << this->pListSongs->getTrackList()->height()<< endl;
+
+    cout << "Artist Width: " << this->pListAlbum->getArtistList()->width() << endl;
+    cout << "Artist Height: " << this->pListAlbum->getArtistList()->height()<< endl;
+    */
 
 }
 
@@ -250,5 +255,4 @@ void MainWindow::showAllSongs(int state) {
         pPaginateCheckBox->setEnabled(false);
         subject->createMessage("DontShowAll");
     }
-
 }
