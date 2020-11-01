@@ -50,6 +50,7 @@ public:
     void destructItem() override;
     QListWidgetItem* getItem() override;
     QWidget* getWidget() override;
+    string constructSongName(QString id);
 };
 
 

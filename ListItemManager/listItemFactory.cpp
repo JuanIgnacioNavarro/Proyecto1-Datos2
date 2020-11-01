@@ -4,6 +4,7 @@
 
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QHBoxLayout>
+#include <fstream>
 #include "listItemFactory.h"
 
 //    _______
@@ -46,6 +47,21 @@ void SongListItem::settingItem(QString text, QString id, std::string extraInfo) 
     //Item main variables
     cout << "Adding Item: " << text.toStdString() << " : " << id.toStdString() << " : " << extraInfo << endl;
     newItem = new QListWidgetItem();
+
+    string songName = constructSongName(id);
+
+    ifstream myFile("checksums"); //ADD your file direction
+
+    string line;
+    while (!myFile.eof()){
+        getline(myFile, line);
+        std::size_t found = line.find(songName);
+        if (found < 60){
+            newItem->setForeground(Qt::green);
+            break;
+        }
+    }
+
     newItem -> setData(Qt::UserRole, id);
     newItem -> setData(Qt::DisplayRole, text);
     newItem -> setData(Qt::AccessibleTextRole, QString::fromStdString(extraInfo));
@@ -69,4 +85,34 @@ void SongListItem::destructItem() {
 
 void SongListItem::setWidget() {
 
+}
+
+string SongListItem::constructSongName(QString id) {
+    string songId = id.toStdString();
+    int length = songId.length();
+
+    switch (length) {
+        case 1:
+            songId = "00000" + songId;
+            break;
+
+        case 2:
+            songId = "0000" + songId;
+            break;
+
+        case 3:
+            songId = "000" + songId;
+            break;
+
+        case 4:
+            songId = "00" + songId;
+            break;
+
+        case 5:
+            songId = "0" + songId;
+            break;
+
+    }
+    songId = songId + ".mp3";
+    return songId;
 }
