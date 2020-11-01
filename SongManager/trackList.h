@@ -43,14 +43,20 @@ private:
 
     //Bool
     bool checking = false;
+    bool isShowingAll = false;
 
     //Integers to control pagination
     int previousPage;
     int nextPage;
     int count;
+    int generalPageSize;
 
     //File path
     string TracksFilePath;
+
+    //methods
+    void manageSmallSize();
+    void manageSetBigSize();
 
 public:
 

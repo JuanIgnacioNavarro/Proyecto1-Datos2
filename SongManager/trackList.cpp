@@ -15,6 +15,8 @@ TrackList::TrackList(SongBox* pSongBox, RAMManagement* ramMemory, PaginateSubjec
 
     subject->attach(this);
 
+    this->generalPageSize = 8;
+
     TracksFilePath = "raw_tracks_new.csv";
     //TracksFilePath = "/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files//raw_tracks_new.csv";
 
@@ -95,6 +97,7 @@ void TrackList::addItems(int position) {
             QString itemID = QString::fromStdString(trackNames.back()[0]);
             string songExtraInfo = "Song Name: "+ itemText.toStdString() + ",\nAlbum : " + trackNames.back()[3]+ ",\nArtist name: "
                                    + trackNames.front()[4] + ",\nOriginal lenght: " + trackNames.back()[2];
+            trackNames.erase(trackNames.end());
 
             SongListItem* newItem = new SongListItem;
             newItem->settingItem(itemText, itemID, songExtraInfo);
@@ -221,17 +224,17 @@ void TrackList::checkPosition(int row) {
 
             //Load previous page
             trackNames.clear();
-            loadAllSongs(previousPage * 10, 10);
+            loadAllSongs(previousPage * 10, generalPageSize);
             addItems(0);
 
             //Delete the last page
-            for (int i = 0; i < 10; ++i) {
+            for (int i = 0; i < generalPageSize; ++i) {
                 ptracksList -> takeItem(count);
                 ramMemory -> freeMemory(sizeof(QListWidgetItem));
             }
             checking = false;
 
-        } else if (row == 29){
+        } else if (row == generalPageSize*3-1){
             checking = true;
 
             previousPage ++;
@@ -239,11 +242,11 @@ void TrackList::checkPosition(int row) {
 
             //Load the next page
             trackNames.clear();
-            loadAllSongs(nextPage * 10, 10);
+            loadAllSongs(nextPage * 10, generalPageSize);
             addItems(1);
 
             //Delete the previous page
-            for (int i = 0; i < 10; ++i) {
+            for (int i = 0; i < generalPageSize; ++i) {
                 ptracksList -> takeItem(0);
                 ramMemory -> freeMemory(sizeof(QListWidgetItem));
             }
@@ -280,16 +283,119 @@ QListWidget* TrackList::getTrackList() {
 
 void TrackList::update(const string messageFromSubject) {
     if (messageFromSubject == "ShowAllPaginate"){
+        isShowingAll = true;
         deleteItems();
-        loadAllSongs(-1, 10);
+        loadAllSongs(-1, generalPageSize);
         addItems(1);
     }
     else if (messageFromSubject == "DontShowAll"){
+        isShowingAll = false;
         deleteItems();
     }
     else if (messageFromSubject == "ShowAllDontPaginate"){
         deleteItems();
         loadAllSongs(-1, 100000);
         addItems(1);
+    }
+    else if (messageFromSubject == "SetSmallSize"){
+        cout << "Setting small size track list" << endl;
+        if (isShowingAll){
+            manageSmallSize();
+        }
+    }
+    else if (messageFromSubject == "SetBigSize"){
+        cout << "Setting big size track list" << endl;
+        if (isShowingAll){
+            manageSetBigSize();
+        }
+    }
+}
+
+void TrackList::manageSetBigSize() {
+    if (previousPage > 0 && previousPage%2 == 1 && !(generalPageSize == 8)){
+        checking = true;
+
+        //Loading prevoius 4 elements
+        trackNames.clear();
+        loadAllSongs((previousPage-1) * generalPageSize, generalPageSize);
+        addItems(0);
+
+        //Loading the next 8 elements
+        trackNames.clear();
+        loadAllSongs((nextPage + 1) * generalPageSize, generalPageSize);
+        addItems(1);
+
+        trackNames.clear();
+        loadAllSongs((nextPage + 2) * generalPageSize, generalPageSize);
+        addItems(1);
+
+        nextPage--;
+        previousPage--;
+
+        //Resetting the page size
+        generalPageSize = 8;
+
+        checking = false;
+    }
+
+    else if (previousPage%2 == 0 && !(generalPageSize == 8)){
+        checking = true;
+
+        //Loading the next 12 items
+        trackNames.clear();
+        loadAllSongs((nextPage + 1) * generalPageSize, generalPageSize);
+        addItems(1);
+        trackNames.clear();
+        cout << "Loading 4 new items" << endl;
+        loadAllSongs((nextPage + 2) * generalPageSize, generalPageSize);
+        addItems(1);
+        trackNames.clear();
+        cout << "Loading 4 new items" << endl;
+        loadAllSongs((nextPage + 3) * generalPageSize, generalPageSize);
+        addItems(1);
+        trackNames.clear();
+        cout << "Loading 4 new items" << endl;
+        generalPageSize = 8;
+
+        nextPage++;
+        previousPage++;
+
+        checking = false;
+
+    }
+}
+
+void TrackList::manageSmallSize() {
+    if (previousPage > 0 && !(generalPageSize==4)){
+        generalPageSize = 4;
+        checking = true;
+
+        // Delete first 4 items
+        for (int i = 0; i < 4; i ++) {
+            ptracksList -> takeItem(0);
+            ramMemory -> freeMemory(sizeof(QString));
+        }
+
+        // Delete last 8 items
+        count = ptracksList -> count();
+        for (int i = 0; i < 8; i ++) {
+            ptracksList -> takeItem(generalPageSize*3);
+            ramMemory -> freeMemory(sizeof(QString));
+        }
+
+        previousPage += 2;
+        nextPage += 2;
+        checking = false;
+    }
+    else if (previousPage == 0 && !(generalPageSize==4)){
+        generalPageSize = 4;
+        checking = true;
+
+        // Delete last 12 items
+        for (int i = 0; i < 12; i ++) {
+            ptracksList -> takeItem(generalPageSize * 3);
+            ramMemory -> freeMemory(sizeof(QString));
+        }
+        checking = false;
     }
 }
