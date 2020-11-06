@@ -1,0 +1,125 @@
+\hypertarget{class_song_box}{}\doxysection{Song\+Box Class Reference}
+\label{class_song_box}\index{SongBox@{SongBox}}
+
+
+{\ttfamily \#include $<$song\+Management.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{Indent}\textbf{ Song\+Box}\par
+{\em \mbox{\hyperlink{class_song_box}{Song\+Box}} class constructor
+
+
+\begin{DoxyParams}{Parameters}
+{\em song\+Info} & \+: Q\+Label \\
+\hline
+\end{DoxyParams}
+}\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_song_box_aec0660efc8bcf2afc6f4ca3a05f4e005}{Song\+Box}} (Q\+Label $\ast$psong\+Info\+Label, Q\+Push\+Button $\ast$p\+Play\+Button, Q\+Slider $\ast$p\+Song\+Slider, Q\+Push\+Button $\ast$p\+Info\+Button, Q\+Widget $\ast$widget)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ load\+Song}\par
+{\em load the song by creating the path were the file is located
+
+
+\begin{DoxyParams}{Parameters}
+{\em song\+ID} & \+: int \\
+\hline
+\end{DoxyParams}
+}\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_song_box_a296edda1c97d21bc483d2f296cb50966}{load\+Song}} (int song\+ID, string song\+Names, string album)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ play}\par
+{\em Plays the loaded song
+
+controls if the song is already loaded. indicated if the song is available and plays the song. }\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_song_box_af0bbc2f04d046240f85e362bec0a0728}{play}} ()
+\item 
+bool \mbox{\hyperlink{class_song_box_ad9257b3e67f1ac1236d4705ff53e71fa}{file\+Exists}} (Q\+String path)
+\begin{DoxyCompactList}\small\item\em This method checks if a file exists or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ show\+Info}\par
+{\em shows the song extra information on a message box }\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_song_box_a5102ccdd1f8c6de31fed2b094d48ede0}{show\+Info}} ()
+\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_song_box_a4c69e98466573f3584f23bdd33917e7c}{is\+Playing}}
+\item 
+Q\+Media\+Player $\ast$ \mbox{\hyperlink{class_song_box_a8e655f946bc5264e91624d4231bc8f57}{player}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_song_box_aec0660efc8bcf2afc6f4ca3a05f4e005}\label{class_song_box_aec0660efc8bcf2afc6f4ca3a05f4e005}} 
+\index{SongBox@{SongBox}!SongBox@{SongBox}}
+\index{SongBox@{SongBox}!SongBox@{SongBox}}
+\doxysubsubsection{\texorpdfstring{SongBox()}{SongBox()}}
+{\footnotesize\ttfamily Song\+Box\+::\+Song\+Box (\begin{DoxyParamCaption}\item[{Q\+Label $\ast$}]{psong\+Info\+Label,  }\item[{Q\+Push\+Button $\ast$}]{p\+Play\+Button,  }\item[{Q\+Slider $\ast$}]{p\+Song\+Slider,  }\item[{Q\+Push\+Button $\ast$}]{p\+Info\+Button,  }\item[{Q\+Widget $\ast$}]{widget }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_song_box_ad9257b3e67f1ac1236d4705ff53e71fa}\label{class_song_box_ad9257b3e67f1ac1236d4705ff53e71fa}} 
+\index{SongBox@{SongBox}!fileExists@{fileExists}}
+\index{fileExists@{fileExists}!SongBox@{SongBox}}
+\doxysubsubsection{\texorpdfstring{fileExists()}{fileExists()}}
+{\footnotesize\ttfamily bool Song\+Box\+::file\+Exists (\begin{DoxyParamCaption}\item[{Q\+String}]{path }\end{DoxyParamCaption})}
+
+
+
+This method checks if a file exists or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool that indicates if the file exists or not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_song_box_a296edda1c97d21bc483d2f296cb50966}\label{class_song_box_a296edda1c97d21bc483d2f296cb50966}} 
+\index{SongBox@{SongBox}!loadSong@{loadSong}}
+\index{loadSong@{loadSong}!SongBox@{SongBox}}
+\doxysubsubsection{\texorpdfstring{loadSong()}{loadSong()}}
+{\footnotesize\ttfamily void Song\+Box\+::load\+Song (\begin{DoxyParamCaption}\item[{int}]{song\+ID,  }\item[{string}]{song\+Names,  }\item[{string}]{album }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_song_box_af0bbc2f04d046240f85e362bec0a0728}\label{class_song_box_af0bbc2f04d046240f85e362bec0a0728}} 
+\index{SongBox@{SongBox}!play@{play}}
+\index{play@{play}!SongBox@{SongBox}}
+\doxysubsubsection{\texorpdfstring{play()}{play()}}
+{\footnotesize\ttfamily void Song\+Box\+::play (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_song_box_a5102ccdd1f8c6de31fed2b094d48ede0}\label{class_song_box_a5102ccdd1f8c6de31fed2b094d48ede0}} 
+\index{SongBox@{SongBox}!showInfo@{showInfo}}
+\index{showInfo@{showInfo}!SongBox@{SongBox}}
+\doxysubsubsection{\texorpdfstring{showInfo()}{showInfo()}}
+{\footnotesize\ttfamily void Song\+Box\+::show\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_song_box_a4c69e98466573f3584f23bdd33917e7c}\label{class_song_box_a4c69e98466573f3584f23bdd33917e7c}} 
+\index{SongBox@{SongBox}!isPlaying@{isPlaying}}
+\index{isPlaying@{isPlaying}!SongBox@{SongBox}}
+\doxysubsubsection{\texorpdfstring{isPlaying}{isPlaying}}
+{\footnotesize\ttfamily bool Song\+Box\+::is\+Playing}
+
+\mbox{\Hypertarget{class_song_box_a8e655f946bc5264e91624d4231bc8f57}\label{class_song_box_a8e655f946bc5264e91624d4231bc8f57}} 
+\index{SongBox@{SongBox}!player@{player}}
+\index{player@{player}!SongBox@{SongBox}}
+\doxysubsubsection{\texorpdfstring{player}{player}}
+{\footnotesize\ttfamily Q\+Media\+Player$\ast$ Song\+Box\+::player}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{song_management_8h}{song\+Management.\+h}}\item 
+\mbox{\hyperlink{song_management_8cpp}{song\+Management.\+cpp}}\end{DoxyCompactItemize}

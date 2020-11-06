@@ -1,0 +1,132 @@
+\hypertarget{class_artist_list}{}\doxysection{Artist\+List Class Reference}
+\label{class_artist_list}\index{ArtistList@{ArtistList}}
+
+
+{\ttfamily \#include $<$artist\+List.\+h$>$}
+
+
+
+Inheritance diagram for Artist\+List\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{class_artist_list__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Artist\+List\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{class_artist_list__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{Indent}\textbf{ Constructor Method}\par
+{\em 
+\begin{DoxyParams}{Parameters}
+{\em parent} & \\
+\hline
+\end{DoxyParams}
+}\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_artist_list_a4259177410fede772b3eb8802b033c7c}{Artist\+List}} (Q\+Widget $\ast$parent, Track\+List $\ast$songs\+List, R\+A\+M\+Management $\ast$ram\+Memory, Paginate\+Subject $\ast$subject)
+\item 
+Q\+List\+Widget $\ast$ \mbox{\hyperlink{class_artist_list_aad634a421692a5d69af0c30997c58d46}{get\+Artist\+List}} ()
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ load\+Items}\par
+{\em This method loads the first items that are displayed in the list }\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_artist_list_a6202a6c61c03127279c42efcb124c5c3}{load\+Items}} (int range)
+\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{Add\+Items}
+\label{_amgrpf2ba1d24a25df1329a480d77dede066f}%
+This method adds the most recent loaded vector
+
+loads the page\+Vector items into the G\+UI as list items \begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_artist_list_a90b82a07a9f09ced79d07f9e10dad32a}{add\+Items}} (int position)
+\item 
+void \mbox{\hyperlink{class_artist_list_afdecd591a2cc6f83b418205ab330e31b}{check\+Position}} (int row)
+\begin{DoxyCompactList}\small\item\em This method allows the pagination. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_artist_list_a84b0f4d5b2bac86ef43ae10e557abab6}{artist\+Item\+Double\+Clicked}} (Q\+List\+Widget\+Item $\ast$item)
+\begin{DoxyCompactList}\small\item\em Plays the song when the song\textquotesingle{}s list item is doubly clicked. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_artist_list_ae917c64572c2447b1c138f403654be58}{update}} (const string message\+From\+Subject) override
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_artist_list_a4259177410fede772b3eb8802b033c7c}\label{class_artist_list_a4259177410fede772b3eb8802b033c7c}} 
+\index{ArtistList@{ArtistList}!ArtistList@{ArtistList}}
+\index{ArtistList@{ArtistList}!ArtistList@{ArtistList}}
+\doxysubsubsection{\texorpdfstring{ArtistList()}{ArtistList()}}
+{\footnotesize\ttfamily Artist\+List\+::\+Artist\+List (\begin{DoxyParamCaption}\item[{Q\+Widget $\ast$}]{parent,  }\item[{Track\+List $\ast$}]{songs\+List,  }\item[{R\+A\+M\+Management $\ast$}]{ram\+Memory,  }\item[{Paginate\+Subject $\ast$}]{subject }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_artist_list_a90b82a07a9f09ced79d07f9e10dad32a}\label{class_artist_list_a90b82a07a9f09ced79d07f9e10dad32a}} 
+\index{ArtistList@{ArtistList}!addItems@{addItems}}
+\index{addItems@{addItems}!ArtistList@{ArtistList}}
+\doxysubsubsection{\texorpdfstring{addItems()}{addItems()}}
+{\footnotesize\ttfamily void Artist\+List\+::add\+Items (\begin{DoxyParamCaption}\item[{int}]{position }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_artist_list_a84b0f4d5b2bac86ef43ae10e557abab6}\label{class_artist_list_a84b0f4d5b2bac86ef43ae10e557abab6}} 
+\index{ArtistList@{ArtistList}!artistItemDoubleClicked@{artistItemDoubleClicked}}
+\index{artistItemDoubleClicked@{artistItemDoubleClicked}!ArtistList@{ArtistList}}
+\doxysubsubsection{\texorpdfstring{artistItemDoubleClicked()}{artistItemDoubleClicked()}}
+{\footnotesize\ttfamily void Artist\+List\+::artist\+Item\+Double\+Clicked (\begin{DoxyParamCaption}\item[{Q\+List\+Widget\+Item $\ast$}]{item }\end{DoxyParamCaption})}
+
+
+
+Plays the song when the song\textquotesingle{}s list item is doubly clicked. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em item} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_artist_list_afdecd591a2cc6f83b418205ab330e31b}\label{class_artist_list_afdecd591a2cc6f83b418205ab330e31b}} 
+\index{ArtistList@{ArtistList}!checkPosition@{checkPosition}}
+\index{checkPosition@{checkPosition}!ArtistList@{ArtistList}}
+\doxysubsubsection{\texorpdfstring{checkPosition()}{checkPosition()}}
+{\footnotesize\ttfamily void Artist\+List\+::check\+Position (\begin{DoxyParamCaption}\item[{int}]{row }\end{DoxyParamCaption})}
+
+
+
+This method allows the pagination. 
+
+depending on the position of the user it decides where to load more information in the list 
+\begin{DoxyParams}{Parameters}
+{\em row} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_artist_list_aad634a421692a5d69af0c30997c58d46}\label{class_artist_list_aad634a421692a5d69af0c30997c58d46}} 
+\index{ArtistList@{ArtistList}!getArtistList@{getArtistList}}
+\index{getArtistList@{getArtistList}!ArtistList@{ArtistList}}
+\doxysubsubsection{\texorpdfstring{getArtistList()}{getArtistList()}}
+{\footnotesize\ttfamily Q\+List\+Widget $\ast$ Artist\+List\+::get\+Artist\+List (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_artist_list_a6202a6c61c03127279c42efcb124c5c3}\label{class_artist_list_a6202a6c61c03127279c42efcb124c5c3}} 
+\index{ArtistList@{ArtistList}!loadItems@{loadItems}}
+\index{loadItems@{loadItems}!ArtistList@{ArtistList}}
+\doxysubsubsection{\texorpdfstring{loadItems()}{loadItems()}}
+{\footnotesize\ttfamily void Artist\+List\+::load\+Items (\begin{DoxyParamCaption}\item[{int}]{range }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_artist_list_ae917c64572c2447b1c138f403654be58}\label{class_artist_list_ae917c64572c2447b1c138f403654be58}} 
+\index{ArtistList@{ArtistList}!update@{update}}
+\index{update@{update}!ArtistList@{ArtistList}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Artist\+List\+::update (\begin{DoxyParamCaption}\item[{const string}]{message\+From\+Subject }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{artist_list_8h}{artist\+List.\+h}}\item 
+\mbox{\hyperlink{artist_list_8cpp}{artist\+List.\+cpp}}\end{DoxyCompactItemize}

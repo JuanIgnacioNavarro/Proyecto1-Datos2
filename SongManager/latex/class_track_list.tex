@@ -1,0 +1,145 @@
+\hypertarget{class_track_list}{}\doxysection{Track\+List Class Reference}
+\label{class_track_list}\index{TrackList@{TrackList}}
+
+
+{\ttfamily \#include $<$track\+List.\+h$>$}
+
+
+
+Inheritance diagram for Track\+List\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{class_track_list__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Track\+List\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{class_track_list__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{Indent}\textbf{ Track\+List}\par
+{\em track list constructor method
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & \\
+\hline
+\end{DoxyParams}
+}\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_track_list_a076c5d9fb9986802ad8d17d0739a2951}{Track\+List}} (Song\+Box $\ast$p\+Song\+Box, R\+A\+M\+Management $\ast$ram\+Memory, Paginate\+Subject $\ast$subject)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ load\+Items}\par
+{\em Loads the csv file songs into a vector by artist
+
+
+\begin{DoxyParams}{Parameters}
+{\em artist\+\_\+name} & \+: Name in the artist of the songs \\
+\hline
+\end{DoxyParams}
+}\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_track_list_a650e16dfc87864ff8bafe8989c071392}{load\+Items}} (string artist\+\_\+name)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ load\+All\+Songs}\par
+{\em method that allows to load all the songs with or wihtout pagination
+
+
+\begin{DoxyParams}{Parameters}
+{\em range} & \\
+\hline
+{\em page\+Size} & \\
+\hline
+\end{DoxyParams}
+}\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_track_list_a39bc2d5415f33493da2cb36a033e72cc}{load\+All\+Songs}} (int range, int page\+Size)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ add\+Items}\par
+{\em This method adds the most recent loaded vector.
+
+Loads the vector information into a List Item. }\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_track_list_a3a2d34e3a0c570086a0ca3f6d3167e01}{add\+Items}} (int position)
+\item 
+void \mbox{\hyperlink{class_track_list_a2e8d30b5e951287552676b9f7efd3d7c}{delete\+Items}} ()
+\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{track\+Item\+Clicked}
+\label{_amgrpa7f74800c9a076fe8c95944fba9021d6}%
+It is necessary to load the list of songs when an Item is doubly clicked 
+\begin{DoxyParams}{Parameters}
+{\em item} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyCompactItemize}
+\item 
+Q\+List\+Widget $\ast$ \mbox{\hyperlink{class_track_list_af4de6de8ef24b71d58cb0aed362ecc8b}{get\+Track\+List}} ()
+\item 
+void \mbox{\hyperlink{class_track_list_a0b814ea01a291cafd7f5e7060ae84b4a}{update}} (const string message\+From\+Subject) override
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_track_list_a076c5d9fb9986802ad8d17d0739a2951}\label{class_track_list_a076c5d9fb9986802ad8d17d0739a2951}} 
+\index{TrackList@{TrackList}!TrackList@{TrackList}}
+\index{TrackList@{TrackList}!TrackList@{TrackList}}
+\doxysubsubsection{\texorpdfstring{TrackList()}{TrackList()}}
+{\footnotesize\ttfamily Track\+List\+::\+Track\+List (\begin{DoxyParamCaption}\item[{Song\+Box $\ast$}]{p\+Song\+Box,  }\item[{R\+A\+M\+Management $\ast$}]{ram\+Memory,  }\item[{Paginate\+Subject $\ast$}]{subject }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_track_list_a3a2d34e3a0c570086a0ca3f6d3167e01}\label{class_track_list_a3a2d34e3a0c570086a0ca3f6d3167e01}} 
+\index{TrackList@{TrackList}!addItems@{addItems}}
+\index{addItems@{addItems}!TrackList@{TrackList}}
+\doxysubsubsection{\texorpdfstring{addItems()}{addItems()}}
+{\footnotesize\ttfamily void Track\+List\+::add\+Items (\begin{DoxyParamCaption}\item[{int}]{position }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_track_list_a2e8d30b5e951287552676b9f7efd3d7c}\label{class_track_list_a2e8d30b5e951287552676b9f7efd3d7c}} 
+\index{TrackList@{TrackList}!deleteItems@{deleteItems}}
+\index{deleteItems@{deleteItems}!TrackList@{TrackList}}
+\doxysubsubsection{\texorpdfstring{deleteItems()}{deleteItems()}}
+{\footnotesize\ttfamily void Track\+List\+::delete\+Items (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_track_list_af4de6de8ef24b71d58cb0aed362ecc8b}\label{class_track_list_af4de6de8ef24b71d58cb0aed362ecc8b}} 
+\index{TrackList@{TrackList}!getTrackList@{getTrackList}}
+\index{getTrackList@{getTrackList}!TrackList@{TrackList}}
+\doxysubsubsection{\texorpdfstring{getTrackList()}{getTrackList()}}
+{\footnotesize\ttfamily Q\+List\+Widget $\ast$ Track\+List\+::get\+Track\+List (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_track_list_a39bc2d5415f33493da2cb36a033e72cc}\label{class_track_list_a39bc2d5415f33493da2cb36a033e72cc}} 
+\index{TrackList@{TrackList}!loadAllSongs@{loadAllSongs}}
+\index{loadAllSongs@{loadAllSongs}!TrackList@{TrackList}}
+\doxysubsubsection{\texorpdfstring{loadAllSongs()}{loadAllSongs()}}
+{\footnotesize\ttfamily void Track\+List\+::load\+All\+Songs (\begin{DoxyParamCaption}\item[{int}]{range,  }\item[{int}]{page\+Size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_track_list_a650e16dfc87864ff8bafe8989c071392}\label{class_track_list_a650e16dfc87864ff8bafe8989c071392}} 
+\index{TrackList@{TrackList}!loadItems@{loadItems}}
+\index{loadItems@{loadItems}!TrackList@{TrackList}}
+\doxysubsubsection{\texorpdfstring{loadItems()}{loadItems()}}
+{\footnotesize\ttfamily void Track\+List\+::load\+Items (\begin{DoxyParamCaption}\item[{string}]{artist\+\_\+name }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_track_list_a0b814ea01a291cafd7f5e7060ae84b4a}\label{class_track_list_a0b814ea01a291cafd7f5e7060ae84b4a}} 
+\index{TrackList@{TrackList}!update@{update}}
+\index{update@{update}!TrackList@{TrackList}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Track\+List\+::update (\begin{DoxyParamCaption}\item[{const string}]{message\+From\+Subject }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{track_list_8h}{track\+List.\+h}}\item 
+\mbox{\hyperlink{track_list_8cpp}{track\+List.\+cpp}}\end{DoxyCompactItemize}
