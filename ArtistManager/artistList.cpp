@@ -14,6 +14,9 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList, RAMManagement* ram
 
     subject->attach(this);
 
+    ArtistFilePath = "raw_artists_new.csv";
+    //ArtistFilePath = "/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv";
+
     //Define the page size
     this->pageSize = 8;
 
@@ -51,8 +54,7 @@ QListWidget* ArtistList::getArtistList() {
 void ArtistList::loadItems(int range) {
 
 
-    ifstream myFile("raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
-    //ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/raw_artists_new.csv"); //IMPORTANT: copy the CSV Files files in your cmake-build-debug directory
+    ifstream myFile(ArtistFilePath);
 
     if (!myFile.is_open()) {
 
@@ -158,6 +160,7 @@ void ArtistList::addItems(int position) {
             newItem->settingItem(itemText, "", "");
             artistsList -> insertItem(0, newItem->getItem());
             delete newItem;
+            ramMemory->addMemory(sizeof(ArtistListItem));
 
         }
 
@@ -170,6 +173,7 @@ void ArtistList::addItems(int position) {
             newItem->settingItem(itemText, "", "");
             artistsList -> addItem(newItem->getItem());
             delete newItem;
+            ramMemory->addMemory(sizeof(ArtistListItem));
 
         }
 
@@ -217,7 +221,7 @@ void ArtistList::checkPosition(int row) {
             // Delete last pageSize items
             for (int i = 0; i < pageSize; i ++) {
                 artistsList -> takeItem(count);
-                ramMemory -> freeMemory(sizeof(QString));
+                ramMemory -> freeMemory(sizeof(ArtistListItem));
             }
 
             checking = false;
@@ -234,14 +238,14 @@ void ArtistList::checkPosition(int row) {
             // Delete first ten items
             for (int i = 0; i < pageSize; i ++) {
                 artistsList -> takeItem(0);
-                ramMemory -> freeMemory(sizeof(QString));
+                ramMemory -> freeMemory(sizeof(ArtistListItem));
             }
 
             // Delete last ten items
-            for (int i = 0; i < pageSize; i ++) {
-                artistsList -> takeItem(count);
-                ramMemory -> freeMemory(sizeof(QString));
-            }
+            //for (int i = 0; i < pageSize; i ++) {
+            //    artistsList -> takeItem(count);
+            //    ramMemory -> freeMemory(sizeof(ArtistListItem));
+            //}
             checking = false;
 
         }
@@ -333,14 +337,14 @@ void ArtistList::manageSmallSize() {
         // Delete first 4 items
         for (int i = 0; i < 4; i ++) {
             artistsList -> takeItem(0);
-            ramMemory -> freeMemory(sizeof(QString));
+            ramMemory -> freeMemory(sizeof(ArtistListItem));
         }
 
         // Delete last 8 items
         count = artistsList -> count();
         for (int i = 0; i < 8; i ++) {
             artistsList -> takeItem(pageSize*3);
-            ramMemory -> freeMemory(sizeof(QString));
+            ramMemory -> freeMemory(sizeof(ArtistListItem));
         }
 
         previousPage += 2;
@@ -354,7 +358,7 @@ void ArtistList::manageSmallSize() {
         // Delete last 12 items
         for (int i = 0; i < 12; i ++) {
             artistsList -> takeItem(pageSize * 3);
-            ramMemory -> freeMemory(sizeof(QString));
+            ramMemory -> freeMemory(sizeof(ArtistListItem));
         }
         checking = false;
     }

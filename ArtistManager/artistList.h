@@ -50,6 +50,9 @@ private:
     void manageSetBigSize();
     void manageSmallSize();
 
+    //File path
+    string ArtistFilePath;
+
 public:
 
     ArtistList(QWidget* parent, TrackList* songsList, RAMManagement* ramMemory, PaginateSubject* subject);

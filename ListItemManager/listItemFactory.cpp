@@ -51,6 +51,7 @@ void SongListItem::settingItem(QString text, QString id, std::string extraInfo) 
     string songName = constructSongName(id);
 
     ifstream myFile("checksums"); //ADD your file direction
+    //ifstream myFile("/home/nachogranados/GitHub/Proyecto1-Datos2/CSV Files/checksums");
 
     string line;
     while (!myFile.eof()){
