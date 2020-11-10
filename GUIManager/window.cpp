@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) {
     //Memory Bar (shows the memory usage by the program)
     pMemoryBar = new QProgressBar();
     pMemoryBar -> setFixedWidth(80);
-    pMemoryBar -> setRange(0,10000);
+    pMemoryBar -> setRange(0,20000);
 
     //RAMManagement object
     ramMemory = ramMemory->getInstace(pMemoryBar, pBytes);
@@ -160,15 +160,6 @@ void MainWindow::resizingHelper() {
     else{
         subject->createMessage("SetBigSize");
     }
-
-    //Implement the updating list amount of elements logic here
-    /*
-    cout << "Track list Width: " << this->pListSongs->getTrackList()->width() << endl;
-    cout << "Track list Height: " << this->pListSongs->getTrackList()->height()<< endl;
-
-    cout << "Artist Width: " << this->pListAlbum->getArtistList()->width() << endl;
-    cout << "Artist Height: " << this->pListAlbum->getArtistList()->height()<< endl;
-    */
 
 }
 

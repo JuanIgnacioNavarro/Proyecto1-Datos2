@@ -45,7 +45,7 @@ QWidget * ArtistListItem::getWidget() {
 
 void SongListItem::settingItem(QString text, QString id, std::string extraInfo) {
     //Item main variables
-    cout << "Adding Item: " << text.toStdString() << " : " << id.toStdString() << " : " << extraInfo << endl;
+
     newItem = new QListWidgetItem();
 
     string songName = constructSongName(id);

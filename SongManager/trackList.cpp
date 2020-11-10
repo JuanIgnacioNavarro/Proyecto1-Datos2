@@ -298,13 +298,13 @@ void TrackList::update(const string messageFromSubject) {
         addItems(1);
     }
     else if (messageFromSubject == "SetSmallSize"){
-        cout << "Setting small size track list" << endl;
+
         if (isShowingAll){
             manageSmallSize();
         }
     }
     else if (messageFromSubject == "SetBigSize"){
-        cout << "Setting big size track list" << endl;
+
         if (isShowingAll){
             manageSetBigSize();
         }
@@ -315,7 +315,7 @@ void TrackList::manageSetBigSize() {
     if (previousPage > 0 && previousPage%2 == 1 && !(generalPageSize == 8)){
         checking = true;
 
-        //Loading prevoius 4 elements
+        //Loading previous 4 elements
         trackNames.clear();
         loadAllSongs((previousPage-1) * generalPageSize, generalPageSize);
         addItems(0);
@@ -346,15 +346,15 @@ void TrackList::manageSetBigSize() {
         loadAllSongs((nextPage + 1) * generalPageSize, generalPageSize);
         addItems(1);
         trackNames.clear();
-        cout << "Loading 4 new items" << endl;
+
         loadAllSongs((nextPage + 2) * generalPageSize, generalPageSize);
         addItems(1);
         trackNames.clear();
-        cout << "Loading 4 new items" << endl;
+
         loadAllSongs((nextPage + 3) * generalPageSize, generalPageSize);
         addItems(1);
         trackNames.clear();
-        cout << "Loading 4 new items" << endl;
+
         generalPageSize = 8;
 
         nextPage++;

@@ -38,6 +38,7 @@ ArtistList::ArtistList(QWidget *parent, TrackList *songsList, RAMManagement* ram
     //This Signal and Slot is needed for the pagination
     //It tells the program where the user is in the list in order to load whats needed next
     connect(artistsList, &QListWidget::currentRowChanged, this, &ArtistList::checkPosition);
+    connect(artistsList, &QListWidget::itemDoubleClicked, this, &ArtistList::artistItemDoubleClicked);
 
 }
 
@@ -70,8 +71,6 @@ void ArtistList::loadItems(int range) {
     for (int i = 0; i < range; i ++) {
 
         getline(myFile, title, ',');
-
-        cout << "title: " << title << endl;
 
         if (title[0] == quoteMark) {
 
@@ -179,8 +178,6 @@ void ArtistList::addItems(int position) {
 
     }
 
-    connect(artistsList, &QListWidget::itemDoubleClicked, this, &ArtistList::artistItemDoubleClicked);
-
 }
 
 /*!
@@ -241,11 +238,6 @@ void ArtistList::checkPosition(int row) {
                 ramMemory -> freeMemory(sizeof(ArtistListItem));
             }
 
-            // Delete last ten items
-            //for (int i = 0; i < pageSize; i ++) {
-            //    artistsList -> takeItem(count);
-            //    ramMemory -> freeMemory(sizeof(ArtistListItem));
-            //}
             checking = false;
 
         }
@@ -266,11 +258,11 @@ void ArtistList::update(const string messageFromSubject) {
         artistsList->setEnabled(false);
     }
     else if (messageFromSubject == "SetSmallSize"){
-        cout << "Setting small size artist list" << endl;
+
         manageSmallSize();
     }
     else if (messageFromSubject == "SetBigSize"){
-        cout << "Setting big size artist list" << endl;
+
         manageSetBigSize();
     }
 }
@@ -310,15 +302,15 @@ void ArtistList::manageSetBigSize() {
         loadItems((nextPage + 1) * pageSize);
         addItems(1);
         pageVector.clear();
-        cout << "Loading 4 new items" << endl;
+
         loadItems((nextPage + 2) * pageSize);
         addItems(1);
         pageVector.clear();
-        cout << "Loading 4 new items" << endl;
+
         loadItems((nextPage + 3) * pageSize);
         addItems(1);
         pageVector.clear();
-        cout << "Loading 4 new items" << endl;
+
         pageSize = 8;
 
         nextPage++;
